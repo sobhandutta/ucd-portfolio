@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agentic AI — Sobhan Dutta</title>
+  <style>
+    /* ── Reset & Base ────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:        #0a0c10;
+      --bg2:       #0f1117;
+      --bg3:       #161b25;
+      --border:    #1e2535;
+      --text:      #e2e8f0;
+      --muted:     #64748b;
+      --accent:    #6366f1;
+      --accent2:   #8b5cf6;
+      --accent3:   #06b6d4;
+      --green:     #10b981;
+      --amber:     #f59e0b;
+      --font-mono: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+      --radius:    12px;
+      --glow:      0 0 40px rgba(99,102,241,0.15);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { max-width: 100%; }
+
+    /* ── Layout ──────────────────────────────────────────────── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 96px 0; }
+    section + section { border-top: 1px solid var(--border); }
+
+    /* ── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,12,16,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1100px; margin: 0 auto; padding: 16px 24px;
+    }
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: var(--muted); font-size: 14px; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* ── HERO ───────────────────────────────────────────────── */
+    #hero {
+      padding: 140px 0 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+      opacity: 0.4;
+    }
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+      top: -200px; left: 50%; transform: translateX(-50%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(99,102,241,0.1);
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: #a5b4fc;
+      margin-bottom: 32px;
+    }
+    .hero-badge .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.6; transform: scale(0.85); }
+    }
+    h1 {
+      font-size: clamp(40px, 6vw, 68px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 20px;
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 48px;
+      line-height: 1.6;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 0 0 0 rgba(99,102,241,0.4);
+    }
+    .btn-primary:hover {
+      background: #4f46e5;
+      box-shadow: 0 0 32px rgba(99,102,241,0.4);
+      text-decoration: none;
+    }
+    .btn-secondary {
+      background: var(--bg3);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ── SECTION LABELS ─────────────────────────────────────── */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 600px;
+      margin-bottom: 64px;
+      line-height: 1.7;
+    }
+
+    /* ── STAT CARDS ─────────────────────────────────────────── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 64px;
+    }
+    .stat-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: border-color .2s;
+    }
+    .stat-card:hover { border-color: var(--accent); }
+    .stat-num {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #6366f1, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+    .stat-label { color: var(--muted); font-size: 14px; margin-top: 6px; }
+
+    /* ── ARCHITECTURE ───────────────────────────────────────── */
+    .arch-diagram {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      margin-top: 48px;
+      overflow-x: auto;
+    }
+    .arch-svg { width: 100%; max-width: 900px; display: block; margin: 0 auto; }
+
+    /* ── AGENT CARDS ────────────────────────────────────────── */
+    .agents-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .agent-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: border-color .2s, transform .2s;
+    }
+    .agent-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .agent-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+    .agent-name {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .agent-title { font-weight: 700; font-size: 16px; margin-bottom: 8px; }
+    .agent-desc { color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .agent-tech {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 16px;
+    }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: rgba(99,102,241,0.1);
+      border: 1px solid rgba(99,102,241,0.2);
+      color: #a5b4fc;
+    }
+    .tag.green {
+      background: rgba(16,185,129,0.1);
+      border-color: rgba(16,185,129,0.2);
+      color: #6ee7b7;
+    }
+    .tag.cyan {
+      background: rgba(6,182,212,0.1);
+      border-color: rgba(6,182,212,0.2);
+      color: #67e8f9;
+    }
+    .tag.amber {
+      background: rgba(245,158,11,0.1);
+      border-color: rgba(245,158,11,0.2);
+      color: #fcd34d;
+    }
+
+    /* ── CODE BLOCK ─────────────────────────────────────────── */
+    .code-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 48px;
+      align-items: start;
+    }
+    @media (max-width: 768px) { .code-section { grid-template-columns: 1fr; } }
+    .code-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 12px 16px;
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
+    }
+    .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .code-filename {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      margin-left: 4px;
+    }
+    pre {
+      padding: 24px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .kw { color: #c792ea; }
+    .fn { color: #82aaff; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .num { color: #f78c6c; }
+    .cl { color: #ffcb6b; }
+    .op { color: #89ddff; }
+
+    /* ── CONCEPTS ───────────────────────────────────────────── */
+    .concepts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .concept-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: border-color .2s;
+    }
+    .concept-card:hover { border-color: var(--accent2); }
+    .concept-num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .concept-title { font-weight: 700; font-size: 17px; margin-bottom: 10px; }
+    .concept-body { color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+    /* ── TECH STACK ─────────────────────────────────────────── */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 48px;
+    }
+    .stack-group {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .stack-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .stack-items { display: flex; flex-wrap: wrap; gap: 8px; }
+    .stack-item {
+      font-size: 13px;
+      padding: 4px 12px;
+      border-radius: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    /* ── CALLOUT ────────────────────────────────────────────── */
+    .callout {
+      background: rgba(99,102,241,0.06);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin-top: 32px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .callout-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+    .callout-text { color: #a5b4fc; font-size: 15px; line-height: 1.6; }
+    .callout-text strong { color: var(--text); }
+
+    /* ── CTA ────────────────────────────────────────────────── */
+    #cta {
+      text-align: center;
+      padding: 120px 0;
+    }
+    #cta h2 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    #cta p {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 500px;
+      margin: 0 auto 48px;
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--text); }
+
+    /* ── FLOW STEP ──────────────────────────────────────────── */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 48px;
+    }
+    .flow-step {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      position: relative;
+    }
+    .flow-step + .flow-step { margin-top: 0; }
+    .flow-line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .flow-circle {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .flow-connector {
+      width: 2px;
+      flex: 1;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      min-height: 40px;
+      margin: 4px 0;
+    }
+    .flow-body {
+      padding-bottom: 40px;
+      padding-top: 8px;
+      flex: 1;
+    }
+    .flow-step:last-child .flow-connector { display: none; }
+    .flow-step:last-child .flow-body { padding-bottom: 0; }
+    .flow-title { font-weight: 700; font-size: 16px; margin-bottom: 8px; }
+    .flow-desc { color: var(--muted); font-size: 14px; line-height: 1.65; }
+
+    /* ── PROVIDERS ──────────────────────────────────────────── */
+    .providers {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      margin-top: 32px;
+    }
+    .provider-pill {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 20px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .provider-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      section { padding: 64px 0; }
+      #hero { padding: 100px 0 64px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-logo">sobhan@ai:~$</span>
+    <div class="nav-links">
+      <a href="#project">Project</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#agents">Agents</a>
+      <a href="#concepts">Concepts</a>
+      <a href="#stack">Stack</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="container hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Agentic AI · Multi-agent Systems · RAG
+    </div>
+    <h1>
+      Building AI that<br>
+      <span class="gradient-text">thinks, routes, and acts</span>
+    </h1>
+    <p class="hero-sub">
+      I design and engineer multi-agent systems from first principles — no black-box frameworks,
+      just Python, clear architecture, and LLMs that coordinate to get things done.
+    </p>
+    <div class="hero-actions">
+      <a href="#project" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M8 2l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        See the project
+      </a>
+      <a href="https://github.com/sobhandutta" target="_blank" class="btn btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Specialist sub-agents</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3</div>
+        <div class="stat-label">LLM providers supported</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Frameworks used — pure Python</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">RAG</div>
+        <div class="stat-label">Semantic vector search built in</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECT ───────────────────────────────────────────────────── -->
+<section id="project">
+  <div class="container">
+    <p class="section-label">// the project</p>
+    <h2 class="section-title">An agentic AI that knows me</h2>
+    <p class="section-sub">
+      I built a personal AI assistant that answers questions about me by orchestrating five
+      specialist sub-agents — each reading from a different data source — and synthesising the
+      results into a single coherent answer.
+    </p>
+
+    <div class="callout">
+      <span class="callout-icon">💡</span>
+      <p class="callout-text">
+        <strong>Key insight:</strong> The orchestrator LLM never answers from its own training
+        knowledge. It is always forced to call tools first, get real data from my actual
+        databases and documents, then synthesise a grounded response. This is the core principle
+        of agentic AI: <strong>action before answer</strong>.
+      </p>
+    </div>
+
+    <div class="flow" style="margin-top:56px; max-width:680px;">
+      <div class="flow-step">
+        <div class="flow-line">
+          <div class="flow-circle">1</div>
+          <div class="flow-connector"></div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-title">User asks a question</div>
+          <div class="flow-desc">A natural-language question arrives via the Gradio UI, a custom web interface, or the FastAPI WebSocket endpoint. No special syntax required.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line">
+          <div class="flow-circle">2</div>
+          <div class="flow-connector"></div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-title">Orchestrator reads tool schemas & decides</div>
+          <div class="flow-desc">Claude reads the descriptions of all five tools and reasons about which agent(s) can answer the question. For multi-part questions it picks several at once.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line">
+          <div class="flow-circle">3</div>
+          <div class="flow-connector"></div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-title">Parallel tool execution</div>
+          <div class="flow-desc">Selected agents run simultaneously via <code style="color:#a5b4fc;font-family:var(--font-mono);font-size:12px">ThreadPoolExecutor</code> — a SQLite query and a vector store search happen at the same time, not one after another.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line">
+          <div class="flow-circle">4</div>
+          <div class="flow-connector"></div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-title">Results injected back into context</div>
+          <div class="flow-desc">Tool results are appended to the conversation as structured messages. The LLM reads all of them together and decides if it needs more data — or is ready to answer.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line">
+          <div class="flow-circle">5</div>
+          <div class="flow-connector"></div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-title">Grounded, streamed final answer</div>
+          <div class="flow-desc">Claude synthesises a concise answer from real data and streams it token-by-token to the user. Every answer cites which source(s) it used.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ARCHITECTURE ──────────────────────────────────────────────── -->
+<section id="architecture">
+  <div class="container">
+    <p class="section-label">// architecture</p>
+    <h2 class="section-title">How the system is built</h2>
+    <p class="section-sub">
+      Every component is explicit and transparent. The goal was to understand every concept deeply — no framework magic hiding the wiring.
+    </p>
+
+    <div class="arch-diagram">
+      <svg class="arch-svg" viewBox="0 0 860 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- User -->
+        <rect x="20" y="175" width="130" height="70" rx="10" fill="#161b25" stroke="#1e2535" stroke-width="1.5"/>
+        <text x="85" y="207" text-anchor="middle" fill="#e2e8f0" font-family="Inter,sans-serif" font-size="13" font-weight="700">User</text>
+        <text x="85" y="225" text-anchor="middle" fill="#64748b" font-family="Inter,sans-serif" font-size="11">natural language</text>
+
+        <!-- Arrow user → orchestrator -->
+        <path d="M150 210 L215 210" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+        <!-- Orchestrator -->
+        <rect x="215" y="140" width="160" height="140" rx="12" fill="#0f1117" stroke="#6366f1" stroke-width="2"/>
+        <text x="295" y="196" text-anchor="middle" fill="#a5b4fc" font-family="'Fira Code',monospace" font-size="11">Orchestrator</text>
+        <text x="295" y="214" text-anchor="middle" fill="#e2e8f0" font-family="Inter,sans-serif" font-size="13" font-weight="700">Claude Sonnet</text>
+        <text x="295" y="232" text-anchor="middle" fill="#64748b" font-family="Inter,sans-serif" font-size="11">tool-calling loop</text>
+        <text x="295" y="248" text-anchor="middle" fill="#64748b" font-family="Inter,sans-serif" font-size="11">streaming · retry</text>
+
+        <!-- Arrow orchestrator → parallel box -->
+        <path d="M375 210 L430 210" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arr)"/>
+
+        <!-- Parallel label -->
+        <rect x="430" y="185" width="140" height="50" rx="8" fill="#161b25" stroke="#1e2535" stroke-width="1.5"/>
+        <text x="500" y="206" text-anchor="middle" fill="#a5b4fc" font-family="'Fira Code',monospace" font-size="10">ThreadPool</text>
+        <text x="500" y="222" text-anchor="middle" fill="#64748b" font-family="Inter,sans-serif" font-size="11">parallel dispatch</text>
+
+        <!-- Arrows to agents -->
+        <path d="M570 210 L620 100" stroke="#1e2535" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <path d="M570 210 L620 165" stroke="#1e2535" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <path d="M570 210 L620 230" stroke="#1e2535" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <path d="M570 210 L620 295" stroke="#1e2535" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <path d="M570 210 L620 360" stroke="#1e2535" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+        <!-- Agent boxes -->
+        <!-- SQLite -->
+        <rect x="620" y="72" width="145" height="56" rx="8" fill="#161b25" stroke="#1e2535" stroke-width="1.5"/>
+        <text x="692" y="96" text-anchor="middle" fill="#10b981" font-family="'Fira Code',monospace" font-size="10">query_sqlite</text>
+        <text x="692" y="114" text-anchor="middle" fill="#64748b" font-family="Inter,sans-serif" font-size="11">Personal DB · profile · skills</text>
+
+        <!-- Portfolio -->
+        <rect x="620" y="137" width="145" height="56" rx="8" fill="#161b25" stroke="#1e2535" stroke-width="1.5"/>
+        <text x="692" y="161" text-anchor="middle" fill="#6366f1" font-family="'Fira Code',monospace" font-size="10">query_portfolio</text>
+        <text x="692" y="179" text-anchor="middle" fill="#64748b" font-family="Inter,sans-serif" font-size="11">Live web scrape · BeautifulSoup</text>
+
+        <!-- KB -->
+        <rect x="620" y="202" width="145" height="56" rx="8" fill="#161b25" stroke="#6366f1" stroke-width="2"/>
+        <text x="692" y="226" text-anchor="middle" fill="#a5b4fc" font-family="'Fira Code',monospace" font-size="10">query_knowledge_base</text>
+        <text x="692" y="244" text-anchor="middle" fill="#64748b" font-family="Inter,sans-serif" font-size="11">RAG · ChromaDB · embeddings</text>
+
+        <!-- Drive -->
+        <rect x="620" y="267" width="145" height="56" rx="8" fill="#161b25" stroke="#1e2535" stroke-width="1.5"/>
+        <text x="692" y="291" text-anchor="middle" fill="#f59e0b" font-family="'Fira Code',monospace" font-size="10">query_drive</text>
+        <text x="692" y="309" text-anchor="middle" fill="#64748b" font-family="Inter,sans-serif" font-size="11">Google Drive · OAuth</text>
+
+        <!-- Gmail -->
+        <rect x="620" y="332" width="145" height="56" rx="8" fill="#161b25" stroke="#1e2535" stroke-width="1.5"/>
+        <text x="692" y="356" text-anchor="middle" fill="#f59e0b" font-family="'Fira Code',monospace" font-size="10">query_gmail</text>
+        <text x="692" y="374" text-anchor="middle" fill="#64748b" font-family="Inter,sans-serif" font-size="11">Gmail API · OAuth</text>
+
+        <!-- Arrow markers -->
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#6366f1"/>
+          </marker>
+          <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#1e2535"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="callout" style="margin-top:32px;">
+      <span class="callout-icon">⚡</span>
+      <p class="callout-text">
+        <strong>Provider-agnostic by design.</strong> Swapping from Claude to GPT-4 or a local
+        Ollama model requires changing a single line in <code style="font-family:var(--font-mono);color:#c3e88d">config.py</code>.
+        The orchestrator's tool-calling loop works identically across all three.
+      </p>
+    </div>
+
+    <div class="providers" style="margin-top:24px;">
+      <div class="provider-pill">
+        <span class="provider-dot" style="background:#6366f1"></span>
+        Anthropic Claude
+      </div>
+      <div class="provider-pill">
+        <span class="provider-dot" style="background:#10b981"></span>
+        OpenAI GPT-4o
+      </div>
+      <div class="provider-pill">
+        <span class="provider-dot" style="background:#f59e0b"></span>
+        Ollama (local / offline)
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── AGENTS ────────────────────────────────────────────────────── -->
+<section id="agents">
+  <div class="container">
+    <p class="section-label">// the agents</p>
+    <h2 class="section-title">Five specialists, one question</h2>
+    <p class="section-sub">
+      Each agent owns one data source and exposes a single <code style="font-family:var(--font-mono);color:#a5b4fc;font-size:14px">run(question)</code> method.
+      The orchestrator decides which to call — and can call several in parallel.
+    </p>
+
+    <div class="agents-grid">
+      <div class="agent-card">
+        <div class="agent-icon" style="background:rgba(16,185,129,0.1);">🗄️</div>
+        <div class="agent-name">query_sqlite</div>
+        <div class="agent-title">SQLite Agent</div>
+        <div class="agent-desc">Queries a structured personal database with tables for profile facts, skills (name, level, years), work history, projects, and education. Returns structured answers from real data.</div>
+        <div class="agent-tech">
+          <span class="tag green">SQLite</span>
+          <span class="tag green">Claude Haiku</span>
+          <span class="tag green">NL→SQL</span>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-icon" style="background:rgba(99,102,241,0.1);">🌐</div>
+        <div class="agent-name">query_portfolio</div>
+        <div class="agent-title">Portfolio Agent</div>
+        <div class="agent-desc">Fetches and parses my live portfolio website on every call using BeautifulSoup. Answers questions about professional bio, UX experience, and design work from the real, live page.</div>
+        <div class="agent-tech">
+          <span class="tag">requests</span>
+          <span class="tag">BeautifulSoup</span>
+          <span class="tag">live scrape</span>
+        </div>
+      </div>
+
+      <div class="agent-card" style="border-color:rgba(99,102,241,0.4);">
+        <div class="agent-icon" style="background:rgba(99,102,241,0.15);">🧠</div>
+        <div class="agent-name">query_knowledge_base</div>
+        <div class="agent-title">RAG Knowledge Agent</div>
+        <div class="agent-desc">The most sophisticated agent. Embeds the question with OpenAI's text-embedding-3-small, searches a ChromaDB vector store for semantically similar chunks, then uses Claude to generate an answer grounded in those chunks.</div>
+        <div class="agent-tech">
+          <span class="tag">ChromaDB</span>
+          <span class="tag">OpenAI embeddings</span>
+          <span class="tag">HNSW</span>
+          <span class="tag cyan">RAG</span>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-icon" style="background:rgba(245,158,11,0.1);">📁</div>
+        <div class="agent-name">query_drive</div>
+        <div class="agent-title">Google Drive Agent</div>
+        <div class="agent-desc">Reads documents from Google Drive via the Google Docs API. Uses OAuth 2.0 for authentication. Allows the assistant to reference actual written documents — not just database records.</div>
+        <div class="agent-tech">
+          <span class="tag amber">Google Drive API</span>
+          <span class="tag amber">OAuth 2.0</span>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-icon" style="background:rgba(245,158,11,0.1);">✉️</div>
+        <div class="agent-name">query_gmail</div>
+        <div class="agent-title">Gmail Agent</div>
+        <div class="agent-desc">Searches Gmail messages using the Gmail API with OAuth 2.0. Enables the assistant to surface real communications — a step beyond static databases into live, personal context.</div>
+        <div class="agent-tech">
+          <span class="tag amber">Gmail API</span>
+          <span class="tag amber">OAuth 2.0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CODE ──────────────────────────────────────────────────────── -->
+<section id="code">
+  <div class="container">
+    <p class="section-label">// under the hood</p>
+    <h2 class="section-title">Real code, real patterns</h2>
+    <p class="section-sub">
+      Every agentic concept is implemented explicitly — you can read and understand exactly what's happening at every step.
+    </p>
+
+    <div class="code-section">
+      <div>
+        <p style="font-weight:700;margin-bottom:16px;font-size:16px;">Parallel tool execution</p>
+        <p style="color:var(--muted);font-size:14px;line-height:1.65;margin-bottom:20px;">
+          When the orchestrator decides to call multiple agents simultaneously, they run in parallel threads — not sequentially. A SQLite query and a vector search finish together, not one after another.
+        </p>
+        <div class="code-card">
+          <div class="code-header">
+            <span class="code-dot" style="background:#ff5f57"></span>
+            <span class="code-dot" style="background:#febc2e"></span>
+            <span class="code-dot" style="background:#28c840"></span>
+            <span class="code-filename">orchestrator.py</span>
+          </div>
+          <pre><span class="kw">with</span> <span class="cl">ThreadPoolExecutor</span>(<span class="fn">max_workers</span><span class="op">=</span><span class="fn">len</span>(calls)) <span class="kw">as</span> executor:
+
+    <span class="cm"># submit all agents simultaneously</span>
+    futures <span class="op">=</span> {
+        executor.<span class="fn">submit</span>(self._dispatch, name, args): call_id
+        <span class="kw">for</span> call_id, name, args <span class="kw">in</span> calls
+    }
+
+    <span class="cm"># process results as they finish</span>
+    <span class="kw">for</span> future <span class="kw">in</span> <span class="fn">as_completed</span>(futures):
+        call_id <span class="op">=</span> futures[future]
+        results[call_id] <span class="op">=</span> future.<span class="fn">result</span>()</pre>
+        </div>
+      </div>
+
+      <div>
+        <p style="font-weight:700;margin-bottom:16px;font-size:16px;">RAG pipeline</p>
+        <p style="color:var(--muted);font-size:14px;line-height:1.65;margin-bottom:20px;">
+          The knowledge base agent embeds the question, finds semantically similar chunks from the vector store, then generates a grounded answer — not a hallucination.
+        </p>
+        <div class="code-card">
+          <div class="code-header">
+            <span class="code-dot" style="background:#ff5f57"></span>
+            <span class="code-dot" style="background:#febc2e"></span>
+            <span class="code-dot" style="background:#28c840"></span>
+            <span class="code-filename">knowledge_base_agent.py</span>
+          </div>
+          <pre><span class="kw">def</span> <span class="fn">run</span>(self, question: <span class="cl">str</span>) <span class="op">-></span> <span class="cl">str</span>:
+    <span class="cm"># 1. embed question → same space as documents</span>
+    query_vector <span class="op">=</span> self.<span class="fn">_embed_query</span>(question)
+
+    <span class="cm"># 2. cosine similarity search → top 5 chunks</span>
+    results <span class="op">=</span> self._collection.<span class="fn">query</span>(
+        query_embeddings<span class="op">=</span>[query_vector],
+        n_results<span class="op">=</span><span class="num">5</span>,
+    )
+
+    <span class="cm"># 3. Claude answers from chunks only</span>
+    <span class="kw">return</span> self.<span class="fn">_generate</span>(question, chunks)</pre>
+        </div>
+      </div>
+
+      <div>
+        <p style="font-weight:700;margin-bottom:16px;font-size:16px;">The tool-calling loop</p>
+        <p style="color:var(--muted);font-size:14px;line-height:1.65;margin-bottom:20px;">
+          The orchestrator loops until the LLM stops requesting tools. Each round, tool results are appended to the conversation and re-sent to the model.
+        </p>
+        <div class="code-card">
+          <div class="code-header">
+            <span class="code-dot" style="background:#ff5f57"></span>
+            <span class="code-dot" style="background:#febc2e"></span>
+            <span class="code-dot" style="background:#28c840"></span>
+            <span class="code-filename">orchestrator.py</span>
+          </div>
+          <pre><span class="kw">while</span> <span class="cl">True</span>:
+    response <span class="op">=</span> client.messages.<span class="fn">create</span>(
+        model<span class="op">=</span>ORCHESTRATOR_MODEL,
+        tools<span class="op">=</span>TOOL_DEFINITIONS,
+        messages<span class="op">=</span>messages,
+    )
+
+    <span class="kw">if</span> response.stop_reason <span class="op">==</span> <span class="str">"end_turn"</span>:
+        <span class="kw">return</span> response  <span class="cm"># ← final answer</span>
+
+    <span class="kw">if</span> response.stop_reason <span class="op">==</span> <span class="str">"tool_use"</span>:
+        results <span class="op">=</span> self.<span class="fn">_run_tools_parallel</span>(calls)
+        messages.<span class="fn">append</span>(tool_results)
+        <span class="cm"># ↑ loop again with results</span></pre>
+        </div>
+      </div>
+
+      <div>
+        <p style="font-weight:700;margin-bottom:16px;font-size:16px;">Streaming responses</p>
+        <p style="color:var(--muted);font-size:14px;line-height:1.65;margin-bottom:20px;">
+          The final answer streams token-by-token via an async generator. The UI also receives status events during tool execution — "Searching knowledge base…" — so users know what's happening.
+        </p>
+        <div class="code-card">
+          <div class="code-header">
+            <span class="code-dot" style="background:#ff5f57"></span>
+            <span class="code-dot" style="background:#febc2e"></span>
+            <span class="code-dot" style="background:#28c840"></span>
+            <span class="code-filename">orchestrator.py</span>
+          </div>
+          <pre><span class="kw">async def</span> <span class="fn">run_stream</span>(self, message, history):
+    <span class="kw">async with</span> async_client.messages.<span class="fn">stream</span>(
+        model<span class="op">=</span>ORCHESTRATOR_MODEL,
+        messages<span class="op">=</span>messages,
+    ) <span class="kw">as</span> stream:
+        <span class="kw">async for</span> text <span class="kw">in</span> stream.<span class="fn">text_stream</span>:
+            <span class="kw">yield</span> {<span class="str">"type"</span>: <span class="str">"token"</span>, <span class="str">"text"</span>: text}
+    <span class="kw">yield</span> {<span class="str">"type"</span>: <span class="str">"done"</span>}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONCEPTS ──────────────────────────────────────────────────── -->
+<section id="concepts">
+  <div class="container">
+    <p class="section-label">// what i understand</p>
+    <h2 class="section-title">Agentic AI concepts, hands-on</h2>
+    <p class="section-sub">
+      Building without frameworks means understanding each pattern deeply enough to implement it from scratch.
+    </p>
+
+    <div class="concepts-grid">
+      <div class="concept-card">
+        <div class="concept-num">01</div>
+        <div class="concept-title">Multi-agent orchestration</div>
+        <div class="concept-body">A central LLM routes questions to specialist agents based on tool descriptions alone. No rules, no if-statements — the model reasons about which tool fits and calls it.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-num">02</div>
+        <div class="concept-title">Tool-calling loops</div>
+        <div class="concept-body">The orchestrator loops: call LLM → get tool requests → run tools → inject results → call LLM again. The loop continues until stop_reason is "end_turn". Implemented for both Anthropic and OpenAI formats.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-num">03</div>
+        <div class="concept-title">RAG (Retrieval-Augmented Generation)</div>
+        <div class="concept-body">Documents are chunked, embedded into vectors, and stored in ChromaDB. At query time the question is embedded and compared via cosine similarity. The top-K chunks ground the LLM's answer in real content.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-num">04</div>
+        <div class="concept-title">Parallel agent execution</div>
+        <div class="concept-body">ThreadPoolExecutor runs multiple agents simultaneously. as_completed() processes results as they arrive. A 1s SQLite call and a 3s web scrape finish at second 3, not second 4.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-num">05</div>
+        <div class="concept-title">Async streaming</div>
+        <div class="concept-body">The final answer is streamed token-by-token via AsyncAnthropic. Tool-call rounds block on the executor (non-blocking for the event loop). Status events keep the UI responsive throughout.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-num">06</div>
+        <div class="concept-title">Provider-agnostic design</div>
+        <div class="concept-body">Anthropic, OpenAI, and Ollama are abstracted behind a single config flag. Tool schemas are maintained in Anthropic format and auto-converted to OpenAI format — one source of truth.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-num">07</div>
+        <div class="concept-title">Conversation memory</div>
+        <div class="concept-body">A ConversationMemory class converts Gradio's chat history format into the API's expected message list on each request, maintaining context across a multi-turn conversation.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-num">08</div>
+        <div class="concept-title">Resilience & retry logic</div>
+        <div class="concept-body">API overload (529) errors are caught and retried with exponential backoff. Individual agent failures are isolated — the orchestrator continues with results from the agents that succeeded.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STACK ─────────────────────────────────────────────────────── -->
+<section id="stack">
+  <div class="container">
+    <p class="section-label">// tech stack</p>
+    <h2 class="section-title">What I used to build it</h2>
+    <p class="section-sub">
+      Deliberately minimal — every dependency earns its place and is there to be understood, not hidden behind.
+    </p>
+
+    <div class="stack-grid">
+      <div class="stack-group">
+        <div class="stack-label">LLMs</div>
+        <div class="stack-items">
+          <span class="stack-item">Claude Sonnet 4</span>
+          <span class="stack-item">Claude Haiku</span>
+          <span class="stack-item">GPT-4o-mini</span>
+          <span class="stack-item">Ollama</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-label">Vector Search</div>
+        <div class="stack-items">
+          <span class="stack-item">ChromaDB</span>
+          <span class="stack-item">text-embedding-3-small</span>
+          <span class="stack-item">HNSW index</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-label">Python</div>
+        <div class="stack-items">
+          <span class="stack-item">anthropic SDK</span>
+          <span class="stack-item">openai SDK</span>
+          <span class="stack-item">asyncio</span>
+          <span class="stack-item">ThreadPoolExecutor</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-label">Web & APIs</div>
+        <div class="stack-items">
+          <span class="stack-item">FastAPI</span>
+          <span class="stack-item">WebSockets</span>
+          <span class="stack-item">Gradio</span>
+          <span class="stack-item">BeautifulSoup</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-label">Auth & APIs</div>
+        <div class="stack-items">
+          <span class="stack-item">Google OAuth 2.0</span>
+          <span class="stack-item">Gmail API</span>
+          <span class="stack-item">Google Drive API</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-label">Infra</div>
+        <div class="stack-items">
+          <span class="stack-item">Docker</span>
+          <span class="stack-item">Hugging Face Spaces</span>
+          <span class="stack-item">SQLite</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ───────────────────────────────────────────────────────── -->
+<section id="cta">
+  <div class="container">
+    <div class="hero-badge" style="justify-content:center; display:inline-flex;">
+      <span class="dot"></span>
+      Open to roles in AI engineering, product, and design
+    </div>
+    <h2 style="margin-top:24px;">
+      Let's build something<br>
+      <span class="gradient-text">that actually works</span>
+    </h2>
+    <p>I'm a generalist who can go from system design to working code to shipped product. If that's useful to you, let's talk.</p>
+    <div class="hero-actions" style="justify-content:center;">
+      <a href="mailto:sobhandutta@gmail.com" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 3h14l-7 7-7-7z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M1 3v10h14V3" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        Get in touch
+      </a>
+      <a href="https://sobhandutta.myportfolio.com/about" target="_blank" class="btn btn-secondary">
+        Portfolio site ↗
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <p>Built by <a href="https://sobhandutta.myportfolio.com/about">Sobhan Dutta</a> · Agentic AI portfolio · 2025</p>
+  </div>
+</footer>
+
+</body>
+</html>
