@@ -428,6 +428,53 @@
       color: var(--ai-ink);
     }
 
+    /* Live demo */
+    .ai-demo {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--ai-rule);
+    }
+    .ai-demo-header {
+      margin-bottom: 32px;
+    }
+    .ai-demo-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--ai-ink);
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+    .ai-demo-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--ai-muted);
+      max-width: 600px;
+    }
+    .ai-demo-frame {
+      width: 100%;
+      border: 1px solid var(--ai-rule);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f4f4f9;
+    }
+    .ai-demo-frame iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      display: block;
+    }
+    .ai-demo-note {
+      margin-top: 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: var(--ai-muted);
+    }
+    .ai-demo-note a {
+      color: #4a4a8a;
+      text-decoration: underline;
+    }
+
     /* Cowork section */
     .ai-cowork {
       padding: 64px 0;
@@ -716,6 +763,24 @@
         </svg>
       </div>
     </div>
+  </div>
+
+  <!-- Live Demo -->
+  <div class="ai-demo">
+    <div class="ai-demo-header">
+      <p class="ai-eyebrow">Live Demo</p>
+      <h2 class="ai-demo-title">Try it yourself</h2>
+      <p class="ai-demo-sub">Ask anything about Sobhan — his work history, skills, projects, or background. The assistant will route your question to the right data source and respond in real time.</p>
+    </div>
+    <div class="ai-demo-frame">
+      <iframe
+        src="https://sobhandutta-agentic-personal-assistant.hf.space/"
+        title="Agentic Personal Assistant — Live Demo"
+        allow="microphone"
+        loading="lazy"
+      ></iframe>
+    </div>
+    <p class="ai-demo-note">Hosted on Hugging Face Spaces · Powered by Claude Sonnet &amp; Python · <a href="https://github.com/sobhandutta" target="_blank">View source ↗</a></p>
   </div>
 
   <!-- Concepts -->
