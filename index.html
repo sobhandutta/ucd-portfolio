@@ -568,6 +568,170 @@
       line-height: 1.65;
     }
 
+    /* ── CASE STUDY ──────────────────────────────────────────── */
+    #page-cs-zerotrust { max-width: 100%; }
+    .cs-back {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 32px 40px 0;
+    }
+    .cs-hero {
+      width: 100%; max-height: 540px;
+      object-fit: cover; object-position: center;
+      display: block; margin-top: 40px;
+    }
+    .cs-container { max-width: 1160px; margin: 0 auto; padding: 0 40px; }
+    .cs-intro {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--light);
+      display: grid;
+      grid-template-columns: 1fr 1.8fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .cs-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gray); margin-bottom: 14px;
+    }
+    .cs-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 40px; font-weight: 500;
+      line-height: 1.15; letter-spacing: -0.01em;
+      color: var(--black); margin-bottom: 32px;
+    }
+    .cs-meta { display: flex; flex-direction: column; gap: 10px; }
+    .cs-meta-row { display: flex; gap: 12px; font-family: 'Inter', sans-serif; font-size: 13px; }
+    .cs-meta-key { color: var(--gray); min-width: 72px; font-weight: 500; }
+    .cs-meta-val { color: var(--black); }
+    .cs-meta-val a { text-decoration: underline; color: inherit; }
+    .cs-lead {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 24px; line-height: 1.55;
+      color: var(--black); margin-bottom: 28px;
+    }
+    .cs-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px; line-height: 1.85;
+      color: var(--black); margin-bottom: 20px;
+    }
+    .cs-section {
+      padding: 72px 0;
+      border-bottom: 1px solid var(--light);
+    }
+    .cs-section:last-of-type { border-bottom: none; }
+    .cs-section-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gray); margin-bottom: 16px;
+    }
+    .cs-section-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 34px; font-weight: 500;
+      line-height: 1.2; letter-spacing: -0.01em;
+      color: var(--black); margin-bottom: 28px;
+    }
+    .cs-two-col {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: start;
+    }
+    .cs-img {
+      width: 100%; display: block;
+      border: 1px solid var(--light); border-radius: 4px;
+    }
+    .cs-img-full {
+      width: 100%; display: block;
+      border: 1px solid var(--light); border-radius: 4px;
+      margin-top: 40px;
+    }
+    .cs-img-caption {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; color: var(--gray);
+      margin-top: 10px; letter-spacing: 0.02em;
+    }
+    .cs-timeline { display: flex; flex-direction: column; }
+    .cs-timeline-item {
+      display: grid; grid-template-columns: 140px 1fr;
+      gap: 40px; padding: 36px 0;
+      border-top: 1px solid var(--light); align-items: start;
+    }
+    .cs-timeline-item:last-child { border-bottom: 1px solid var(--light); }
+    .cs-timeline-date {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gray); padding-top: 4px;
+    }
+    .cs-timeline-head {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 22px; font-weight: 500;
+      margin-bottom: 12px; color: var(--black);
+    }
+    .cs-feature-list { margin-top: 20px; }
+    .cs-feature-row {
+      display: grid; grid-template-columns: 220px 1fr;
+      gap: 16px; padding: 14px 0;
+      border-top: 1px solid var(--light);
+      font-family: 'Inter', sans-serif; font-size: 14px;
+    }
+    .cs-feature-row:last-child { border-bottom: 1px solid var(--light); }
+    .cs-feature-key { font-weight: 600; color: var(--black); }
+    .cs-feature-val { color: var(--gray); line-height: 1.7; }
+    .cs-quote {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 26px; font-style: italic;
+      line-height: 1.5; color: var(--black);
+      border-left: 3px solid var(--black);
+      padding-left: 28px; margin: 40px 0;
+    }
+    .cs-img-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 20px; margin-top: 40px;
+    }
+    .cs-tag {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gray); background: var(--light);
+      padding: 4px 10px; border-radius: 4px; margin-right: 6px; margin-bottom: 8px;
+    }
+    .cs-closing {
+      padding: 72px 0 0;
+      display: grid; grid-template-columns: 1fr 1.8fr;
+      gap: 80px; align-items: center;
+    }
+    .cs-closing-stat {
+      text-align: center; padding: 32px;
+      border: 1px solid var(--light); border-radius: 4px;
+    }
+    .cs-closing-num {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 52px; font-weight: 500;
+      color: var(--black); line-height: 1;
+      margin-bottom: 8px;
+    }
+    .cs-closing-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px; color: var(--gray);
+    }
+    .cs-stats-row {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px; margin-bottom: 40px;
+    }
+    @media (max-width: 860px) {
+      .cs-intro, .cs-closing { grid-template-columns: 1fr; gap: 40px; }
+      .cs-two-col { grid-template-columns: 1fr; gap: 32px; }
+      .cs-timeline-item { grid-template-columns: 1fr; gap: 8px; }
+      .cs-img-grid { grid-template-columns: 1fr; }
+      .cs-feature-row { grid-template-columns: 1fr; gap: 4px; }
+      .cs-back, .cs-container { padding-left: 24px; padding-right: 24px; }
+      .cs-title { font-size: 30px; }
+      .cs-stats-row { grid-template-columns: 1fr; }
+    }
+
     /* ── FOOTER ──────────────────────────────────────────────── */
     footer {
       border-top: 1px solid var(--light);
@@ -660,7 +824,7 @@
         </div>
       </li>
 
-      <li class="work-item">
+      <li class="work-item" onclick="showPage('cs-zerotrust')">
         <div class="work-year">2020</div>
         <div class="work-info">
           <h2 class="work-title">Zero Trust Network Security</h2>
@@ -970,6 +1134,210 @@
 
 </main>
 
+<!-- ── CASE STUDY: ZERO TRUST ────────────────────────────────────── -->
+<main id="page-cs-zerotrust" class="page">
+
+  <div class="cs-back">
+    <button onclick="showPage('work')" class="back-btn">← Case Studies</button>
+  </div>
+
+  <img src="images/zero_trust_network_security/banner.jpg" alt="Zero Trust Network Security" class="cs-hero">
+
+  <div class="cs-container">
+
+    <!-- Intro -->
+    <div class="cs-intro">
+      <div>
+        <p class="cs-label">Case Study</p>
+        <h1 class="cs-title">Zero Trust Network Security</h1>
+        <div class="cs-meta">
+          <div class="cs-meta-row">
+            <span class="cs-meta-key">Company</span>
+            <span class="cs-meta-val"><a href="https://www.elisity.com/" target="_blank">Elisity ↗</a></span>
+          </div>
+          <div class="cs-meta-row">
+            <span class="cs-meta-key">Role</span>
+            <span class="cs-meta-val">Head of UX Design &amp; UI Architecture</span>
+          </div>
+          <div class="cs-meta-row">
+            <span class="cs-meta-key">Year</span>
+            <span class="cs-meta-val">2020 – 2022</span>
+          </div>
+          <div class="cs-meta-row">
+            <span class="cs-meta-key">Scope</span>
+            <span class="cs-meta-val">End-to-end product design, design system, UX research</span>
+          </div>
+        </div>
+        <div style="margin-top:28px;">
+          <span class="cs-tag">Enterprise UX</span>
+          <span class="cs-tag">Zero Trust</span>
+          <span class="cs-tag">Design System</span>
+          <span class="cs-tag">Network Security</span>
+        </div>
+      </div>
+      <div>
+        <p class="cs-lead">Starting from scratch — I joined Elisity in early 2020 with a mandate to ship the first product within three months.</p>
+        <p class="cs-body">The company had a prototype and infrastructure but no complete product to show customers. I assembled and led a team, working closely with the CEO, VP of Product, and CTO to define the product vision, information architecture, and design language — all simultaneously.</p>
+        <p class="cs-body">By coordinating on-site and offshore teams through a focused sprint cycle, we shipped the first release in record time. Along the way, I also designed the company's logo.</p>
+        <p class="cs-body">Over the next two years, we grew from that scrappy first release into a mature enterprise product trusted by organisations including GSK and Bupa Health — securing multiple funding rounds along the way.</p>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="cs-section">
+      <p class="cs-section-label">Timeline</p>
+      <h2 class="cs-section-title">Two years, zero to enterprise</h2>
+      <div class="cs-timeline">
+        <div class="cs-timeline-item">
+          <div class="cs-timeline-date">Spring 2020</div>
+          <div>
+            <p class="cs-timeline-head">First 90 days — ship or bust</p>
+            <p class="cs-body">I joined Elisity as the company was gearing up for its initial product launch. Partnering directly with engineering and stakeholders, we designed and delivered the first release in under three months. There was no time for perfection — only clarity, speed, and trust between the team.</p>
+          </div>
+        </div>
+        <div class="cs-timeline-item">
+          <div class="cs-timeline-date">Summer 2020</div>
+          <div>
+            <p class="cs-timeline-head">Making security accessible to everyone</p>
+            <p class="cs-body">The initial launch was successful, but a bigger challenge emerged: how do you design a security product that doesn't require a network engineer to use it? The stereotype of security tools being complex, dark, and cryptic needed to be broken.</p>
+            <p class="cs-body">We started by talking to real users — mapping pain points, running task-based usability sessions on medium-fidelity prototypes, and conducting qualitative interviews with internal stakeholders and customers. The goal: design with the CEO in mind as the primary user, not just the CISO.</p>
+            <img src="images/zero_trust_network_security/personas.png" alt="User personas" class="cs-img-full">
+            <p class="cs-img-caption">User personas developed from research sessions to guide design decisions</p>
+          </div>
+        </div>
+        <div class="cs-timeline-item">
+          <div class="cs-timeline-date">2021 – 2022</div>
+          <div>
+            <p class="cs-timeline-head">Scaling the product and the team</p>
+            <p class="cs-body">With user research informing every decision, we evolved the product across multiple releases — adding cloud-first infrastructure, a policy engine, and identity-based micro-segmentation. I grew the design team and introduced a design system to bring consistency and speed to the rapidly expanding product surface.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visibility -->
+    <div class="cs-section">
+      <p class="cs-section-label">Core Feature</p>
+      <h2 class="cs-section-title">Visibility in Zero Trust Security</h2>
+      <div class="cs-two-col">
+        <div>
+          <p class="cs-body">Elisity's IdentityGraph technology gives security teams unparalleled visibility into every device and user on the network. The design challenge was translating deeply technical data — IP addresses, MAC addresses, device classifications — into something instantly readable by a non-specialist.</p>
+          <p class="cs-body">We designed the network map and asset explorer to surface meaningful context at a glance: identity, risk level, policy status, and lateral movement paths — without drowning users in raw data.</p>
+          <div class="cs-quote">"Security teams shouldn't need a PhD to understand their own network."</div>
+        </div>
+        <div>
+          <img src="images/zero_trust_network_security/analytics_view.jpeg" alt="Analytics dashboard" class="cs-img">
+          <p class="cs-img-caption">IdentityGraph analytics view — visibility across hybrid environments</p>
+        </div>
+      </div>
+      <img src="images/zero_trust_network_security/cas_view.jpg" alt="CAS view" class="cs-img-full">
+      <p class="cs-img-caption">Cloud Access Security view — policy status across devices and users</p>
+    </div>
+
+    <!-- Zero Trust Security features -->
+    <div class="cs-section">
+      <p class="cs-section-label">Policy Framework</p>
+      <h2 class="cs-section-title">Zero Trust principles, made usable</h2>
+      <p class="cs-body">Elisity's policy framework integrates zero trust with network access control. Designing the policy builder was one of the most complex UX challenges — it needed to support both simple rules for less-technical users and granular control for security architects.</p>
+      <img src="images/zero_trust_network_security/policy_enforcement_assets_view.jpg" alt="Policy enforcement" class="cs-img-full">
+      <p class="cs-img-caption">Policy enforcement interface — identity-based rules across IT, OT, and IoT</p>
+      <div class="cs-feature-list" style="margin-top:40px;">
+        <div class="cs-feature-row">
+          <span class="cs-feature-key">Comprehensive Visibility</span>
+          <span class="cs-feature-val">Discover, classify, and monitor every asset across hybrid environments — cloud, on-premise, OT, and IoT.</span>
+        </div>
+        <div class="cs-feature-row">
+          <span class="cs-feature-key">Granular Control</span>
+          <span class="cs-feature-val">Enforce identity-based policies for users and devices with a policy builder designed for clarity, not complexity.</span>
+        </div>
+        <div class="cs-feature-row">
+          <span class="cs-feature-key">Lateral Movement Defence</span>
+          <span class="cs-feature-val">Contain threats and limit blast radius through micro-segmentation — visualised in real time on the network map.</span>
+        </div>
+        <div class="cs-feature-row">
+          <span class="cs-feature-key">Dynamic Policies</span>
+          <span class="cs-feature-val">Policies adapt in real-time to context changes — user behaviour, device health, location — without manual intervention.</span>
+        </div>
+        <div class="cs-feature-row">
+          <span class="cs-feature-key">Zero Trust Enablement</span>
+          <span class="cs-feature-val">Least-privilege access enforced based on verified identity and context at every network entry point.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cloud First -->
+    <div class="cs-section">
+      <p class="cs-section-label">Infrastructure</p>
+      <h2 class="cs-section-title">Cloud-first, no agents, no hardware</h2>
+      <div class="cs-two-col">
+        <div>
+          <p class="cs-body">Elisity's cloud-delivered micro-segmentation removes the traditional barriers of hardware deployment. CISOs and their teams get a single management console — the Elisity Cloud Control Center — for visibility, policy configuration, and analytics across the entire environment.</p>
+          <p class="cs-body">Designing this console meant balancing power and simplicity. The interface needed to serve both the CISO reviewing reports and the security engineer drilling into device-level policy enforcement — often on the same screen.</p>
+          <p class="cs-body">AI and machine learning adapt to network changes continuously, so the UI needed to surface model-driven recommendations without making them feel like black-box decisions.</p>
+        </div>
+        <div>
+          <img src="images/zero_trust_network_security/cognitive_connect_view.png" alt="Cognitive Connect" class="cs-img">
+          <p class="cs-img-caption">Cognitive Connect — AI-powered asset discovery and policy enforcement at the network edge</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Design System -->
+    <div class="cs-section">
+      <p class="cs-section-label">Foundation</p>
+      <h2 class="cs-section-title">Building the design system</h2>
+      <p class="cs-body">Until mid-2020, development was conducted ad hoc — every team made independent design decisions, resulting in visual inconsistencies and unpredictable component behaviour. To fix this and significantly increase team velocity, I created a unified design system and shared component library.</p>
+      <p class="cs-body">We consolidated three typefaces down to a single font family — Roboto — with defined weights and widths for each context. I built a comprehensive web style guide covering buttons, forms, data tables, navigation modules, and states, ensuring every element behaved predictably across the entire product.</p>
+      <div class="cs-img-grid">
+        <div>
+          <img src="images/zero_trust_network_security/design_system_view.png" alt="Design system" class="cs-img">
+          <p class="cs-img-caption">Component library — standardised across product and marketing surfaces</p>
+        </div>
+        <div>
+          <img src="images/zero_trust_network_security/logos.png" alt="Brand and logo work" class="cs-img">
+          <p class="cs-img-caption">Brand identity — including the Elisity logo I designed from scratch</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Looking Back -->
+    <div class="cs-section">
+      <p class="cs-section-label">Reflection</p>
+      <h2 class="cs-section-title">Looking back</h2>
+      <div class="cs-closing">
+        <div>
+          <div class="cs-stats-row">
+            <div class="cs-closing-stat">
+              <div class="cs-closing-num">3</div>
+              <div class="cs-closing-desc">months to first release</div>
+            </div>
+            <div class="cs-closing-stat">
+              <div class="cs-closing-num">2+</div>
+              <div class="cs-closing-desc">funding rounds secured</div>
+            </div>
+            <div class="cs-closing-stat">
+              <div class="cs-closing-num">∞</div>
+              <div class="cs-closing-desc">lessons learned</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="cs-body">Witnessing a company grow from a raw prototype to a funded enterprise product — trusted by organisations like GSK and Bupa Health — is one of the most formative experiences of my career.</p>
+          <p class="cs-body">Building a mature product at startup speed requires more than design skill. It demands clarity of vision, relentless prioritisation, and a team that trusts each other enough to move fast without breaking what matters.</p>
+          <p class="cs-body">The biggest lesson: the best security product is the one people actually use. Making zero trust accessible — visually, conceptually, and operationally — was the real design problem worth solving.</p>
+        </div>
+      </div>
+      <img src="images/zero_trust_network_security/product_on_laptop.png" alt="Elisity product" class="cs-img-full">
+    </div>
+
+  </div><!-- /cs-container -->
+
+  <div class="cs-back" style="padding-top:48px;padding-bottom:80px;border-top:1px solid var(--light);margin-top:72px;">
+    <button onclick="showPage('work')" class="back-btn">← Back to Case Studies</button>
+  </div>
+
+</main>
+
 <!-- ── FOOTER ─────────────────────────────────────────────────────── -->
 <footer>
   <div class="footer-inner">
@@ -989,8 +1357,8 @@
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     // Show target
     document.getElementById('page-' + id).classList.add('active');
-    // Update nav — 'ai-agentic' article keeps the 'ai' nav item active
-    const navId = id.startsWith('ai') ? 'ai' : id;
+    // Sub-pages keep their parent nav item active
+    const navId = id.startsWith('ai') ? 'ai' : id.startsWith('cs-') ? 'work' : id;
     ['work','about','ai'].forEach(n => {
       const el = document.getElementById('nav-' + n);
       if (el) el.classList.toggle('active', n === navId);
