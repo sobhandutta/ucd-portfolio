@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobhan Dutta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:    #0a0a0a;
+      --gray:     #6b6b6b;
+      --light:    #e8e8e8;
+      --bg:       #fafaf8;
+      --white:    #ffffff;
+      --accent:   #0a0a0a;
+      --ai-ink:   #1a1a2e;
+      --ai-muted: #555577;
+      --ai-rule:  #d0d0e8;
+    }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--black);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ── NAV ─────────────────────────────────────────────────── */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--bg);
+      border-bottom: 1px solid var(--light);
+    }
+    .nav {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 40px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--black);
+      cursor: pointer;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links li a, .nav-links li button {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .nav-links li a:hover,
+    .nav-links li button:hover { color: var(--black); }
+    .nav-links li a.active,
+    .nav-links li button.active { color: var(--black); }
+    .nav-links li a.ai-link,
+    .nav-links li button.ai-link {
+      color: #4a4a8a;
+    }
+    .nav-links li a.ai-link:hover,
+    .nav-links li button.ai-link.active { color: #2a2a6a; }
+
+    /* ── PAGE SECTIONS ───────────────────────────────────────── */
+    .page { display: none; flex: 1; }
+    .page.active { display: block; }
+
+    /* ── WORK PAGE ───────────────────────────────────────────── */
+    #page-work {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 80px 40px 120px;
+    }
+    .work-list { list-style: none; }
+    .work-item {
+      border-top: 1px solid var(--light);
+      padding: 48px 0;
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 40px;
+      align-items: start;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .work-item:hover { opacity: 0.7; }
+    .work-item:last-child { border-bottom: 1px solid var(--light); }
+    .work-year {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--gray);
+      padding-top: 6px;
+    }
+    .work-info {}
+    .work-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 1.25;
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+    .work-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 16px;
+    }
+    .work-role {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    /* ── ABOUT PAGE ──────────────────────────────────────────── */
+    #page-about {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 80px 40px 120px;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-left {}
+    .about-headline {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 42px;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.3;
+      color: var(--black);
+      margin-bottom: 48px;
+    }
+    .about-tagline {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 16px;
+    }
+    .about-what {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1.45;
+      color: var(--black);
+      margin-bottom: 32px;
+    }
+    .about-divider {
+      border: none;
+      border-top: 1px solid var(--light);
+      margin: 32px 0;
+    }
+    .about-social {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .about-social a {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray);
+      transition: color 0.2s;
+    }
+    .about-social a:hover { color: var(--black); }
+    .about-right {}
+    .about-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--black);
+      margin-bottom: 40px;
+    }
+    .about-pillar {
+      padding: 32px 0;
+      border-top: 1px solid var(--light);
+    }
+    .about-pillar:last-child { border-bottom: 1px solid var(--light); }
+    .about-pillar-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 12px;
+    }
+    .about-pillar-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--black);
+    }
+
+    /* ── AI EXPERIMENTS PAGE ─────────────────────────────────── */
+    #page-ai {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 80px 40px 120px;
+    }
+    .ai-header {
+      border-bottom: 1px solid var(--ai-rule);
+      padding-bottom: 48px;
+      margin-bottom: 0;
+    }
+    .ai-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ai-muted);
+      margin-bottom: 20px;
+    }
+    .ai-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 52px;
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--ai-ink);
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+    .ai-intro {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--ai-muted);
+      max-width: 640px;
+    }
+    /* Featured experiment */
+    .ai-featured {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--ai-rule);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .ai-feat-left {}
+    .ai-feat-tag {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ai-muted);
+      margin-bottom: 16px;
+    }
+    .ai-feat-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 36px;
+      font-weight: 500;
+      line-height: 1.25;
+      color: var(--ai-ink);
+      margin-bottom: 20px;
+    }
+    .ai-feat-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--ai-muted);
+      margin-bottom: 28px;
+    }
+    .ai-feat-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ai-feat-meta-row {
+      display: flex;
+      gap: 12px;
+      align-items: baseline;
+    }
+    .ai-feat-meta-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ai-muted);
+      min-width: 80px;
+    }
+    .ai-feat-meta-val {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--ai-ink);
+    }
+    .ai-feat-right {}
+    /* Architecture diagram area */
+    .ai-arch-box {
+      background: #f4f4f9;
+      border: 1px solid var(--ai-rule);
+      border-radius: 4px;
+      padding: 32px;
+    }
+    .ai-arch-box svg { width: 100%; }
+
+    /* Concept list */
+    .ai-concepts {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--ai-rule);
+    }
+    .ai-concepts-heading {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ai-muted);
+      margin-bottom: 40px;
+    }
+    .ai-concepts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    .ai-concept-item {
+      padding: 28px 28px 28px 0;
+      border-top: 1px solid var(--ai-rule);
+    }
+    .ai-concept-item:nth-child(3n) { padding-right: 0; }
+    .ai-concept-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--ai-muted);
+      margin-bottom: 10px;
+    }
+    .ai-concept-name {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--ai-ink);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .ai-concept-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--ai-muted);
+    }
+
+    /* Stack section */
+    .ai-stack {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--ai-rule);
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+    .ai-stack-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ai-muted);
+      padding-top: 4px;
+    }
+    .ai-stack-groups {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+    .ai-stack-group {}
+    .ai-stack-group-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ai-muted);
+      margin-bottom: 10px;
+    }
+    .ai-stack-items {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .ai-stack-item {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--ai-ink);
+    }
+
+    /* Cowork section */
+    .ai-cowork {
+      padding: 64px 0;
+    }
+    .ai-cowork-heading {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ai-muted);
+      margin-bottom: 24px;
+    }
+    .ai-cowork-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--ai-ink);
+      max-width: 680px;
+    }
+    .ai-cowork-list {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .ai-cowork-row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 20px;
+      padding: 16px 0;
+      border-top: 1px solid var(--ai-rule);
+      font-family: 'Inter', sans-serif;
+    }
+    .ai-cowork-row-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ai-muted);
+    }
+    .ai-cowork-row-val {
+      font-size: 13px;
+      color: var(--ai-ink);
+      line-height: 1.65;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--light);
+      padding: 32px 40px;
+    }
+    .footer-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer-links a {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--black); }
+    .footer-copy {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--gray);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 860px) {
+      .nav { padding: 0 24px; }
+      #page-work, #page-about, #page-ai { padding: 48px 24px 80px; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .work-item { grid-template-columns: 64px 1fr; gap: 20px; }
+      .ai-featured { grid-template-columns: 1fr; gap: 40px; }
+      .ai-concepts-grid { grid-template-columns: 1fr 1fr; }
+      .ai-stack { grid-template-columns: 1fr; gap: 24px; }
+    }
+    @media (max-width: 560px) {
+      .nav-links { gap: 20px; }
+      .ai-concepts-grid { grid-template-columns: 1fr; }
+      .work-title { font-size: 24px; }
+      .ai-title { font-size: 36px; }
+      footer { padding: 24px; }
+      .footer-inner { flex-direction: column; gap: 16px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER / NAV ──────────────────────────────────────────────── -->
+<header>
+  <nav class="nav">
+    <span class="nav-logo" onclick="showPage('work')">Sobhan Dutta</span>
+    <ul class="nav-links">
+      <li><button onclick="showPage('about')" id="nav-about">About</button></li>
+      <li><button onclick="showPage('work')" id="nav-work">Case Studies</button></li>
+      <li><a href="https://drive.google.com/file/d/1z-wkuIneoLpUHazjX41cgMHmk1iciePy/view?usp=drive_link" target="_blank">Resume</a></li>
+      <li><button onclick="showPage('ai')" id="nav-ai" class="ai-link">AI Experiments</button></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ── WORK / CASE STUDIES ──────────────────────────────────────── -->
+<main id="page-work" class="page active">
+  <div>
+    <ul class="work-list">
+
+      <li class="work-item">
+        <div class="work-year">2025</div>
+        <div class="work-info">
+          <h2 class="work-title">Accelerating to AI-First UX</h2>
+          <p class="work-desc">In 6G, AI won't just support the network — it will be built into its core design. This "AI-native" approach means AI is embedded directly into how the network controls, manages, and processes data.</p>
+          <p class="work-role">Director of UX Design and UI Architecture @ Ataya</p>
+        </div>
+      </li>
+
+      <li class="work-item">
+        <div class="work-year">2022</div>
+        <div class="work-info">
+          <h2 class="work-title">Atayalan Private 5G</h2>
+          <p class="work-desc">Started as the first person on the US team and built the product from the ground up. As the owner of UX/UI, my goal was to hire the best people and continuously improve the experience.</p>
+          <p class="work-role">Director of UX Design and UI Architecture @ Ataya</p>
+        </div>
+      </li>
+
+      <li class="work-item">
+        <div class="work-year">2020</div>
+        <div class="work-info">
+          <h2 class="work-title">Zero Trust Network Security</h2>
+          <p class="work-desc">Over two years at Elisity, I made major design decisions, worked with key stakeholders, and delivered a high-quality enterprise product from the ground up.</p>
+          <p class="work-role">Head of UX Design & UI Architect @ Elisity</p>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</main>
+
+<!-- ── ABOUT ─────────────────────────────────────────────────────── -->
+<main id="page-about" class="page">
+  <div class="about-grid">
+    <div class="about-left">
+      <p class="about-headline">Product Direction<br>+ Design +<br>Engineering</p>
+      <p class="about-tagline">What I do</p>
+      <p class="about-what">Designing a solution requires refinement until it reaches the optimal point — a balance between familiar and unique.</p>
+      <hr class="about-divider">
+      <div class="about-social">
+        <a href="https://www.behance.net/sobhandutta" target="_blank">Behance ↗</a>
+        <a href="https://www.linkedin.com/in/sobhandutta/" target="_blank">LinkedIn ↗</a>
+        <a href="https://github.com/sobhandutta" target="_blank">GitHub ↗</a>
+        <a href="mailto:sobhandutta@gmail.com">sobhandutta@gmail.com</a>
+      </div>
+    </div>
+    <div class="about-right">
+      <p class="about-body">As the Head of UX &amp; UI at Ataya, I am responsible for leading products from their initial design stages to successful launches. With two decades of hands-on experience, I specialize in UX Design and strategy, Software Development, and team leadership across various locations. My career reflects a deep commitment to creating exceptional user experiences and driving innovation in digital product design.</p>
+      <p class="about-body">Thank you for visiting my profile. If you're interested in learning more about my experience or wish to discuss products and the creative world, please feel free to drop me a note. I would love to connect and explore potential collaborations.</p>
+
+      <div class="about-pillar">
+        <p class="about-pillar-label">User Experience</p>
+        <p class="about-pillar-text">I am a hands-on UX/UI strategist and design leader, deeply involved in the cross-functional development of best practices in UX/UI design. My focus is on championing the needs of customers and end users, ensuring that every product we create provides intuitive and engaging experiences. I excel at bridging the gap between user needs and technical feasibility, delivering beautiful and functional designs.</p>
+      </div>
+
+      <div class="about-pillar">
+        <p class="about-pillar-label">Engineering</p>
+        <p class="about-pillar-text">With a strong background in front-end software engineering, I bring strategic leadership to enterprise software and multi-platform cloud user experiences. I have a proven track record in defining and implementing UI design and development for Cloud and On-premise deployments. My technical expertise ensures that design concepts are innovative, technically sound, and scalable.</p>
+      </div>
+
+      <div class="about-pillar">
+        <p class="about-pillar-label">Leadership</p>
+        <p class="about-pillar-text">I have led complex product initiatives for the past five years and managed a global design and engineering team. My leadership extends beyond design and engineering; I collaborate closely with product, customer success, and marketing teams to align our efforts and drive product success. My approach to leadership emphasizes empowerment, collaboration, and a shared vision for creating outstanding user experiences.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ── AI EXPERIMENTS ─────────────────────────────────────────────── -->
+<main id="page-ai" class="page">
+
+  <div class="ai-header">
+    <p class="ai-eyebrow">AI Experiments</p>
+    <h1 class="ai-title">Building AI that<br>thinks, routes, and acts</h1>
+    <p class="ai-intro">I design and engineer multi-agent systems from first principles — no black-box frameworks, just Python, clear architecture, and LLMs that coordinate to get things done. These are experiments at the intersection of product thinking, engineering, and AI.</p>
+  </div>
+
+  <!-- Featured: Agentic Personal Assistant -->
+  <div class="ai-featured">
+    <div class="ai-feat-left">
+      <p class="ai-feat-tag">Experiment 01 — Multi-Agent System</p>
+      <h2 class="ai-feat-title">Agentic Personal Assistant</h2>
+      <p class="ai-feat-body">A personal AI that answers questions about me by orchestrating five specialist sub-agents, each reading from a different data source — SQLite, live portfolio scrape, semantic vector store, Google Drive, and Gmail — and synthesising results into a single grounded response.</p>
+      <p class="ai-feat-body">The orchestrator never answers from its own training knowledge. It always calls tools first, gets real data, then generates a response. Every answer cites its source.</p>
+      <div class="ai-feat-meta">
+        <div class="ai-feat-meta-row">
+          <span class="ai-feat-meta-label">Stack</span>
+          <span class="ai-feat-meta-val">Python, Anthropic Claude, ChromaDB, FastAPI, Gradio</span>
+        </div>
+        <div class="ai-feat-meta-row">
+          <span class="ai-feat-meta-label">Deployed</span>
+          <span class="ai-feat-meta-val">Hugging Face Spaces (Docker)</span>
+        </div>
+        <div class="ai-feat-meta-row">
+          <span class="ai-feat-meta-label">Providers</span>
+          <span class="ai-feat-meta-val">Claude Sonnet, GPT-4o, Ollama (local)</span>
+        </div>
+        <div class="ai-feat-meta-row">
+          <span class="ai-feat-meta-label">GitHub</span>
+          <span class="ai-feat-meta-val"><a href="https://github.com/sobhandutta" target="_blank" style="text-decoration:underline;color:#4a4a8a;">sobhandutta ↗</a></span>
+        </div>
+      </div>
+    </div>
+    <div class="ai-feat-right">
+      <div class="ai-arch-box">
+        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#888;margin-bottom:24px;">System Architecture</p>
+        <svg viewBox="0 0 460 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- User -->
+          <rect x="4" y="126" width="80" height="44" rx="4" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
+          <text x="44" y="145" text-anchor="middle" fill="#1a1a2e" font-family="Inter,sans-serif" font-size="10" font-weight="600">User</text>
+          <text x="44" y="159" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">question</text>
+
+          <!-- Arrow user → orch -->
+          <line x1="84" y1="148" x2="128" y2="148" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#a1)"/>
+
+          <!-- Orchestrator -->
+          <rect x="128" y="108" width="110" height="80" rx="4" fill="#fff" stroke="#4a4a8a" stroke-width="1.5"/>
+          <text x="183" y="132" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600" letter-spacing="0.08em">ORCHESTRATOR</text>
+          <text x="183" y="148" text-anchor="middle" fill="#1a1a2e" font-family="Inter,sans-serif" font-size="11" font-weight="500">Claude Sonnet</text>
+          <text x="183" y="164" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">tool-calling loop</text>
+          <text x="183" y="178" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">streaming · retry</text>
+
+          <!-- Arrow orch → agents -->
+          <line x1="238" y1="148" x2="282" y2="148" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#a1)"/>
+
+          <!-- Parallel label -->
+          <rect x="282" y="128" width="84" height="40" rx="4" fill="#f4f4f9" stroke="#d0d0e8" stroke-width="1.5"/>
+          <text x="324" y="146" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600">ThreadPool</text>
+          <text x="324" y="158" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">parallel dispatch</text>
+
+          <!-- Lines to agents -->
+          <line x1="366" y1="148" x2="396" y2="52" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#a1)"/>
+          <line x1="366" y1="148" x2="396" y2="100" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#a1)"/>
+          <line x1="366" y1="148" x2="396" y2="148" stroke="#4a4a8a" stroke-width="1.5" marker-end="url(#a2)"/>
+          <line x1="366" y1="148" x2="396" y2="196" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#a1)"/>
+          <line x1="366" y1="148" x2="396" y2="244" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#a1)"/>
+
+          <!-- Agents -->
+          <rect x="396" y="30" width="56" height="44" rx="3" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
+          <text x="424" y="49" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="8.5" font-weight="600">SQLite</text>
+          <text x="424" y="63" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="8">profile · skills</text>
+
+          <rect x="396" y="78" width="56" height="44" rx="3" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
+          <text x="424" y="97" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="8.5" font-weight="600">Portfolio</text>
+          <text x="424" y="111" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="8">live scrape</text>
+
+          <rect x="396" y="126" width="56" height="44" rx="3" fill="#f4f4f9" stroke="#4a4a8a" stroke-width="1.5"/>
+          <text x="424" y="145" text-anchor="middle" fill="#4a4a8a" font-family="Inter,sans-serif" font-size="8.5" font-weight="600">RAG KB</text>
+          <text x="424" y="159" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="8">ChromaDB</text>
+
+          <rect x="396" y="174" width="56" height="44" rx="3" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
+          <text x="424" y="193" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="8.5" font-weight="600">Drive</text>
+          <text x="424" y="207" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="8">Google OAuth</text>
+
+          <rect x="396" y="222" width="56" height="44" rx="3" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
+          <text x="424" y="241" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="8.5" font-weight="600">Gmail</text>
+          <text x="424" y="255" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="8">Google OAuth</text>
+
+          <defs>
+            <marker id="a1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="#d0d0e8"/>
+            </marker>
+            <marker id="a2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="#4a4a8a"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Concepts -->
+  <div class="ai-concepts">
+    <p class="ai-concepts-heading">What I built & understand</p>
+    <div class="ai-concepts-grid">
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">01</p>
+        <p class="ai-concept-name">Multi-agent orchestration</p>
+        <p class="ai-concept-desc">A central LLM routes questions to specialist agents based on tool descriptions alone — no rules or hard-coded logic.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">02</p>
+        <p class="ai-concept-name">Tool-calling loops</p>
+        <p class="ai-concept-desc">The orchestrator loops: call LLM → tool requests → run tools → inject results → repeat until stop_reason is end_turn. Implemented for both Anthropic and OpenAI formats.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">03</p>
+        <p class="ai-concept-name">RAG pipelines</p>
+        <p class="ai-concept-desc">Documents are chunked, embedded into vectors with OpenAI, stored in ChromaDB. At query time the question is embedded and compared by cosine similarity to retrieve grounding context.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">04</p>
+        <p class="ai-concept-name">Parallel execution</p>
+        <p class="ai-concept-desc">ThreadPoolExecutor runs multiple agents simultaneously. A 1s SQLite call and a 3s web scrape finish at second 3, not second 4.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">05</p>
+        <p class="ai-concept-name">Async streaming</p>
+        <p class="ai-concept-desc">Final answers stream token-by-token via AsyncAnthropic. Status events ("Searching knowledge base…") keep the UI responsive during tool-call rounds.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">06</p>
+        <p class="ai-concept-name">Provider-agnostic design</p>
+        <p class="ai-concept-desc">Swapping from Claude to GPT-4o or a local Ollama model is one line in config.py. Tool schemas auto-convert between Anthropic and OpenAI formats.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stack -->
+  <div class="ai-stack">
+    <p class="ai-stack-label">Tools &amp; Stack</p>
+    <div class="ai-stack-groups">
+      <div class="ai-stack-group">
+        <p class="ai-stack-group-label">LLMs</p>
+        <div class="ai-stack-items">
+          <span class="ai-stack-item">Claude Sonnet 4</span>
+          <span class="ai-stack-item">Claude Haiku</span>
+          <span class="ai-stack-item">GPT-4o-mini</span>
+          <span class="ai-stack-item">Ollama (local)</span>
+        </div>
+      </div>
+      <div class="ai-stack-group">
+        <p class="ai-stack-group-label">Vector Search</p>
+        <div class="ai-stack-items">
+          <span class="ai-stack-item">ChromaDB</span>
+          <span class="ai-stack-item">text-embedding-3-small</span>
+          <span class="ai-stack-item">HNSW index</span>
+        </div>
+      </div>
+      <div class="ai-stack-group">
+        <p class="ai-stack-group-label">Backend</p>
+        <div class="ai-stack-items">
+          <span class="ai-stack-item">Python</span>
+          <span class="ai-stack-item">FastAPI + WebSockets</span>
+          <span class="ai-stack-item">Gradio</span>
+          <span class="ai-stack-item">SQLite</span>
+        </div>
+      </div>
+      <div class="ai-stack-group">
+        <p class="ai-stack-group-label">Infra & Auth</p>
+        <div class="ai-stack-items">
+          <span class="ai-stack-item">Docker</span>
+          <span class="ai-stack-item">Hugging Face Spaces</span>
+          <span class="ai-stack-item">Google OAuth 2.0</span>
+          <span class="ai-stack-item">Gmail / Drive API</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cowork / What's next -->
+  <div class="ai-cowork">
+    <p class="ai-cowork-heading">Also exploring</p>
+    <p class="ai-cowork-body">Beyond the agentic assistant, I'm actively using and learning Anthropic's Claude Cowork and the Claude Agent SDK — experimenting with scheduled agents, persistent artifacts, MCP connectors, and multi-agent workflows that connect to real tools like Jira, Figma, Slack, and Google Workspace.</p>
+    <div class="ai-cowork-list">
+      <div class="ai-cowork-row">
+        <span class="ai-cowork-row-label">MCP (Model Context Protocol)</span>
+        <span class="ai-cowork-row-val">Connecting AI agents to external tools and data sources through standardised server definitions.</span>
+      </div>
+      <div class="ai-cowork-row">
+        <span class="ai-cowork-row-label">Scheduled agents</span>
+        <span class="ai-cowork-row-val">Agents that run automatically on a cron — daily briefings, status checks, digest generation.</span>
+      </div>
+      <div class="ai-cowork-row">
+        <span class="ai-cowork-row-label">Persistent artifacts</span>
+        <span class="ai-cowork-row-val">Live HTML dashboards that pull fresh data from connectors every time they're opened.</span>
+      </div>
+      <div class="ai-cowork-row">
+        <span class="ai-cowork-row-label">AI-native UX</span>
+        <span class="ai-cowork-row-val">Thinking about how product design changes when the interface is a reasoning agent rather than a screen full of controls.</span>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <ul class="footer-links">
+      <li><a href="https://www.behance.net/sobhandutta" target="_blank">Behance</a></li>
+      <li><a href="https://www.linkedin.com/in/sobhandutta/" target="_blank">LinkedIn</a></li>
+      <li><a href="https://github.com/sobhandutta" target="_blank">GitHub</a></li>
+      <li><a href="mailto:sobhandutta@gmail.com">Email</a></li>
+    </ul>
+    <span class="footer-copy">© 2025 Sobhan Dutta</span>
+  </div>
+</footer>
+
+<script>
+  function showPage(id) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    // Show target
+    document.getElementById('page-' + id).classList.add('active');
+    // Update nav active states
+    ['work','about','ai'].forEach(n => {
+      const el = document.getElementById('nav-' + n);
+      if (el) el.classList.toggle('active', n === id);
+    });
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+
+  // Set initial active nav
+  document.getElementById('nav-work').classList.add('active');
+
+  // Handle hash-based routing for direct links
+  function handleHash() {
+    const h = location.hash.replace('#','');
+    if (['work','about','ai'].includes(h)) showPage(h);
+  }
+  window.addEventListener('hashchange', handleHash);
+  handleHash();
+</script>
+
+</body>
+</html>
