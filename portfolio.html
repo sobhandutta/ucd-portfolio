@@ -648,7 +648,7 @@
     }
 
     /* ── CASE STUDY ──────────────────────────────────────────── */
-    #page-cs-zerotrust { max-width: 100%; }
+    #page-cs-zerotrust, #page-cs-ataya { max-width: 100%; }
     .cs-back {
       max-width: 1160px;
       margin: 0 auto;
@@ -894,10 +894,10 @@
         </div>
       </li>
 
-      <li class="work-item">
+      <li class="work-item" onclick="showPage('cs-ataya')">
         <div class="work-year">2022</div>
         <div class="work-info">
-          <h2 class="work-title">Atayalan Private 5G</h2>
+          <h2 class="work-title">Universal Connectivity Platform</h2>
           <p class="work-desc">Started as the first person on the US team and built the product from the ground up. As the owner of UX/UI, my goal was to hire the best people and continuously improve the experience.</p>
           <p class="work-role">Director of UX Design and UI Architecture @ Ataya</p>
         </div>
@@ -1415,6 +1415,215 @@
         </div>
       </div>
       <img src="images/zero_trust_network_security/product_on_laptop.png" alt="Elisity product" class="cs-img-full">
+    </div>
+
+  </div><!-- /cs-container -->
+
+  <div class="cs-back" style="padding-top:48px;padding-bottom:80px;border-top:1px solid var(--light);margin-top:72px;">
+    <button onclick="showPage('work')" class="back-btn">← Back to Case Studies</button>
+  </div>
+
+</main>
+
+<!-- ── CASE STUDY: UNIVERSAL CONNECTIVITY PLATFORM ───────────────── -->
+<main id="page-cs-ataya" class="page">
+
+  <div class="cs-back">
+    <button onclick="showPage('work')" class="back-btn">← Case Studies</button>
+  </div>
+
+  <img src="images/universal_connectivity_platform/banner.png" alt="Universal Connectivity Platform" class="cs-hero">
+
+  <div class="cs-container">
+
+    <!-- Intro -->
+    <div class="cs-intro">
+      <div>
+        <p class="cs-label">Case Study</p>
+        <h1 class="cs-title">Universal Connectivity Platform</h1>
+        <div class="cs-meta">
+          <div class="cs-meta-row">
+            <span class="cs-meta-key">Company</span>
+            <span class="cs-meta-val">Ataya</span>
+          </div>
+          <div class="cs-meta-row">
+            <span class="cs-meta-key">Role</span>
+            <span class="cs-meta-val">Director of UX Design &amp; UI Architecture</span>
+          </div>
+          <div class="cs-meta-row">
+            <span class="cs-meta-key">Year</span>
+            <span class="cs-meta-val">2022 – Present</span>
+          </div>
+          <div class="cs-meta-row">
+            <span class="cs-meta-key">Scope</span>
+            <span class="cs-meta-val">0→1 product design, design system, user research, cloud &amp; on-premise</span>
+          </div>
+        </div>
+        <div style="margin-top:28px;">
+          <span class="cs-tag">Private 5G</span>
+          <span class="cs-tag">Enterprise UX</span>
+          <span class="cs-tag">Zero Trust</span>
+          <span class="cs-tag">Design System</span>
+          <span class="cs-tag">Cloud-First</span>
+        </div>
+        <div style="margin-top:28px;">
+          <img src="images/universal_connectivity_platform/ataya_logo.png" alt="Ataya logo" style="height:28px;width:auto;opacity:0.75;">
+        </div>
+      </div>
+      <div>
+        <p class="cs-lead">I joined Ataya in early 2022 as the first US employee — with a mandate to deliver a complete product within three months from infrastructure that had no UX layer at all.</p>
+        <p class="cs-body">The company had acquired a proven 5G infrastructure from ITRI, but there was no product experience to show customers. I assembled and led a cross-functional team, worked directly with the CEO and VP of Product to define vision and architecture, and coordinated on-site and offshore teams through a rapid sprint cycle to hit the deadline.</p>
+        <p class="cs-body">Along the way I also designed the company's logo — which is still in use today.</p>
+        <p class="cs-body">Two years later, Ataya's Universal Connectivity Platform supports 5G, Wi-Fi, wired, LoRa, and OT device types in a single unified dashboard — trusted by customers including Qucell, ADLINK, Marubun, Quanta Computer, Accuver Group, and Opticoms.</p>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="cs-section">
+      <p class="cs-section-label">Timeline</p>
+      <h2 class="cs-section-title">From zero to enterprise, in phases</h2>
+      <div class="cs-timeline">
+
+        <div class="cs-timeline-item">
+          <div class="cs-timeline-date">Early 2022</div>
+          <div>
+            <p class="cs-timeline-head">The first 90 days</p>
+            <p class="cs-body">Joining as the first US employee, I immediately hired developers, created product requirements, and designed the full UX flow for the on-premise release. Working in close collaboration with engineering and stakeholders, we shipped the first version of the platform in under three months — a fully functional on-premise product that could be demonstrated to enterprise customers.</p>
+            <img src="images/universal_connectivity_platform/onboarding_flow.png" alt="Onboarding flow" class="cs-img-full">
+            <p class="cs-img-caption">Onboarding flow — designed to get network operators from zero to active in minutes</p>
+          </div>
+        </div>
+
+        <div class="cs-timeline-item">
+          <div class="cs-timeline-date">Mid 2022</div>
+          <div>
+            <p class="cs-timeline-head">Go cloud</p>
+            <p class="cs-body">Following the successful on-premise launch, we moved to the next phase: migrating the management and control planes to the cloud while keeping the data planes and radios on-premise. This introduced a genuinely hard UX challenge — how do you visualise and configure a hybrid system where the control happens in the cloud but the action happens on the ground?</p>
+            <p class="cs-body">We solved it with token-based (OTP) authentication to enable secure data transfer between environments, and designed a cloud portal that gave operators full visibility into on-premise operations — making the complexity invisible to the user.</p>
+          </div>
+        </div>
+
+        <div class="cs-timeline-item">
+          <div class="cs-timeline-date">Late 2022</div>
+          <div>
+            <p class="cs-timeline-head">Understand the user</p>
+            <p class="cs-body">With the first releases shipped, we turned our focus to the deeper design problem: making a networking product that doesn't require a networking engineer. The assumption that telecom tools are inherently complex needed to be challenged head-on.</p>
+            <p class="cs-body">I led a structured research programme — task-based usability sessions, qualitative interviews with internal stakeholders and real customers, and design critique workshops. We mapped pain points, tested the product's value proposition with new users, and used the findings to drive a significant redesign of the core flows.</p>
+            <img src="images/universal_connectivity_platform/persona_view.png" alt="User personas" class="cs-img-full">
+            <p class="cs-img-caption">Research-derived personas — from network engineers to operations managers and C-suite</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Single Dashboard -->
+    <div class="cs-section">
+      <p class="cs-section-label">Core Feature</p>
+      <h2 class="cs-section-title">One dashboard to rule them all</h2>
+      <div class="cs-two-col">
+        <div>
+          <p class="cs-body">The central design principle of the Universal Core is radical consolidation. Before Ataya, enterprise networks required a separate dashboard for every access technology — one for Wi-Fi, another for 5G, another for wired infrastructure. Operations teams were constantly context-switching between tools.</p>
+          <p class="cs-body">We designed a unified monitoring interface that surfaces 5G, Wi-Fi, wired, LoRa, and OT devices (including industrial Modbus and Profinet through gateways) in a single view — with consistent interaction patterns across all device types.</p>
+          <div class="cs-quote">"Eliminate the dashboard sprawl. If operators have to switch tools, we haven't finished the job."</div>
+        </div>
+        <div>
+          <img src="images/universal_connectivity_platform/analytics_view.png" alt="Analytics dashboard" class="cs-img">
+          <p class="cs-img-caption">Unified analytics — all access technologies, one view</p>
+        </div>
+      </div>
+      <img src="images/universal_connectivity_platform/network_view.png" alt="Network topology view" class="cs-img-full">
+      <p class="cs-img-caption">Network topology view — real-time status across the entire multi-access estate</p>
+    </div>
+
+    <!-- Zero Trust -->
+    <div class="cs-section">
+      <p class="cs-section-label">Security</p>
+      <h2 class="cs-section-title">Zero Trust across every access type</h2>
+      <div class="cs-two-col">
+        <div>
+          <img src="images/universal_connectivity_platform/policy_view.png" alt="Policy dashboard" class="cs-img">
+          <p class="cs-img-caption">Unified policy dashboard — Zero Trust enforcement across 5G, Wi-Fi, and beyond</p>
+        </div>
+        <div>
+          <p class="cs-body">Most security products bolt Zero Trust onto Wi-Fi and call it done. Ataya extends it consistently across every access type — 5G, Wi-Fi, wired, LoRa — through a single unified policy dashboard that operators can actually understand and maintain.</p>
+          <p class="cs-body">Designing the policy interface was one of the highest-stakes UX challenges on the project. A misconfigured policy can take down network access for an entire site. The interface needed to be powerful enough for security architects and safe enough for operations staff — with clear affordances that make dangerous actions feel appropriately weighty.</p>
+          <div class="cs-feature-list" style="margin-top:0;">
+            <div class="cs-feature-row">
+              <span class="cs-feature-key">Unified Policy Dashboard</span>
+              <span class="cs-feature-val">Consistent Zero Trust enforcement across all access types in a single interface.</span>
+            </div>
+            <div class="cs-feature-row">
+              <span class="cs-feature-key">Coordinated Threat Detection</span>
+              <span class="cs-feature-val">Dual-mode device coverage eliminates the security gaps that exist between separate tools.</span>
+            </div>
+            <div class="cs-feature-row">
+              <span class="cs-feature-key">Identity-Based Access</span>
+              <span class="cs-feature-val">Policies follow the user and device identity, not the IP address or physical port.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cloud Infrastructure -->
+    <div class="cs-section">
+      <p class="cs-section-label">Infrastructure</p>
+      <h2 class="cs-section-title">Cloud-native, identity-driven microsegmentation</h2>
+      <p class="cs-body">Ataya's cloud-first architecture gives CISOs and security teams a modern microsegmentation solution without the traditional overhead of hardware deployment. Context-aware, identity-driven policies govern users, devices, and applications across the entire network — including the hybrid on-premise/cloud boundary that most enterprise networks struggle with.</p>
+      <img src="images/universal_connectivity_platform/product_pages_view.png" alt="Product pages" class="cs-img-full">
+      <p class="cs-img-caption">Product portal views — cloud management plane across on-premise radios and edge devices</p>
+    </div>
+
+    <!-- Design System -->
+    <div class="cs-section">
+      <p class="cs-section-label">Foundation</p>
+      <h2 class="cs-section-title">A design system built for scale</h2>
+      <p class="cs-body">The first version of the product was built ad hoc — each part of the team made independent design decisions, resulting in visual inconsistencies and unpredictable component behaviour across screens. To fix this and accelerate development, I built a comprehensive design system and shared UI library from the ground up.</p>
+      <p class="cs-body">We unified typography around a single versatile typeface — Roboto — and created a detailed web style guide covering every component state: buttons, forms, data tables, navigation modules, alerts, and layout sections. The system spans the product, marketing site, and business materials, ensuring a coherent brand experience at every touchpoint.</p>
+      <div class="cs-img-grid">
+        <div>
+          <img src="images/universal_connectivity_platform/design_system_view.png" alt="Design system" class="cs-img">
+          <p class="cs-img-caption">Design system — components, tokens, and interaction states</p>
+        </div>
+        <div>
+          <img src="images/universal_connectivity_platform/design_system_assets.png" alt="Design assets" class="cs-img">
+          <p class="cs-img-caption">Shared asset library — icons, illustrations, and brand elements</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Looking Forward -->
+    <div class="cs-section">
+      <p class="cs-section-label">Reflection</p>
+      <h2 class="cs-section-title">Looking forward</h2>
+      <div class="cs-closing">
+        <div>
+          <div class="cs-stats-row">
+            <div class="cs-closing-stat">
+              <div class="cs-closing-num">3</div>
+              <div class="cs-closing-desc">months to first release</div>
+            </div>
+            <div class="cs-closing-stat">
+              <div class="cs-closing-num">5+</div>
+              <div class="cs-closing-desc">access types unified</div>
+            </div>
+            <div class="cs-closing-stat">
+              <div class="cs-closing-num">7+</div>
+              <div class="cs-closing-desc">enterprise clients</div>
+            </div>
+          </div>
+          <p style="font-family:'Inter',sans-serif;font-size:12px;color:var(--gray);line-height:1.7;margin-top:8px;">
+            Clients include Qucell · Opticoms · ADLINK · Marubun · Accuver Group · Quanta Computer
+          </p>
+        </div>
+        <div>
+          <p class="cs-body">Witnessing Ataya grow from a small team with a 5G infrastructure asset to a company trusted by enterprise clients across Asia and beyond has been one of the most rewarding experiences of my career.</p>
+          <p class="cs-body">We've turned a technical capability into a product people want to use — which is the hardest thing in enterprise software. The next chapter involves pushing deeper into AI-native network management, where the interface isn't a dashboard but a reasoning system that tells operators what matters before they ask.</p>
+          <p class="cs-body">I'm proud of what this team has built, and even more excited about where we're going.</p>
+        </div>
+      </div>
+      <img src="images/universal_connectivity_platform/ataya_on_monitor.png" alt="Ataya product on monitor" class="cs-img-full">
     </div>
 
   </div><!-- /cs-container -->
