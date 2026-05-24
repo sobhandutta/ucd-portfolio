@@ -1466,15 +1466,15 @@
   handleHash();
 
   // ── AI Panel ────────────────────────────────────────────────
-  const panel   = document.getElementById('ai-panel');
-  const overlay = document.getElementById('ai-panel-overlay');
-  const iframe  = document.getElementById('ai-panel-iframe');
-  let loaded = false;
+  let aiPanelLoaded = false;
 
   function openAiPanel() {
-    if (!loaded) {
+    const panel   = document.getElementById('ai-panel');
+    const overlay = document.getElementById('ai-panel-overlay');
+    const iframe  = document.getElementById('ai-panel-iframe');
+    if (!aiPanelLoaded) {
       iframe.src = 'https://sobhandutta-agentic-personal-assistant.hf.space/';
-      loaded = true;
+      aiPanelLoaded = true;
     }
     panel.classList.add('open');
     overlay.classList.add('open');
@@ -1482,13 +1482,15 @@
   }
 
   function closeAiPanel() {
-    panel.classList.remove('open');
-    overlay.classList.remove('open');
+    document.getElementById('ai-panel').classList.remove('open');
+    document.getElementById('ai-panel-overlay').classList.remove('open');
     document.body.style.overflow = '';
   }
 
-  overlay.addEventListener('click', closeAiPanel);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAiPanel(); });
+  document.addEventListener('click', e => {
+    if (e.target.id === 'ai-panel-overlay') closeAiPanel();
+  });
 </script>
 
 <!-- ── AI PANEL ──────────────────────────────────────────────────── -->
