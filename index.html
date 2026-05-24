@@ -236,11 +236,59 @@
     }
 
     /* ── AI EXPERIMENTS PAGE ─────────────────────────────────── */
-    #page-ai {
+    #page-ai, #page-ai-agentic {
       max-width: 1160px;
       margin: 0 auto;
       padding: 80px 40px 120px;
     }
+    /* Index header */
+    .ai-index-header {
+      border-bottom: 1px solid var(--ai-rule);
+      padding-bottom: 48px;
+      margin-bottom: 0;
+    }
+    .ai-index-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 52px;
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--ai-ink);
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+    .ai-index-intro {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--ai-muted);
+      max-width: 600px;
+    }
+    .ai-index-coming { cursor: default !important; }
+    .ai-index-coming:hover { opacity: 1 !important; }
+    /* Back button */
+    .article-back {
+      margin-bottom: 40px;
+    }
+    .article-back--bottom {
+      margin-top: 64px;
+      margin-bottom: 0;
+      border-top: 1px solid var(--ai-rule);
+      padding-top: 32px;
+    }
+    .back-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ai-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--ai-ink); }
     .ai-header {
       border-bottom: 1px solid var(--ai-rule);
       padding-bottom: 48px;
@@ -662,12 +710,42 @@
   </div>
 </main>
 
-<!-- ── AI EXPERIMENTS ─────────────────────────────────────────────── -->
+<!-- ── AI EXPERIMENTS INDEX ────────────────────────────────────────── -->
 <main id="page-ai" class="page">
+  <div class="ai-index-header">
+    <p class="ai-eyebrow">AI Experiments</p>
+    <h1 class="ai-index-title">Experiments at the edge<br>of product, design &amp; AI</h1>
+    <p class="ai-index-intro">A collection of hands-on explorations into agentic systems, multi-agent orchestration, RAG pipelines, and AI-native product thinking — built from scratch, documented openly.</p>
+  </div>
+  <ul class="work-list">
+    <li class="work-item" onclick="showPage('ai-agentic')" style="cursor:pointer;">
+      <div class="work-year">2025</div>
+      <div class="work-info">
+        <h2 class="work-title">Agentic Personal Assistant</h2>
+        <p class="work-desc">A multi-agent AI system that answers questions about me by orchestrating five specialist sub-agents across SQLite, live web scrape, RAG vector store, Google Drive, and Gmail — built from scratch in Python with no frameworks.</p>
+        <p class="work-role">Multi-agent orchestration · RAG · Anthropic Claude · Python</p>
+      </div>
+    </li>
+    <li class="work-item ai-index-coming">
+      <div class="work-year">Soon</div>
+      <div class="work-info">
+        <h2 class="work-title" style="opacity:0.35;">More experiments coming</h2>
+        <p class="work-desc" style="opacity:0.35;">MCP connectors, scheduled agents, persistent artifacts, and AI-native UX explorations.</p>
+      </div>
+    </li>
+  </ul>
+</main>
+
+<!-- ── AI EXPERIMENTS — AGENTIC ARTICLE ───────────────────────────── -->
+<main id="page-ai-agentic" class="page">
+
+  <div class="article-back">
+    <button onclick="showPage('ai')" class="back-btn">← AI Experiments</button>
+  </div>
 
   <div class="ai-header">
-    <p class="ai-eyebrow">AI Experiments</p>
-    <h1 class="ai-title">Building AI that<br>thinks, routes, and acts</h1>
+    <p class="ai-eyebrow">Experiment 01 — Multi-Agent System · 2025</p>
+    <h1 class="ai-title">Agentic Personal Assistant</h1>
     <p class="ai-intro">I design and engineer multi-agent systems from first principles — no black-box frameworks, just Python, clear architecture, and LLMs that coordinate to get things done. These are experiments at the intersection of product thinking, engineering, and AI.</p>
   </div>
 
@@ -886,6 +964,10 @@
     </div>
   </div>
 
+  <div class="article-back article-back--bottom">
+    <button onclick="showPage('ai')" class="back-btn">← Back to AI Experiments</button>
+  </div>
+
 </main>
 
 <!-- ── FOOTER ─────────────────────────────────────────────────────── -->
@@ -907,10 +989,11 @@
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     // Show target
     document.getElementById('page-' + id).classList.add('active');
-    // Update nav active states
+    // Update nav — 'ai-agentic' article keeps the 'ai' nav item active
+    const navId = id.startsWith('ai') ? 'ai' : id;
     ['work','about','ai'].forEach(n => {
       const el = document.getElementById('nav-' + n);
-      if (el) el.classList.toggle('active', n === id);
+      if (el) el.classList.toggle('active', n === navId);
     });
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'instant' });
