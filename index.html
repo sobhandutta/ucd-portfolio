@@ -90,6 +90,38 @@
     .nav-links li a.ai-link:hover,
     .nav-links li button.ai-link.active { color: #2a2a6a; }
 
+    /* ── NAV ASK ICON BUTTON ─────────────────────────────────── */
+    .nav-ask-icon {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: none;
+      border: 1px solid var(--light);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s, border-color 0.2s;
+      color: var(--gray);
+      padding: 0;
+    }
+    .nav-ask-icon:hover { background: var(--light); border-color: #c8c8c8; }
+    .nav-ask-icon.active { background: #4a4a8a; border-color: #4a4a8a; color: #fff; }
+    .nav-ask-icon svg { display: block; flex-shrink: 0; }
+    .nav-ask-tooltip {
+      position: absolute;
+      top: 40px; right: 0;
+      background: var(--black); color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 400;
+      white-space: nowrap;
+      padding: 5px 10px;
+      border-radius: 5px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      z-index: 100;
+    }
+    .nav-ask-icon:hover .nav-ask-tooltip { opacity: 1; }
+
     /* ── PAGE SECTIONS ───────────────────────────────────────── */
     .page { display: none; flex: 1; }
     .page.active { display: block; }
@@ -876,6 +908,16 @@
       <li><button onclick="showPage('work')" id="nav-work">Case Studies</button></li>
       <li><button onclick="showPage('about')" id="nav-about">About</button></li>
       <li><a href="https://drive.google.com/file/d/1z-wkuIneoLpUHazjX41cgMHmk1iciePy/view?usp=drive_link" target="_blank">Resume</a></li>
+      <li>
+        <button class="nav-ask-icon" id="nav-ask-icon-btn" onclick="openAiPanel()" aria-label="Ask anything about me">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+            <path d="M8 1.5C8 1.5 9.2 4.5 11.5 4.5C11.5 4.5 8.5 5.7 8.5 8C8.5 8 7.3 5 5 5C5 5 8 3.8 8 1.5Z" fill="currentColor"/>
+            <path d="M12.5 8.5C12.5 8.5 13.3 10.3 14.5 10.5C14.5 10.5 12.7 11.3 12.5 12.5C12.5 12.5 11.7 10.7 10.5 10.5C10.5 10.5 12.3 9.7 12.5 8.5Z" fill="currentColor"/>
+            <path d="M5 10C5 10 5.8 11.8 7 12C7 12 5.2 12.8 5 14C5 14 4.2 12.2 3 12C3 12 4.8 11.2 5 10Z" fill="currentColor" opacity="0.5"/>
+          </svg>
+          <span class="nav-ask-tooltip">Ask anything about me</span>
+        </button>
+      </li>
     </ul>
   </nav>
 </header>
@@ -1940,6 +1982,7 @@
     const panel   = document.getElementById('ai-panel');
     const overlay = document.getElementById('ai-panel-overlay');
     const iframe  = document.getElementById('ai-panel-iframe');
+    const btn     = document.getElementById('nav-ask-icon-btn');
     if (!aiPanelLoaded) {
       iframe.src = 'https://sobhandutta-agentic-personal-assistant.hf.space/';
       aiPanelLoaded = true;
@@ -1947,12 +1990,15 @@
     panel.classList.add('open');
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
+    if (btn) btn.classList.add('active');
   }
 
   function closeAiPanel() {
     document.getElementById('ai-panel').classList.remove('open');
     document.getElementById('ai-panel-overlay').classList.remove('open');
     document.body.style.overflow = '';
+    const btn = document.getElementById('nav-ask-icon-btn');
+    if (btn) btn.classList.remove('active');
   }
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAiPanel(); });
