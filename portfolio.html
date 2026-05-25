@@ -751,12 +751,48 @@
     .cs-img {
       width: 100%; display: block;
       border: 1px solid var(--light); border-radius: 4px;
+      cursor: zoom-in;
     }
     .cs-img-full {
       width: 100%; display: block;
       border: 1px solid var(--light); border-radius: 4px;
       margin-top: 40px;
+      cursor: zoom-in;
     }
+
+    /* ── LIGHTBOX ────────────────────────────────────────────── */
+    .lightbox {
+      display: none;
+      position: fixed; inset: 0;
+      z-index: 500;
+      background: rgba(10,10,10,0.92);
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-img {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+      cursor: default;
+      animation: lb-in 0.2s ease;
+    }
+    @keyframes lb-in {
+      from { opacity: 0; transform: scale(0.96); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .lightbox-close {
+      position: fixed; top: 20px; right: 24px;
+      background: none; border: none;
+      color: rgba(255,255,255,0.7);
+      font-size: 32px; line-height: 1;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .lightbox-close:hover { color: #fff; }
     .cs-img-caption {
       font-family: 'Inter', sans-serif;
       font-size: 12px; color: var(--gray);
@@ -2001,11 +2037,42 @@
     if (btn) btn.classList.remove('active');
   }
 
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAiPanel(); });
+  // ── Lightbox ─────────────────────────────────────────────────
+  function openLightbox(src, alt) {
+    const lb  = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    img.src = src;
+    img.alt = alt || '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Wire up all cs-img and cs-img-full images (not the hero banner)
+  document.querySelectorAll('.cs-img, .cs-img-full').forEach(img => {
+    img.addEventListener('click', () => openLightbox(img.src, img.alt));
+  });
+
+  // Also wire images inside cs-img-grid
+  document.querySelectorAll('.cs-img-grid img').forEach(img => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => openLightbox(img.src, img.alt));
+  });
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAiPanel(); closeLightbox(); } });
   document.addEventListener('click', e => {
     if (e.target.id === 'ai-panel-overlay') closeAiPanel();
   });
 </script>
+
+<!-- ── LIGHTBOX ───────────────────────────────────────────────────── -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">×</button>
+  <img id="lightbox-img" class="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
 
 <!-- ── AI PANEL ──────────────────────────────────────────────────── -->
 <div id="ai-panel-overlay" class="ai-panel-overlay"></div>
