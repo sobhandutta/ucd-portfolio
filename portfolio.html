@@ -92,19 +92,19 @@
 
     /* ── NAV ASK ICON BUTTON ─────────────────────────────────── */
     .nav-ask-icon {
-      width: 32px; height: 32px;
+      width: 34px; height: 34px;
       border-radius: 50%;
-      background: #f0f0f8;
-      border: 1px solid #c8c8e0;
+      background: var(--black);
+      border: none;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
       position: relative;
-      transition: background 0.2s, border-color 0.2s;
-      color: #4a4a8a;
+      transition: background 0.2s, transform 0.15s;
+      color: #fff;
       padding: 0;
     }
-    .nav-ask-icon:hover { background: #e4e4f4; border-color: #a0a0cc; }
-    .nav-ask-icon.active { background: #4a4a8a; border-color: #4a4a8a; color: #fff; }
+    .nav-ask-icon:hover { background: #2a2a2a; transform: scale(1.07); }
+    .nav-ask-icon.active { background: #4a4a8a; color: #fff; }
     .nav-ask-icon svg { display: block; flex-shrink: 0; }
     .nav-ask-tooltip {
       position: absolute;
