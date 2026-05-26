@@ -268,7 +268,7 @@
     }
 
     /* ── AI EXPERIMENTS PAGE ─────────────────────────────────── */
-    #page-ai, #page-ai-agentic {
+    #page-ai, #page-ai-agentic, #page-ai-code, #page-ai-ux {
       max-width: 1160px;
       margin: 0 auto;
       padding: 80px 40px 120px;
@@ -760,6 +760,76 @@
       cursor: zoom-in;
     }
 
+    /* ── ARTICLE IMAGE PLACEHOLDERS ─────────────────────────── */
+    .ai-img-placeholder {
+      width: 100%;
+      background: #f4f4f9;
+      border: 1.5px dashed #c8c8e0;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #9090b8;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-align: center;
+      padding: 40px 24px;
+      margin: 40px 0;
+    }
+    .ai-img-placeholder svg { opacity: 0.5; }
+    .ai-img-placeholder-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #9090b8;
+    }
+    .ai-img-placeholder-hint {
+      font-size: 11px;
+      color: #b0b0cc;
+      max-width: 360px;
+      line-height: 1.6;
+    }
+    .ai-img-section {
+      border-top: 1px solid var(--ai-rule);
+      padding: 64px 0;
+    }
+    .ai-img-section-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ai-muted);
+      margin-bottom: 12px;
+    }
+    .ai-img-section-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--ai-ink);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .ai-img-section-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--ai-muted);
+      max-width: 640px;
+      margin-bottom: 8px;
+    }
+    .ai-img-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 8px;
+    }
+    @media (max-width: 640px) { .ai-img-grid-2 { grid-template-columns: 1fr; } }
+
     /* ── LIGHTBOX ────────────────────────────────────────────── */
     .lightbox {
       display: none;
@@ -916,7 +986,7 @@
     /* ── RESPONSIVE ──────────────────────────────────────────── */
     @media (max-width: 860px) {
       .nav { padding: 0 24px; }
-      #page-work, #page-about, #page-ai { padding: 48px 24px 80px; }
+      #page-work, #page-about, #page-ai, #page-ai-agentic, #page-ai-code, #page-ai-ux { padding: 48px 24px 80px; }
       .about-grid { grid-template-columns: 1fr; gap: 48px; }
       .work-item { grid-template-columns: 64px 1fr; gap: 20px; }
       .ai-featured { grid-template-columns: 1fr; gap: 40px; }
@@ -1055,11 +1125,20 @@
         <p class="work-role">Multi-agent orchestration · RAG · Anthropic Claude · Python</p>
       </div>
     </li>
-    <li class="work-item ai-index-coming">
-      <div class="work-year">Soon</div>
+    <li class="work-item" onclick="showPage('ai-code')" style="cursor:pointer;">
+      <div class="work-year">2025</div>
       <div class="work-info">
-        <h2 class="work-title" style="opacity:0.35;">More experiments coming</h2>
-        <p class="work-desc" style="opacity:0.35;">MCP connectors, scheduled agents, persistent artifacts, and AI-native UX explorations.</p>
+        <h2 class="work-title">AI-Assisted Code Quality &amp; 5× Developer Productivity</h2>
+        <p class="work-desc">A framework for using Claude Code, Cursor, and GitHub Copilot to systematically improve code quality, eliminate technical debt, add missing test coverage, tighten security, and multiply team output — without adding headcount.</p>
+        <p class="work-role">Claude Code · Cursor · GitHub Copilot · Engineering process</p>
+      </div>
+    </li>
+    <li class="work-item" onclick="showPage('ai-ux')" style="cursor:pointer;">
+      <div class="work-year">2025</div>
+      <div class="work-info">
+        <h2 class="work-title">A New Way of Doing UX Strategy with AI</h2>
+        <p class="work-desc">UX design and front-end development are no longer separate handoffs. Using Claude, Figma's AI plugin, and direct code generation, strategy, design, and implementation evolve together in a single loop — building the design system, validating UX with real users, and shipping faster than the old process allowed.</p>
+        <p class="work-role">Claude · Figma AI · Design systems · UX strategy</p>
       </div>
     </li>
   </ul>
@@ -1289,6 +1368,446 @@
       <div class="ai-cowork-row">
         <span class="ai-cowork-row-label">AI-native UX</span>
         <span class="ai-cowork-row-val">Thinking about how product design changes when the interface is a reasoning agent rather than a screen full of controls.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="article-back article-back--bottom">
+    <button onclick="showPage('ai')" class="back-btn">← Back to AI Experiments</button>
+  </div>
+
+</main>
+
+<!-- ── AI EXPERIMENTS — CODE QUALITY & PRODUCTIVITY ───────────────── -->
+<main id="page-ai-code" class="page">
+
+  <div class="article-back">
+    <button onclick="showPage('ai')" class="back-btn">← AI Experiments</button>
+  </div>
+
+  <div class="ai-header">
+    <p class="ai-eyebrow">Experiment 02 — Engineering Process · 2025</p>
+    <h1 class="ai-title">AI-Assisted Code Quality<br>&amp; 5× Developer Productivity</h1>
+    <p class="ai-intro">A framework for systematically applying AI coding tools — Claude Code, Cursor, and GitHub Copilot — to lift code quality, eliminate technical debt, and multiply team output without adding headcount.</p>
+  </div>
+
+  <!-- Overview -->
+  <div class="ai-featured">
+    <div class="ai-feat-left">
+      <p class="ai-feat-tag">The Problem</p>
+      <h2 class="ai-feat-title">Engineering teams are leaving productivity on the table</h2>
+      <p class="ai-feat-body">Most teams use AI tools reactively — pasting snippets into a chat window and hoping for a useful answer. The result is marginal gains: maybe 10–20% faster on greenfield code, but no improvement in the hardest parts of the job: understanding legacy systems, fixing subtle bugs, writing tests for untested code, and closing accessibility or security gaps.</p>
+      <p class="ai-feat-body">This framework changes that. It treats AI tools as systematic co-pilots embedded in every phase of the engineering workflow — not just code generation, but code review, refactoring, test coverage, accessibility auditing, and security hardening.</p>
+      <div class="ai-feat-meta">
+        <div class="ai-feat-meta-row">
+          <span class="ai-feat-meta-label">Tools</span>
+          <span class="ai-feat-meta-val">Claude Code, Cursor, GitHub Copilot</span>
+        </div>
+        <div class="ai-feat-meta-row">
+          <span class="ai-feat-meta-label">Focus areas</span>
+          <span class="ai-feat-meta-val">Refactoring · Unit tests · Accessibility · Security</span>
+        </div>
+        <div class="ai-feat-meta-row">
+          <span class="ai-feat-meta-label">Outcome</span>
+          <span class="ai-feat-meta-val">5× measured productivity improvement</span>
+        </div>
+      </div>
+    </div>
+    <div class="ai-feat-right">
+      <div class="ai-arch-box">
+        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#888;margin-bottom:24px;">Productivity Multiplier Framework</p>
+        <svg viewBox="0 0 460 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Center: AI Layer -->
+          <rect x="170" y="140" width="120" height="60" rx="4" fill="#f4f4f9" stroke="#4a4a8a" stroke-width="1.5"/>
+          <text x="230" y="164" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600" letter-spacing="0.08em">AI LAYER</text>
+          <text x="230" y="180" text-anchor="middle" fill="#1a1a2e" font-family="Inter,sans-serif" font-size="10" font-weight="500">Claude · Cursor · Copilot</text>
+          <!-- Top: Refactor -->
+          <rect x="170" y="20" width="120" height="44" rx="4" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
+          <text x="230" y="40" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600">REFACTORING</text>
+          <text x="230" y="56" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">Simplify · Modernise · DRY</text>
+          <line x1="230" y1="64" x2="230" y2="140" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#ca1)"/>
+          <!-- Left: Unit Tests -->
+          <rect x="20" y="140" width="110" height="44" rx="4" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
+          <text x="75" y="160" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600">UNIT TESTS</text>
+          <text x="75" y="174" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">Coverage · Edge cases</text>
+          <line x1="130" y1="162" x2="170" y2="162" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#ca1)"/>
+          <!-- Right: Security -->
+          <rect x="330" y="140" width="110" height="44" rx="4" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
+          <text x="385" y="160" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600">SECURITY</text>
+          <text x="385" y="174" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">OWASP · Hardening</text>
+          <line x1="330" y1="162" x2="290" y2="162" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#ca1)"/>
+          <!-- Bottom: Accessibility -->
+          <rect x="170" y="276" width="120" height="44" rx="4" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
+          <text x="230" y="296" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600">ACCESSIBILITY</text>
+          <text x="230" y="310" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">WCAG 2.1 AA · ARIA</text>
+          <line x1="230" y1="200" x2="230" y2="276" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#ca1)"/>
+          <!-- 5x badge -->
+          <circle cx="400" cy="44" r="30" fill="#4a4a8a"/>
+          <text x="400" y="38" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="18" font-weight="700">5×</text>
+          <text x="400" y="54" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Inter,sans-serif" font-size="9">faster</text>
+          <defs>
+            <marker id="ca1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="#d0d0e8"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- The 5 Pillars -->
+  <div class="ai-concepts">
+    <p class="ai-concepts-heading">The framework: five high-leverage AI interventions</p>
+    <div class="ai-concepts-grid">
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">01</p>
+        <p class="ai-concept-name">Intelligent refactoring</p>
+        <p class="ai-concept-desc">Ask Claude Code to analyse a module, identify violations of SOLID principles, over-complex methods, and dead code — then refactor with explanations. The key is to review each change rather than applying blindly, building real understanding of the codebase along the way.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">02</p>
+        <p class="ai-concept-name">Retroactive unit test generation</p>
+        <p class="ai-concept-desc">Provide a function or class to Claude Code with the instruction to generate tests covering happy paths, edge cases, and known failure modes. For legacy code with no tests, this turns a scary change into a safe one — the AI writes the safety net before you refactor.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">03</p>
+        <p class="ai-concept-name">Accessibility auditing at the code level</p>
+        <p class="ai-concept-desc">Rather than catching issues late with automated scanners, I use Claude Code during development to review components for WCAG 2.1 AA compliance — missing ARIA labels, keyboard traps, colour contrast failures, and focus management. Catching these in the editor is 10× cheaper than catching them in QA.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">04</p>
+        <p class="ai-concept-name">Security hardening passes</p>
+        <p class="ai-concept-desc">Using Claude Code and Cursor to run systematic OWASP Top 10 reviews across API handlers, auth flows, and data validation. The model flags injection risks, insecure defaults, missing rate limits, and improper error exposure — providing both the issue and the recommended remediation.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">05</p>
+        <p class="ai-concept-name">Context-aware code review</p>
+        <p class="ai-concept-desc">Cursor's codebase-wide context means asking "does this new function duplicate anything that already exists?" or "is this consistent with how we handle errors elsewhere in the project?" are answerable in seconds — elevating the quality of every PR before it reaches a human reviewer.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">06</p>
+        <p class="ai-concept-name">Prompt engineering for engineers</p>
+        <p class="ai-concept-desc">The biggest gains come from learning to write precise, scoped prompts. Giving Claude Code a clear role ("you are a TypeScript expert reviewing this for memory leaks"), explicit constraints ("do not change the public API"), and a structured output format dramatically improves result quality and reliability.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image sections: Code Quality -->
+  <div class="ai-img-section">
+    <p class="ai-img-section-label">In practice</p>
+    <h2 class="ai-img-section-title">AI tools embedded in the real engineering workflow</h2>
+    <p class="ai-img-section-body">Screenshots and screen recordings showing Claude Code running a security review, Cursor performing a cross-file refactor, and Copilot completing a test suite in real time.</p>
+    <div class="ai-img-grid-2">
+      <div class="ai-img-placeholder" style="min-height:200px;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+        <span class="ai-img-placeholder-label">Image · Claude Code in terminal</span>
+        <span class="ai-img-placeholder-hint">Recommended: screenshot of a Claude Code session running a security or refactoring pass on a real codebase.</span>
+      </div>
+      <div class="ai-img-placeholder" style="min-height:200px;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+        <span class="ai-img-placeholder-label">Image · Cursor Composer view</span>
+        <span class="ai-img-placeholder-hint">Recommended: screenshot of Cursor's Composer handling a multi-file refactor with full codebase context.</span>
+      </div>
+    </div>
+    <div class="ai-img-placeholder" style="min-height:220px;">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+      <span class="ai-img-placeholder-label">Image · Before &amp; after: test coverage</span>
+      <span class="ai-img-placeholder-hint">Recommended: side-by-side of a coverage report before AI-generated tests vs. after — showing the jump from 20% to 80%+ coverage.</span>
+    </div>
+  </div>
+
+  <!-- Measuring 5x -->
+  <div class="ai-cowork">
+    <p class="ai-cowork-heading">Where the 5× comes from</p>
+    <p class="ai-cowork-body">The claim of 5× productivity improvement is measured across the full engineering cycle, not just code-writing speed. These are the categories where time savings compound:</p>
+    <div class="ai-cowork-list">
+      <div class="ai-cowork-row">
+        <span class="ai-cowork-row-label">Understanding legacy code</span>
+        <span class="ai-cowork-row-val">What used to take days of code archaeology — tracing data flows, understanding coupling, mapping dependencies — now takes an hour with Claude Code walking through the system.</span>
+      </div>
+      <div class="ai-cowork-row">
+        <span class="ai-cowork-row-label">Writing tests for untested code</span>
+        <span class="ai-cowork-row-val">Test coverage that would have taken a developer 2–3 days is generated in under an hour. The developer's time shifts from writing boilerplate to reviewing and refining edge cases.</span>
+      </div>
+      <div class="ai-cowork-row">
+        <span class="ai-cowork-row-label">Refactoring with confidence</span>
+        <span class="ai-cowork-row-val">AI-generated tests + AI-assisted refactoring + AI code review closes the feedback loop. Complex refactors that would have required weeks of careful, manual change now take days.</span>
+      </div>
+      <div class="ai-cowork-row">
+        <span class="ai-cowork-row-label">Eliminating context-switching</span>
+        <span class="ai-cowork-row-val">Copilot inline completions eliminate the cycle of searching Stack Overflow, reading docs, and returning to the editor. Answers appear in context, without breaking flow.</span>
+      </div>
+      <div class="ai-cowork-row">
+        <span class="ai-cowork-row-label">Faster onboarding</span>
+        <span class="ai-cowork-row-val">New engineers ramping on an unfamiliar codebase can use Claude Code as an always-available expert. Onboarding that previously took 3–4 weeks now takes under a week.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tool comparison -->
+  <div class="ai-stack">
+    <p class="ai-stack-label">Tools &amp; when to use each</p>
+    <div class="ai-stack-groups">
+      <div class="ai-stack-group">
+        <p class="ai-stack-group-label">Claude Code</p>
+        <div class="ai-stack-items">
+          <span class="ai-stack-item">Deep codebase analysis</span>
+          <span class="ai-stack-item">Multi-file refactoring</span>
+          <span class="ai-stack-item">Security reviews</span>
+          <span class="ai-stack-item">Architecture decisions</span>
+        </div>
+      </div>
+      <div class="ai-stack-group">
+        <p class="ai-stack-group-label">Cursor</p>
+        <div class="ai-stack-items">
+          <span class="ai-stack-item">Codebase-aware Q&amp;A</span>
+          <span class="ai-stack-item">Cross-file consistency checks</span>
+          <span class="ai-stack-item">Inline edits with context</span>
+          <span class="ai-stack-item">Composer for larger changes</span>
+        </div>
+      </div>
+      <div class="ai-stack-group">
+        <p class="ai-stack-group-label">GitHub Copilot</p>
+        <div class="ai-stack-items">
+          <span class="ai-stack-item">Inline completions</span>
+          <span class="ai-stack-item">Boilerplate elimination</span>
+          <span class="ai-stack-item">Pattern-based suggestions</span>
+          <span class="ai-stack-item">IDE-native flow</span>
+        </div>
+      </div>
+      <div class="ai-stack-group">
+        <p class="ai-stack-group-label">Quality targets</p>
+        <div class="ai-stack-items">
+          <span class="ai-stack-item">80%+ test coverage</span>
+          <span class="ai-stack-item">WCAG 2.1 AA</span>
+          <span class="ai-stack-item">OWASP Top 10 clean</span>
+          <span class="ai-stack-item">Zero critical code smells</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="article-back article-back--bottom">
+    <button onclick="showPage('ai')" class="back-btn">← Back to AI Experiments</button>
+  </div>
+
+</main>
+
+<!-- ── AI EXPERIMENTS — UX STRATEGY WITH AI ───────────────────────── -->
+<main id="page-ai-ux" class="page">
+
+  <div class="article-back">
+    <button onclick="showPage('ai')" class="back-btn">← AI Experiments</button>
+  </div>
+
+  <div class="ai-header">
+    <p class="ai-eyebrow">Experiment 03 — The Future of UX · 2025</p>
+    <h1 class="ai-title">A New Way of Doing<br>UX Strategy with AI</h1>
+    <p class="ai-intro">The future of UX is not design handed off to engineering. It is a single, AI-accelerated loop where strategy, design, and front-end code evolve together — using Claude, Figma's AI plugin, and direct code generation to make that loop fast enough to actually change how products are built.</p>
+  </div>
+
+  <!-- Overview -->
+  <div class="ai-featured">
+    <div class="ai-feat-left">
+      <p class="ai-feat-tag">The new way of doing UX — going forward</p>
+      <h2 class="ai-feat-title">Design and front-end code are no longer separate disciplines</h2>
+      <p class="ai-feat-body">The traditional handoff model — research → strategy → wireframes → high-fi → developer handoff → QA → feedback — loses fidelity at every boundary. By the time users see a design, it has drifted far from the original intent. Worse, the feedback loop is so slow that by the time learning arrives, the team has already moved on.</p>
+      <p class="ai-feat-body">The AI-native approach treats UX design and front-end development as a single continuous discipline. Claude synthesises research, Figma AI accelerates design exploration, and Claude Code generates production-ready components directly from those designs — all within the same working session. A UX leader who thinks in systems and understands code is now dramatically more powerful than one who only operates in one domain.</p>
+      <div class="ai-feat-meta">
+        <div class="ai-feat-meta-row">
+          <span class="ai-feat-meta-label">Tools</span>
+          <span class="ai-feat-meta-val">Claude, Figma AI plugin, Cursor, Claude Code</span>
+        </div>
+        <div class="ai-feat-meta-row">
+          <span class="ai-feat-meta-label">Outcomes</span>
+          <span class="ai-feat-meta-val">Design system · Rapid prototyping · Validated UX</span>
+        </div>
+        <div class="ai-feat-meta-row">
+          <span class="ai-feat-meta-label">Process</span>
+          <span class="ai-feat-meta-val">Iterative test-and-learn loops at every stage</span>
+        </div>
+      </div>
+    </div>
+    <div class="ai-feat-right">
+      <div class="ai-arch-box">
+        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#888;margin-bottom:24px;">The AI-Native UX Loop</p>
+        <svg viewBox="0 0 460 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Circular flow -->
+          <!-- Strategy -->
+          <rect x="170" y="12" width="120" height="48" rx="4" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
+          <text x="230" y="32" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600" letter-spacing="0.06em">UX STRATEGY</text>
+          <text x="230" y="48" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">Claude · Research synthesis</text>
+          <!-- Arrow → Design -->
+          <line x1="290" y1="36" x2="360" y2="100" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#ux1)"/>
+          <!-- Design -->
+          <rect x="340" y="100" width="110" height="48" rx="4" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
+          <text x="395" y="120" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600">FIGMA DESIGN</text>
+          <text x="395" y="136" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">AI plugin · Tokens</text>
+          <!-- Arrow → Code -->
+          <line x1="395" y1="148" x2="395" y2="200" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#ux1)"/>
+          <!-- Code -->
+          <rect x="340" y="200" width="110" height="48" rx="4" fill="#f4f4f9" stroke="#4a4a8a" stroke-width="1.5"/>
+          <text x="395" y="220" text-anchor="middle" fill="#4a4a8a" font-family="Inter,sans-serif" font-size="9" font-weight="600">CODE OUTPUT</text>
+          <text x="395" y="236" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">Claude Code · Cursor</text>
+          <!-- Arrow → Test -->
+          <line x1="360" y1="236" x2="290" y2="290" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#ux1)"/>
+          <!-- Test/Learn -->
+          <rect x="170" y="276" width="120" height="48" rx="4" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
+          <text x="230" y="296" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600">TEST &amp; LEARN</text>
+          <text x="230" y="312" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">Real users · Real feedback</text>
+          <!-- Arrow → Design System -->
+          <line x1="170" y1="300" x2="100" y2="244" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#ux1)"/>
+          <!-- Design System -->
+          <rect x="10" y="196" width="110" height="48" rx="4" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
+          <text x="65" y="216" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600">DESIGN SYSTEM</text>
+          <text x="65" y="232" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">Tokens · Components</text>
+          <!-- Arrow → Strategy (loop back) -->
+          <line x1="65" y1="196" x2="170" y2="60" stroke="#4a4a8a" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ux2)"/>
+          <!-- Centre label -->
+          <circle cx="230" cy="170" r="38" fill="#f4f4f9" stroke="#d0d0e8" stroke-width="1"/>
+          <text x="230" y="165" text-anchor="middle" fill="#4a4a8a" font-family="Inter,sans-serif" font-size="10" font-weight="600">AI at every</text>
+          <text x="230" y="180" text-anchor="middle" fill="#4a4a8a" font-family="Inter,sans-serif" font-size="10" font-weight="600">stage</text>
+          <defs>
+            <marker id="ux1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="#d0d0e8"/>
+            </marker>
+            <marker id="ux2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="#4a4a8a"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Phases -->
+  <div class="ai-concepts">
+    <p class="ai-concepts-heading">How each phase works with AI</p>
+    <div class="ai-concepts-grid">
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">01</p>
+        <p class="ai-concept-name">Strategy with Claude</p>
+        <p class="ai-concept-desc">Research interviews, analytics, and competitive analysis are fed to Claude as context. It synthesises patterns into user mental models, strategic opportunity areas, and prioritised problem statements — in minutes. The strategist's role shifts from synthesiser to editor and decision-maker.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">02</p>
+        <p class="ai-concept-name">Design with Figma AI</p>
+        <p class="ai-concept-desc">Figma's AI plugin generates layout variations, suggests component structures, checks design tokens for consistency, and surfaces accessibility issues directly in the design tool. Iteration that once took days of back-and-forth between designers now happens inside a single working session.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">03</p>
+        <p class="ai-concept-name">Code generation from design</p>
+        <p class="ai-concept-desc">Claude Code reads Figma exports and design specifications, then generates production-quality React components with correct styling, spacing tokens, and interaction states. The handoff gap — where design intent is lost in translation — essentially disappears.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">04</p>
+        <p class="ai-concept-name">Rapid test and learn</p>
+        <p class="ai-concept-desc">Because implementation is fast, it becomes feasible to test real coded prototypes with users rather than Figma mockups. Feedback is richer, more accurate, and directly actionable. The cycle from hypothesis to validated learning compresses from 4–6 weeks to 5–7 days.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">05</p>
+        <p class="ai-concept-name">Design system as a by-product</p>
+        <p class="ai-concept-desc">As components are generated and validated, they feed back into a living design system. Claude Code ensures consistency — every new component is checked against existing patterns, tokens, and naming conventions. The design system grows organically rather than being a separate, always-lagging workstream.</p>
+      </div>
+      <div class="ai-concept-item">
+        <p class="ai-concept-num">06</p>
+        <p class="ai-concept-name">Continuous UX rationale</p>
+        <p class="ai-concept-desc">Claude documents design decisions in real time — why a pattern was chosen, what alternatives were considered, what trade-offs were made. This living rationale replaces lengthy design spec documents and means any new team member can understand the "why" behind every design choice instantly.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image sections: UX Strategy -->
+  <div class="ai-img-section">
+    <p class="ai-img-section-label">The process, visualised</p>
+    <h2 class="ai-img-section-title">From Figma to production code in one session</h2>
+    <p class="ai-img-section-body">Visual documentation of the AI-native UX workflow — from a strategy session with Claude through Figma design to generated React components, all within the same working session.</p>
+    <div class="ai-img-placeholder" style="min-height:260px;">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+      <span class="ai-img-placeholder-label">Image · End-to-end workflow screenshot</span>
+      <span class="ai-img-placeholder-hint">Recommended: a side-by-side showing Claude's research synthesis output on the left, the resulting Figma design in the centre, and the generated React component code on the right.</span>
+    </div>
+    <div class="ai-img-grid-2">
+      <div class="ai-img-placeholder" style="min-height:200px;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+        <span class="ai-img-placeholder-label">Image · Figma AI plugin in use</span>
+        <span class="ai-img-placeholder-hint">Recommended: screenshot of Figma with the AI plugin open, suggesting layout variations or checking design token consistency.</span>
+      </div>
+      <div class="ai-img-placeholder" style="min-height:200px;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+        <span class="ai-img-placeholder-label">Image · Design system component library</span>
+        <span class="ai-img-placeholder-hint">Recommended: screenshot of the growing design system in Figma — showing tokens, component variants, and the documentation Claude generated alongside them.</span>
+      </div>
+    </div>
+    <div class="ai-img-placeholder" style="min-height:200px;">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+      <span class="ai-img-placeholder-label">Image · Old timeline vs. new timeline</span>
+      <span class="ai-img-placeholder-hint">Recommended: a comparison diagram showing the traditional 6-week UX cycle vs. the AI-native 5-day cycle, making the compression tangible.</span>
+    </div>
+  </div>
+
+  <!-- What changes -->
+  <div class="ai-cowork">
+    <p class="ai-cowork-heading">What fundamentally changes for UX leaders</p>
+    <p class="ai-cowork-body">This is not about doing the same work faster. The tooling changes what is possible and what the UX leader's role looks like:</p>
+    <div class="ai-cowork-list">
+      <div class="ai-cowork-row">
+        <span class="ai-cowork-row-label">From maker to director</span>
+        <span class="ai-cowork-row-val">AI handles more of the production work. The UX leader's time shifts toward strategic direction, quality judgment, and cross-functional alignment — the decisions only a senior practitioner can make.</span>
+      </div>
+      <div class="ai-cowork-row">
+        <span class="ai-cowork-row-label">Smaller teams, bigger surface</span>
+        <span class="ai-cowork-row-val">A designer working with AI tools can cover the design surface that previously required a team of 3–4. This is not about cutting headcount — it's about enabling smaller teams to take on bigger, more complex products.</span>
+      </div>
+      <div class="ai-cowork-row">
+        <span class="ai-cowork-row-label">Research becomes a continuous input</span>
+        <span class="ai-cowork-row-val">Because synthesis is fast, research is no longer a phase — it becomes an always-on signal. User interviews happen weekly and feed directly into the next iteration rather than quarterly planning cycles.</span>
+      </div>
+      <div class="ai-cowork-row">
+        <span class="ai-cowork-row-label">Design system as shared language</span>
+        <span class="ai-cowork-row-val">With AI maintaining consistency across components, the design system becomes a genuine shared language between design and engineering — not a document that gets out of date.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stack -->
+  <div class="ai-stack">
+    <p class="ai-stack-label">Tools in the stack</p>
+    <div class="ai-stack-groups">
+      <div class="ai-stack-group">
+        <p class="ai-stack-group-label">Strategy &amp; Research</p>
+        <div class="ai-stack-items">
+          <span class="ai-stack-item">Claude (synthesis)</span>
+          <span class="ai-stack-item">Notion AI</span>
+          <span class="ai-stack-item">Research interviews</span>
+        </div>
+      </div>
+      <div class="ai-stack-group">
+        <p class="ai-stack-group-label">Design</p>
+        <div class="ai-stack-items">
+          <span class="ai-stack-item">Figma</span>
+          <span class="ai-stack-item">Figma AI plugin</span>
+          <span class="ai-stack-item">Design tokens</span>
+          <span class="ai-stack-item">Component libraries</span>
+        </div>
+      </div>
+      <div class="ai-stack-group">
+        <p class="ai-stack-group-label">Implementation</p>
+        <div class="ai-stack-items">
+          <span class="ai-stack-item">Claude Code</span>
+          <span class="ai-stack-item">Cursor</span>
+          <span class="ai-stack-item">React / TypeScript</span>
+          <span class="ai-stack-item">Tailwind CSS</span>
+        </div>
+      </div>
+      <div class="ai-stack-group">
+        <p class="ai-stack-group-label">Validation</p>
+        <div class="ai-stack-items">
+          <span class="ai-stack-item">Usability testing</span>
+          <span class="ai-stack-item">Analytics</span>
+          <span class="ai-stack-item">A/B testing</span>
+          <span class="ai-stack-item">Accessibility audits</span>
+        </div>
       </div>
     </div>
   </div>
