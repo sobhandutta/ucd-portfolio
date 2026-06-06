@@ -137,7 +137,7 @@
       border-top: 1px solid var(--light);
       padding: 48px 0;
       display: grid;
-      grid-template-columns: 100px 1fr;
+      grid-template-columns: 180px 1fr;
       gap: 40px;
       align-items: start;
       cursor: pointer;
@@ -152,6 +152,27 @@
       letter-spacing: 0.08em;
       color: var(--gray);
       padding-top: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .work-year-label {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: var(--gray);
+      text-transform: uppercase;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .work-thumb {
+      display: block;
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 50%;
     }
     .work-info {}
     .work-title {
@@ -691,6 +712,11 @@
       object-fit: cover; object-position: center;
       display: block; margin-top: 40px;
     }
+    .cs-hero-foot {
+      width: 100%; max-height: 940px;
+      object-fit: cover; object-position: center;
+      display: block; margin-top: 0px;
+    }
     .cs-container { max-width: 1160px; margin: 0 auto; padding: 0 40px; }
     .cs-intro {
       padding: 64px 0;
@@ -757,6 +783,13 @@
       width: 100%; display: block;
       border: 1px solid var(--light); border-radius: 4px;
       margin-top: 40px;
+      cursor: zoom-in;
+    }
+    .cs-img-bare {
+      width: 100%; display: block;
+      border: none; background: none; border-radius: 0;
+      margin-top: 40px;
+      mix-blend-mode: multiply;
       cursor: zoom-in;
     }
 
@@ -1034,7 +1067,10 @@
     <ul class="work-list">
 
       <li class="work-item" onclick="showPage('cs-ai-first')">
-        <div class="work-year">2025</div>
+        <div class="work-year">
+          <img src="images/accelerating_ai_first_ux/thumb.png" class="work-thumb" alt="">
+          <span class="work-year-label">2025</span>
+        </div>
         <div class="work-info">
           <h2 class="work-title">Accelerating to AI-First UX</h2>
           <p class="work-desc">In 6G, AI won't just support the network — it will be built into its core design. This "AI-native" approach means AI is embedded directly into how the network controls, manages, and processes data.</p>
@@ -1043,7 +1079,10 @@
       </li>
 
       <li class="work-item" onclick="showPage('cs-ataya')">
-        <div class="work-year">2022</div>
+        <div class="work-year">
+          <img src="images/universal_connectivity_platform/thumn.jpg" class="work-thumb" alt="">
+          <span class="work-year-label">2022</span>
+        </div>
         <div class="work-info">
           <h2 class="work-title">Universal Connectivity Platform</h2>
           <p class="work-desc">Started as the first person on the US team and built the product from the ground up. As the owner of UX/UI, my goal was to hire the best people and continuously improve the experience.</p>
@@ -1052,7 +1091,10 @@
       </li>
 
       <li class="work-item" onclick="showPage('cs-zerotrust')">
-        <div class="work-year">2020</div>
+        <div class="work-year">
+          <img src="images/zero_trust_network_security/thumb.jpg" class="work-thumb" alt="">
+          <span class="work-year-label">2020</span>
+        </div>
         <div class="work-info">
           <h2 class="work-title">Zero Trust Network Security</h2>
           <p class="work-desc">Over two years at Elisity, I made major design decisions, worked with key stakeholders, and delivered a high-quality enterprise product from the ground up.</p>
@@ -1133,14 +1175,14 @@
         <p class="work-role">Claude Code · Cursor · GitHub Copilot · Engineering process</p>
       </div>
     </li>
-    <li class="work-item" onclick="showPage('ai-ux')" style="cursor:pointer;">
+    <!-- <li class="work-item" onclick="showPage('ai-ux')" style="cursor:pointer;">
       <div class="work-year">2025</div>
       <div class="work-info">
         <h2 class="work-title">A New Way of Doing UX Strategy with AI</h2>
         <p class="work-desc">UX design and front-end development are no longer separate handoffs. Using Claude, Figma's AI plugin, and direct code generation, strategy, design, and implementation evolve together in a single loop — building the design system, validating UX with real users, and shipping faster than the old process allowed.</p>
         <p class="work-role">Claude · Figma AI · Design systems · UX strategy</p>
       </div>
-    </li>
+    </li> -->
   </ul>
 </main>
 
@@ -1498,22 +1540,10 @@
     <h2 class="ai-img-section-title">AI tools embedded in the real engineering workflow</h2>
     <p class="ai-img-section-body">Screenshots and screen recordings showing Claude Code running a security review, Cursor performing a cross-file refactor, and Copilot completing a test suite in real time.</p>
     <div class="ai-img-grid-2">
-      <div class="ai-img-placeholder" style="min-height:200px;">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
-        <span class="ai-img-placeholder-label">Image · Claude Code in terminal</span>
-        <span class="ai-img-placeholder-hint">Recommended: screenshot of a Claude Code session running a security or refactoring pass on a real codebase.</span>
-      </div>
-      <div class="ai-img-placeholder" style="min-height:200px;">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
-        <span class="ai-img-placeholder-label">Image · Cursor Composer view</span>
-        <span class="ai-img-placeholder-hint">Recommended: screenshot of Cursor's Composer handling a multi-file refactor with full codebase context.</span>
-      </div>
+      <img src="images/developer_productivity/security_test.png" alt="Claude Code in terminal" class="cs-img" style="width:100%;border-radius:8px;">
+      <img src="images/developer_productivity/key_achievement.png" alt="Cursor Composer view" class="cs-img" style="width:100%;border-radius:8px;">
     </div>
-    <div class="ai-img-placeholder" style="min-height:220px;">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
-      <span class="ai-img-placeholder-label">Image · Before &amp; after: test coverage</span>
-      <span class="ai-img-placeholder-hint">Recommended: side-by-side of a coverage report before AI-generated tests vs. after — showing the jump from 20% to 80%+ coverage.</span>
-    </div>
+    <img src="images/developer_productivity/security_test.png" alt="Before and after: test coverage" class="cs-img-full" style="width:100%;border-radius:8px;">
   </div>
 
   <!-- Measuring 5x -->
@@ -1722,11 +1752,7 @@
     <p class="ai-img-section-label">The process, visualised</p>
     <h2 class="ai-img-section-title">From Figma to production code in one session</h2>
     <p class="ai-img-section-body">Visual documentation of the AI-native UX workflow — from a strategy session with Claude through Figma design to generated React components, all within the same working session.</p>
-    <div class="ai-img-placeholder" style="min-height:260px;">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
-      <span class="ai-img-placeholder-label">Image · End-to-end workflow screenshot</span>
-      <span class="ai-img-placeholder-hint">Recommended: a side-by-side showing Claude's research synthesis output on the left, the resulting Figma design in the centre, and the generated React component code on the right.</span>
-    </div>
+    <img src="images/future_of_ux_process/end_to_end_workflow.png" alt="End-to-end workflow screenshot" class="cs-img-full" style="width:100%;border-radius:8px;">
     <div class="ai-img-grid-2">
       <div class="ai-img-placeholder" style="min-height:200px;">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
@@ -1885,7 +1911,7 @@
             <p class="cs-timeline-head">Making security accessible to everyone</p>
             <p class="cs-body">The initial launch was successful, but a bigger challenge emerged: how do you design a security product that doesn't require a network engineer to use it? The stereotype of security tools being complex, dark, and cryptic needed to be broken.</p>
             <p class="cs-body">We started by talking to real users — mapping pain points, running task-based usability sessions on medium-fidelity prototypes, and conducting qualitative interviews with internal stakeholders and customers. The goal: design with the CEO in mind as the primary user, not just the CISO.</p>
-            <img src="images/zero_trust_network_security/personas.png" alt="User personas" class="cs-img-full">
+            <img src="images/zero_trust_network_security/personas.png" alt="User personas" class="cs-img-bare">
             <p class="cs-img-caption">User personas developed from research sessions to guide design decisions</p>
           </div>
         </div>
@@ -1970,18 +1996,18 @@
     <div class="cs-section">
       <p class="cs-section-label">Foundation</p>
       <h2 class="cs-section-title">Building the design system</h2>
-      <p class="cs-body">Until mid-2020, development was conducted ad hoc — every team made independent design decisions, resulting in visual inconsistencies and unpredictable component behaviour. To fix this and significantly increase team velocity, I created a unified design system and shared component library.</p>
-      <p class="cs-body">We consolidated three typefaces down to a single font family — Roboto — with defined weights and widths for each context. I built a comprehensive web style guide covering buttons, forms, data tables, navigation modules, and states, ensuring every element behaved predictably across the entire product.</p>
-      <div class="cs-img-grid">
+      <div class="cs-two-col" style="margin-top: 24px;">
         <div>
-          <img src="images/zero_trust_network_security/design_system_view.png" alt="Design system" class="cs-img">
-          <p class="cs-img-caption">Component library — standardised across product and marketing surfaces</p>
+          <p class="cs-body">Until mid-2020, development was conducted ad hoc — every team made independent design decisions, resulting in visual inconsistencies and unpredictable component behaviour. To fix this and significantly increase team velocity, I created a unified design system and shared component library.</p>
+          <p class="cs-body">We consolidated three typefaces down to a single font family — Roboto — with defined weights and widths for each context. I built a comprehensive web style guide covering buttons, forms, data tables, navigation modules, and states, ensuring every element behaved predictably across the entire product.</p>
         </div>
         <div>
-          <img src="images/zero_trust_network_security/logos.png" alt="Brand and logo work" class="cs-img">
+          <img src="images/zero_trust_network_security/logos.png" alt="Brand and logo work" class="cs-img" style="margin-top: 0;">
           <p class="cs-img-caption">Brand identity — including the Elisity logo I designed from scratch</p>
         </div>
       </div>
+      <img src="images/zero_trust_network_security/design_system_view.png" alt="Design system" class="cs-img-full">
+      <p class="cs-img-caption">Component library — standardised across product and marketing surfaces</p>
     </div>
 
     <!-- Looking Back -->
@@ -2011,7 +2037,7 @@
           <p class="cs-body">The biggest lesson: the best security product is the one people actually use. Making zero trust accessible — visually, conceptually, and operationally — was the real design problem worth solving.</p>
         </div>
       </div>
-      <img src="images/zero_trust_network_security/product_on_laptop.png" alt="Elisity product" class="cs-img-full">
+      <img src="images/zero_trust_network_security/product_on_laptop.png" alt="Elisity product" class="cs-img-bare">
     </div>
 
   </div><!-- /cs-container -->
@@ -2220,10 +2246,11 @@
           <p class="cs-body">I'm proud of what this team has built, and even more excited about where we're going.</p>
         </div>
       </div>
-      <img src="images/universal_connectivity_platform/ataya_on_monitor.png" alt="Ataya product on monitor" class="cs-img-full">
+      <!-- <img src="images/universal_connectivity_platform/ataya_on_monitor.png" alt="Ataya product on monitor" class="cs-img-full"> -->
     </div>
 
   </div><!-- /cs-container -->
+  <img src="images/universal_connectivity_platform/ataya_on_monitor.png" alt="Universal Connectivity Platform" class="cs-hero-foot">
 
   <div class="cs-back" style="padding-top:48px;padding-bottom:80px;border-top:1px solid var(--light);margin-top:72px;">
     <button onclick="showPage('work')" class="back-btn">← Back to Case Studies</button>
@@ -2307,17 +2334,11 @@
     <div class="cs-section">
       <p class="cs-section-label">The Challenge</p>
       <h2 class="cs-section-title">Redesigning UX for AI at the core</h2>
-      <div class="cs-two-col">
-        <div>
-          <p class="cs-body">When AI becomes the primary actor in a system — not just a recommendation engine — the UX designer's job changes fundamentally. You're no longer designing screens for humans to click. You're designing the communication layer between a reasoning system and the humans who are ultimately accountable for its decisions.</p>
-          <p class="cs-body">The core tensions: operators need to trust AI recommendations without becoming passive. They need to retain expertise without drowning in raw data. And when the AI is wrong or uncertain, the interface must surface that honestly — not hide it behind a confident-sounding response.</p>
-          <p class="cs-body">We approached this by designing from the operator's goals outward, rather than from the system's capabilities inward. What does a network engineer actually need to accomplish in their day? How does AI change what's hard versus what's easy?</p>
-        </div>
-        <div>
-          <img src="images/accelerating_ai_first_ux/pages_collage.png" alt="Product pages overview" class="cs-img">
-          <p class="cs-img-caption">The product surface — redesigned around AI-native workflows and intent-driven navigation</p>
-        </div>
-      </div>
+      <p class="cs-body">When AI becomes the primary actor in a system — not just a recommendation engine — the UX designer's job changes fundamentally. You're no longer designing screens for humans to click. You're designing the communication layer between a reasoning system and the humans who are ultimately accountable for its decisions.</p>
+      <p class="cs-body">The core tensions: operators need to trust AI recommendations without becoming passive. They need to retain expertise without drowning in raw data. And when the AI is wrong or uncertain, the interface must surface that honestly — not hide it behind a confident-sounding response.</p>
+      <p class="cs-body">We approached this by designing from the operator's goals outward, rather than from the system's capabilities inward. What does a network engineer actually need to accomplish in their day? How does AI change what's hard versus what's easy?</p>
+      <img src="images/accelerating_ai_first_ux/pages_collage.png" alt="Product pages overview" class="cs-img-full">
+      <p class="cs-img-caption">The product surface — redesigned around AI-native workflows and intent-driven navigation</p>
     </div>
 
     <!-- What Does the User Really Need -->
@@ -2446,10 +2467,16 @@
     <div class="cs-section">
       <p class="cs-section-label">Foundation</p>
       <h2 class="cs-section-title">Design system for AI-native interfaces</h2>
-      <p class="cs-body">Building an AI-native product required extending the existing design system with a new vocabulary of components specifically for AI interactions — confidence indicators, action confirmation patterns, inline evidence blocks, uncertainty states, and the feedback loop UI for autonomous actions.</p>
-      <p class="cs-body">These components needed to be distinct enough to signal "the AI is involved here" while remaining visually consistent with the rest of the product. We used a restrained AI visual language — subtle colour shifts, specific typography treatment for AI-generated content, and clear iconography for AI actions — that respects operator expertise rather than anthropomorphising the system.</p>
-      <img src="images/accelerating_ai_first_ux/design_system.png" alt="Design system for AI" class="cs-img-full">
-      <p class="cs-img-caption">AI design system — new components for confidence, confirmation, inline evidence, and autonomous action feedback</p>
+      <div class="cs-two-col" style="margin-top: 24px;">
+        <div>
+          <p class="cs-body">Building an AI-native product required extending the existing design system with a new vocabulary of components specifically for AI interactions — confidence indicators, action confirmation patterns, inline evidence blocks, uncertainty states, and the feedback loop UI for autonomous actions.</p>
+          <p class="cs-body">These components needed to be distinct enough to signal "the AI is involved here" while remaining visually consistent with the rest of the product. We used a restrained AI visual language — subtle colour shifts, specific typography treatment for AI-generated content, and clear iconography for AI actions — that respects operator expertise rather than anthropomorphising the system.</p>
+          <p class="cs-img-caption" style="margin-top: 24px;">AI design system — new components for confidence, confirmation, inline evidence, and autonomous action feedback</p>
+        </div>
+        <div>
+          <img src="images/accelerating_ai_first_ux/design_system.png" alt="Design system for AI" class="cs-img" style="margin-top: 0;">
+        </div>
+      </div>
     </div>
 
     <!-- Looking Forward -->
@@ -2479,10 +2506,10 @@
           <p class="cs-body">These are the defining design problems of the next decade, and I'm proud to be working on them at the frontier of where AI meets critical infrastructure.</p>
         </div>
       </div>
-      <img src="images/accelerating_ai_first_ux/product_on_monitor.png" alt="AI-First product on monitor" class="cs-img-full">
     </div>
 
   </div><!-- /cs-container -->
+      <img src="images/accelerating_ai_first_ux/product_on_monitor.png" alt="AI-First product on monitor" class="cs-hero-foot">
 
   <div class="cs-back" style="padding-top:48px;padding-bottom:80px;border-top:1px solid var(--light);margin-top:72px;">
     <button onclick="showPage('work')" class="back-btn">← Back to Case Studies</button>
@@ -2571,7 +2598,7 @@
   }
 
   // Wire up all cs-img and cs-img-full images (not the hero banner)
-  document.querySelectorAll('.cs-img, .cs-img-full').forEach(img => {
+  document.querySelectorAll('.cs-img, .cs-img-full, .cs-img-bare').forEach(img => {
     img.addEventListener('click', () => openLightbox(img.src, img.alt));
   });
 
