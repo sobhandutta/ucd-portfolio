@@ -1687,77 +1687,28 @@
   </div>
 
   <!-- Overview -->
-  <div class="ai-featured">
-    <div class="ai-feat-left">
+  <div style="display:flex; flex-direction:column; gap:48px; margin-top:48px;">
+
+    <div>
       <p class="ai-feat-tag">The new way of doing UX — going forward</p>
       <h2 class="ai-feat-title">Design and front-end code are no longer separate disciplines</h2>
       <p class="ai-feat-body">The traditional handoff model — research → strategy → wireframes → high-fi → developer handoff → QA → feedback — loses fidelity at every boundary. By the time users see a design, it has drifted far from the original intent. Worse, the feedback loop is so slow that by the time learning arrives, the team has already moved on.</p>
+    </div>
+
+    <div>
+      <p style="font-family:'Inter',sans-serif; font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#999; margin-bottom:14px;">Before — Traditional UX handoff model</p>
+      <img src="images/future_of_ux_process/ux_before_ai.png" alt="Traditional UX process" style="width:100%; display:block; border-radius:8px;">
+    </div>
+
+    <div>
       <p class="ai-feat-body">The AI-native approach treats UX design and front-end development as a single continuous discipline. Claude synthesises research, Figma AI accelerates design exploration, and Claude Code generates production-ready components directly from those designs — all within the same working session. A UX leader who thinks in systems and understands code is now dramatically more powerful than one who only operates in one domain.</p>
-      <div class="ai-feat-meta">
-        <div class="ai-feat-meta-row">
-          <span class="ai-feat-meta-label">Tools</span>
-          <span class="ai-feat-meta-val">Claude, Figma AI plugin, Cursor, Claude Code</span>
-        </div>
-        <div class="ai-feat-meta-row">
-          <span class="ai-feat-meta-label">Outcomes</span>
-          <span class="ai-feat-meta-val">Design system · Rapid prototyping · Validated UX</span>
-        </div>
-        <div class="ai-feat-meta-row">
-          <span class="ai-feat-meta-label">Process</span>
-          <span class="ai-feat-meta-val">Iterative test-and-learn loops at every stage</span>
-        </div>
-      </div>
     </div>
-    <div class="ai-feat-right">
-      <div class="ai-arch-box">
-        <p style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#888;margin-bottom:24px;">The AI-Native UX Loop</p>
-        <svg viewBox="0 0 460 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Circular flow -->
-          <!-- Strategy -->
-          <rect x="170" y="12" width="120" height="48" rx="4" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
-          <text x="230" y="32" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600" letter-spacing="0.06em">UX STRATEGY</text>
-          <text x="230" y="48" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">Claude · Research synthesis</text>
-          <!-- Arrow → Design -->
-          <line x1="290" y1="36" x2="360" y2="100" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#ux1)"/>
-          <!-- Design -->
-          <rect x="340" y="100" width="110" height="48" rx="4" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
-          <text x="395" y="120" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600">FIGMA DESIGN</text>
-          <text x="395" y="136" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">AI plugin · Tokens</text>
-          <!-- Arrow → Code -->
-          <line x1="395" y1="148" x2="395" y2="200" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#ux1)"/>
-          <!-- Code -->
-          <rect x="340" y="200" width="110" height="48" rx="4" fill="#f4f4f9" stroke="#4a4a8a" stroke-width="1.5"/>
-          <text x="395" y="220" text-anchor="middle" fill="#4a4a8a" font-family="Inter,sans-serif" font-size="9" font-weight="600">CODE OUTPUT</text>
-          <text x="395" y="236" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">Claude Code · Cursor</text>
-          <!-- Arrow → Test -->
-          <line x1="360" y1="236" x2="290" y2="290" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#ux1)"/>
-          <!-- Test/Learn -->
-          <rect x="170" y="276" width="120" height="48" rx="4" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
-          <text x="230" y="296" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600">TEST &amp; LEARN</text>
-          <text x="230" y="312" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">Real users · Real feedback</text>
-          <!-- Arrow → Design System -->
-          <line x1="170" y1="300" x2="100" y2="244" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#ux1)"/>
-          <!-- Design System -->
-          <rect x="10" y="196" width="110" height="48" rx="4" fill="#fff" stroke="#d0d0e8" stroke-width="1.5"/>
-          <text x="65" y="216" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600">DESIGN SYSTEM</text>
-          <text x="65" y="232" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">Tokens · Components</text>
-          <!-- Arrow → Strategy (loop back) -->
-          <line x1="65" y1="196" x2="170" y2="60" stroke="#4a4a8a" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ux2)"/>
-          <!-- Centre label -->
-          <circle cx="230" cy="170" r="38" fill="#f4f4f9" stroke="#d0d0e8" stroke-width="1"/>
-          <text x="230" y="165" text-anchor="middle" fill="#4a4a8a" font-family="Inter,sans-serif" font-size="10" font-weight="600">AI at every</text>
-          <text x="230" y="180" text-anchor="middle" fill="#4a4a8a" font-family="Inter,sans-serif" font-size="10" font-weight="600">stage</text>
-          <defs>
-            <marker id="ux1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-              <path d="M0,0 L0,6 L6,3 z" fill="#d0d0e8"/>
-            </marker>
-            <marker id="ux2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-              <path d="M0,0 L0,6 L6,3 z" fill="#4a4a8a"/>
-            </marker>
-          </defs>
-        </svg>
-      </div>
+
+    <div>
+      <p style="font-family:'Inter',sans-serif; font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#4a4a8a; margin-bottom:14px;">After — AI-native UX loop</p>
+      <img src="images/future_of_ux_process/ux_after_ai.png" alt="AI-native UX loop" style="width:100%; display:block; border-radius:8px;">
     </div>
+
   </div>
 
   <!-- The Phases -->
@@ -1804,11 +1755,7 @@
     <p class="ai-img-section-body">Visual documentation of the AI-native UX workflow — from a strategy session with Claude through Figma design to generated React components, all within the same working session.</p>
     <img src="images/future_of_ux_process/end_to_end_workflow.png" alt="End-to-end workflow screenshot" class="cs-img-full" style="width:100%;border-radius:8px;">
     <div class="ai-img-grid-2">
-      <div class="ai-img-placeholder" style="min-height:200px;">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
-        <span class="ai-img-placeholder-label">Image · Figma AI plugin in use</span>
-        <span class="ai-img-placeholder-hint">Recommended: screenshot of Figma with the AI plugin open, suggesting layout variations or checking design token consistency.</span>
-      </div>
+      <img src="images/future_of_ux_process/figma_agnet.png" alt="Figma AI plugin in use" class="cs-img">
       <img src="images/future_of_ux_process/claude_design_system.png" alt="Design system component library" class="cs-img">
     </div>
 
@@ -2493,22 +2440,22 @@
       <p class="cs-body">AI-native UX requires a new design vocabulary. When the system can act — not just display — every design decision has higher stakes. We developed four core principles that governed every design decision throughout the project.</p>
       <div class="cs-img-grid" style="grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px;">
         <div>
-          <img src="images/accelerating_ai_first_ux/story-01-build-trust-early.png" alt="Build trust early" class="cs-img">
+          <img src="https://sobhandutta.github.io/design-system/portfolio/story-01-build-trust-early.png" alt="Build trust early" class="cs-img">
           <p class="cs-img-caption" style="margin-top:12px;font-weight:600;color:var(--black);">Build trust early</p>
           <p class="cs-img-caption">Start with high-confidence, low-stakes interactions. Let operators verify the system is right before they rely on it for critical decisions.</p>
         </div>
         <div>
-          <img src="images/accelerating_ai_first_ux/story-02-shape-behavior.png" alt="Shape behavior" class="cs-img">
+          <img src="https://sobhandutta.github.io/design-system/portfolio/story-02-shape-behavior.png" alt="Shape behavior" class="cs-img">
           <p class="cs-img-caption" style="margin-top:12px;font-weight:600;color:var(--black);">Shape behavior through design</p>
           <p class="cs-img-caption">The way the assistant communicates shapes how operators think about the network. Design responses that build accurate mental models, not comfortable ones.</p>
         </div>
         <div>
-          <img src="images/accelerating_ai_first_ux/story-03-plan-for-failure.png" alt="Plan for failure" class="cs-img">
+          <img src="https://sobhandutta.github.io/design-system/portfolio/story-03-plan-for-failure.png" alt="Plan for failure" class="cs-img">
           <p class="cs-img-caption" style="margin-top:12px;font-weight:600;color:var(--black);">Plan for failure</p>
           <p class="cs-img-caption">The AI will be wrong. Design for graceful failure — clear uncertainty signals, easy correction, and no hiding behind confident language when confidence is low.</p>
         </div>
         <div>
-          <img src="images/accelerating_ai_first_ux/story-04-close-the-loop.png" alt="Close the loop" class="cs-img">
+          <img src="https://sobhandutta.github.io/design-system/portfolio/story-04-close-the-loop.png" alt="Close the loop" class="cs-img">
           <p class="cs-img-caption" style="margin-top:12px;font-weight:600;color:var(--black);">Close the loop</p>
           <p class="cs-img-caption">Every AI-initiated action should complete a feedback cycle — operators should know what the system did, why, and what the outcome was. No silent background changes.</p>
         </div>
@@ -2522,7 +2469,7 @@
       <p class="cs-body" style="margin-top: 24px;">In AI-native products, the most important design decisions aren't visual — they're about what the system decides to do, say, and prioritise. Designing the assistant required working closely with the AI/ML team to define the system's communication style, its escalation logic, and the criteria for when to act autonomously versus when to ask for confirmation.</p>
       <p class="cs-body">This meant writing detailed behavior specifications alongside the UI designs: how the assistant should express uncertainty, what language signals high versus low confidence, when to surface a recommendation versus when to execute and report, and how to handle edge cases where the system's model conflicts with what the operator is seeing on the ground.</p>
       <p class="cs-body">The design artefact that mattered most for this work wasn't a Figma file — it was a behavior document that the entire team aligned on before a single component was built.</p>
-      <img src="images/accelerating_ai_first_ux/ai-judgment-framework.svg" alt="Beyond visual design" class="cs-img-full">
+      <img src="https://sobhandutta.github.io/design-system/portfolio/ai-judgment-framework.svg" alt="Beyond visual design" class="cs-img-full">
       <p class="cs-img-caption">Behavior specifications — defining the AI's judgment alongside the visual design</p>
     </div>
 
@@ -2552,7 +2499,7 @@
       <h2 class="cs-section-title">Design system for AI-native interfaces</h2>
       <p class="cs-body" style="margin-top: 24px;">Building an AI-native product required extending the existing design system with a new vocabulary of components specifically for AI interactions — confidence indicators, action confirmation patterns, inline evidence blocks, uncertainty states, and the feedback loop UI for autonomous actions.</p>
       <p class="cs-body">These components needed to be distinct enough to signal "the AI is involved here" while remaining visually consistent with the rest of the product. We used a restrained AI visual language — subtle colour shifts, specific typography treatment for AI-generated content, and clear iconography for AI actions — that respects operator expertise rather than anthropomorphising the system.</p>
-      <img src="images/accelerating_ai_first_ux/ai-component-sheet.png" alt="Design system for AI" class="cs-img-full">
+      <img src="https://sobhandutta.github.io/design-system/portfolio/ai-component-sheet.png" alt="Design system for AI" class="cs-img-full">
       <p class="cs-img-caption">AI design system — new components for confidence, confirmation, inline evidence, and autonomous action feedback</p>
     </div>
 
