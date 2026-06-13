@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Policy — Ataya Chorus</title>
+<link rel="stylesheet" href="./tokens-v2.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body { font-family: var(--font-sans); font-size: var(--text-base); color: hsl(var(--foreground)); background: hsl(var(--background)); -webkit-font-smoothing: antialiased; }
+
+/* ── Shell ── */
+.app { display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
+
+/* ── Top Nav ── */
+.topnav { background: hsl(220 24% 10%); display: flex; align-items: center; height: 52px; flex-shrink: 0; padding: 0 20px; gap: 0; }
+.nav-brand { display: flex; align-items: center; gap: 8px; margin-right: 20px; text-decoration: none; }
+.nav-logo { display: flex; flex-direction: column; }
+.nav-logo-top { font-size: 9px; font-weight: 700; color: hsl(var(--brand-cyan)); letter-spacing: 2px; text-transform: uppercase; }
+.nav-logo-bottom { font-size: 16px; font-weight: 700; color: hsl(var(--neutral-0)); letter-spacing: 1px; line-height: 1; }
+.nav-tabs { display: flex; align-items: center; gap: 0; flex: 1; }
+.ntab { padding: 0 14px; height: 52px; display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: hsl(0 0% 100% / 0.55); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 120ms; text-decoration: none; }
+.ntab svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; flex-shrink: 0; }
+.ntab.active { color: hsl(var(--neutral-0)); border-bottom-color: hsl(var(--brand-cyan)); font-weight: 500; }
+.ntab:hover:not(.active) { color: hsl(0 0% 100% / 0.85); }
+.nav-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.btn-ai { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px; background: hsl(var(--primary)); color: white; border: none; border-radius: var(--radius-full); font-size: 12px; font-weight: 500; cursor: pointer; font-family: var(--font-sans); }
+.btn-ai svg { width: 11px; height: 11px; fill: white; }
+.nav-icon-btn { width: 32px; height: 32px; border-radius: var(--radius-full); background: transparent; border: 1px solid hsl(0 0% 100% / 0.15); display: flex; align-items: center; justify-content: center; cursor: pointer; color: hsl(0 0% 100% / 0.6); font-size: 12px; font-weight: 600; position: relative; }
+.nav-icon-btn svg { width: 14px; height: 14px; stroke: hsl(0 0% 100% / 0.6); fill: none; stroke-width: 1.5; stroke-linecap: round; }
+.nav-badge { position: absolute; top: -4px; right: -4px; width: 16px; height: 16px; background: hsl(var(--brand-red)); border-radius: 50%; font-size: 9px; font-weight: 700; color: white; display: flex; align-items: center; justify-content: center; border: 2px solid hsl(220 24% 10%); }
+.nav-avatar { width: 30px; height: 30px; border-radius: 50%; background: hsl(var(--brand-cyan) / 0.2); border: 1px solid hsl(var(--brand-cyan) / 0.4); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: hsl(var(--brand-cyan)); cursor: pointer; }
+.env-pill { height: 24px; padding: 0 10px; border-radius: var(--radius-full); background: hsl(var(--brand-teal) / 0.15); border: 1px solid hsl(var(--brand-teal) / 0.3); font-size: 11px; font-weight: 600; color: hsl(163 55% 45%); display: flex; align-items: center; gap: 4px; }
+.env-dot { width: 6px; height: 6px; border-radius: 50%; background: hsl(var(--brand-teal)); }
+
+/* ── Body layout ── */
+.body-wrap { flex: 1; display: flex; overflow: hidden; position: relative; }
+.main-content { flex: 1; overflow-y: auto; padding: 0; display: flex; flex-direction: column; }
+
+/* ── Page header ── */
+.page-hdr { padding: 20px 24px 0; display: flex; align-items: flex-start; justify-content: space-between; }
+.page-title { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; color: hsl(var(--foreground)); margin-bottom: 2px; }
+.page-desc { font-size: 13px; color: hsl(var(--muted-foreground)); }
+.hdr-btns { display: flex; gap: 8px; }
+.btn { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 16px; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; font-family: var(--font-sans); transition: all 120ms; }
+.btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.btn-primary { background: hsl(var(--primary)); color: white; border-color: hsl(var(--primary)); }
+.btn-primary:hover { background: hsl(var(--primary) / 0.88); }
+.btn-outline { background: hsl(var(--card)); color: hsl(var(--foreground)); border-color: hsl(var(--border)); }
+.btn-outline:hover { background: hsl(var(--accent)); }
+.btn-ghost { background: transparent; color: hsl(var(--muted-foreground)); border: none; padding: 0 8px; }
+.btn-ghost:hover { color: hsl(var(--foreground)); background: hsl(var(--accent)); }
+.btn-danger { background: hsl(var(--destructive) / 0.08); color: hsl(8 80% 40%); border-color: hsl(var(--destructive) / 0.2); }
+.btn-danger:hover { background: hsl(var(--destructive) / 0.14); }
+.btn-sm { height: 30px; padding: 0 12px; font-size: 12px; }
+
+/* ── Stats strip ── */
+.stats-strip { padding: 16px 24px 0; display: flex; gap: 12px; }
+.stat-card { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-lg); padding: 14px 18px; display: flex; align-items: center; gap: 14px; box-shadow: 0 1px 3px hsl(220 24% 10% / 0.04); cursor: pointer; transition: border-color 120ms; }
+.stat-card:hover { border-color: hsl(var(--primary) / 0.4); }
+.stat-card.active { border-color: hsl(var(--primary) / 0.5); box-shadow: 0 0 0 3px hsl(var(--primary) / 0.08); }
+.stat-icon { width: 36px; height: 36px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.stat-icon svg { width: 16px; height: 16px; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+.si-blue { background: hsl(var(--primary) / 0.1); }
+.si-blue svg { stroke: hsl(var(--primary)); }
+.si-teal { background: hsl(var(--success) / 0.14); }
+.si-teal svg { stroke: hsl(163 55% 35%); }
+.si-amber { background: hsl(var(--warning) / 0.18); }
+.si-amber svg { stroke: hsl(35 88% 34%); }
+.stat-val { font-size: 22px; font-weight: 700; color: hsl(var(--foreground)); line-height: 1; letter-spacing: -0.5px; }
+.stat-lbl { font-size: 11px; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; }
+
+/* ── Toolbar ── */
+.toolbar { padding: 14px 24px; display: flex; align-items: center; gap: 8px; }
+.search-wrap { position: relative; width: 260px; }
+.search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 13px; height: 13px; stroke: hsl(var(--muted-foreground)); fill: none; stroke-width: 1.6; stroke-linecap: round; pointer-events: none; }
+.search-input { width: 100%; height: 34px; padding: 0 10px 0 32px; background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-md); font-size: 13px; color: hsl(var(--foreground)); font-family: var(--font-sans); }
+.search-input::placeholder { color: hsl(var(--muted-foreground)); }
+.search-input:focus { outline: none; border-color: hsl(var(--primary) / 0.5); box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1); }
+.filter-select { height: 34px; padding: 0 10px; background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-md); font-size: 13px; color: hsl(var(--foreground)); font-family: var(--font-sans); cursor: pointer; min-width: 140px; }
+.filter-select:focus { outline: none; border-color: hsl(var(--primary) / 0.5); }
+.toolbar-right { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.results-count { font-size: 12px; color: hsl(var(--muted-foreground)); }
+
+/* ── Table ── */
+.table-wrap { padding: 0 24px 24px; }
+.table-card { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 1px 3px hsl(220 24% 10% / 0.04); }
+table { width: 100%; border-collapse: collapse; }
+thead th { padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 600; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: 0.5px; background: hsl(var(--muted)); border-bottom: 1px solid hsl(var(--border)); white-space: nowrap; }
+thead th:first-child { width: 36px; padding-left: 16px; }
+tbody tr { border-bottom: 1px solid hsl(var(--border) / 0.6); transition: background 100ms; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: hsl(var(--accent) / 0.5); }
+tbody tr.selected { background: hsl(var(--primary) / 0.04); }
+tbody td { padding: 12px 14px; font-size: 13px; color: hsl(var(--foreground)); vertical-align: middle; }
+tbody td:first-child { padding-left: 16px; }
+.td-name { font-weight: 500; }
+.td-desc { color: hsl(var(--muted-foreground)); font-size: 12px; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.td-date { font-size: 12px; color: hsl(var(--muted-foreground)); white-space: nowrap; }
+.td-actions { display: flex; align-items: center; gap: 4px; justify-content: flex-end; }
+
+/* Checkbox */
+.cb-wrap { display: flex; align-items: center; justify-content: center; }
+.cb { width: 15px; height: 15px; border: 1.5px solid hsl(var(--border)); border-radius: 3px; cursor: pointer; appearance: none; -webkit-appearance: none; background: white; display: flex; align-items: center; justify-content: center; transition: all 120ms; }
+.cb:checked { background: hsl(var(--primary)); border-color: hsl(var(--primary)); }
+.cb:checked::after { content: ''; display: block; width: 8px; height: 5px; border-left: 1.5px solid white; border-bottom: 1.5px solid white; transform: rotate(-45deg) translate(1px, -1px); }
+
+/* Badges */
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: var(--radius-full); font-size: 11px; font-weight: 500; line-height: 1.6; white-space: nowrap; }
+.badge .dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.badge-success { background: hsl(163 60% 56% / 0.14); color: hsl(163 55% 28%); }
+.badge-success .dot { background: hsl(163 55% 35%); }
+.badge-muted { background: hsl(var(--muted)); color: hsl(var(--muted-foreground)); }
+.badge-muted .dot { background: hsl(var(--muted-foreground)); }
+.badge-blue { background: hsl(var(--primary) / 0.1); color: hsl(var(--primary)); }
+.badge-blue .dot { background: hsl(var(--primary)); }
+
+/* Action buttons */
+.act-btn { height: 28px; padding: 0 10px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid transparent; font-family: var(--font-sans); transition: all 100ms; display: inline-flex; align-items: center; gap: 4px; }
+.act-btn svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; }
+.act-edit { background: transparent; color: hsl(var(--primary)); border-color: transparent; }
+.act-edit:hover { background: hsl(var(--primary) / 0.08); border-color: hsl(var(--primary) / 0.2); }
+.act-del { background: transparent; color: hsl(8 80% 42%); border-color: transparent; }
+.act-del:hover { background: hsl(var(--destructive) / 0.08); border-color: hsl(var(--destructive) / 0.2); }
+.act-more { width: 28px; height: 28px; padding: 0; border-radius: var(--radius-sm); background: transparent; border: 1px solid transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 100ms; }
+.act-more svg { width: 14px; height: 14px; stroke: hsl(var(--muted-foreground)); fill: none; stroke-width: 1.6; stroke-linecap: round; }
+.act-more:hover { background: hsl(var(--accent)); border-color: hsl(var(--border)); }
+
+/* Bulk actions bar */
+.bulk-bar { display: none; padding: 8px 16px; background: hsl(var(--primary) / 0.06); border: 1px solid hsl(var(--primary) / 0.2); border-radius: var(--radius-md); margin: 0 24px 0; align-items: center; gap: 12px; font-size: 13px; color: hsl(var(--foreground)); }
+.bulk-bar.show { display: flex; }
+.bulk-sel { font-weight: 500; }
+.bulk-actions { display: flex; gap: 6px; margin-left: auto; }
+
+/* Empty state */
+.empty-state { padding: 48px 24px; text-align: center; }
+.empty-icon { width: 48px; height: 48px; border-radius: var(--radius-lg); background: hsl(var(--muted)); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+.empty-icon svg { width: 22px; height: 22px; stroke: hsl(var(--muted-foreground)); fill: none; stroke-width: 1.4; stroke-linecap: round; }
+.empty-title { font-size: 14px; font-weight: 600; color: hsl(var(--foreground)); margin-bottom: 4px; }
+.empty-desc { font-size: 13px; color: hsl(var(--muted-foreground)); }
+
+/* ── Drawer overlay ── */
+.overlay { position: fixed; inset: 0; background: hsl(220 24% 10% / 0.4); z-index: 40; opacity: 0; pointer-events: none; transition: opacity 220ms; backdrop-filter: blur(2px); }
+.overlay.show { opacity: 1; pointer-events: all; }
+
+/* ── Drawer panel ── */
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 520px; background: hsl(var(--card)); z-index: 50; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 280ms cubic-bezier(0.32, 0.72, 0, 1); box-shadow: -4px 0 32px hsl(220 24% 10% / 0.18); }
+.drawer.open { transform: translateX(0); }
+
+.drawer-hdr { padding: 18px 20px 16px; border-bottom: 1px solid hsl(var(--border)); display: flex; align-items: flex-start; justify-content: space-between; flex-shrink: 0; }
+.drawer-title { font-size: 16px; font-weight: 600; color: hsl(var(--foreground)); letter-spacing: -0.2px; }
+.drawer-sub { font-size: 12px; color: hsl(var(--muted-foreground)); margin-top: 2px; }
+.drawer-close { width: 28px; height: 28px; border-radius: var(--radius-md); background: transparent; border: 1px solid transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 120ms; flex-shrink: 0; margin-top: 1px; }
+.drawer-close svg { width: 14px; height: 14px; stroke: hsl(var(--muted-foreground)); fill: none; stroke-width: 1.8; stroke-linecap: round; }
+.drawer-close:hover { background: hsl(var(--accent)); border-color: hsl(var(--border)); }
+
+.drawer-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 0; }
+
+/* Form sections */
+.form-section { margin-bottom: 6px; }
+.section-hdr { display: flex; align-items: center; gap: 8px; padding: 10px 0 10px; cursor: pointer; user-select: none; }
+.section-label { font-size: 11px; font-weight: 600; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: 0.6px; flex: 1; }
+.section-chevron { width: 14px; height: 14px; stroke: hsl(var(--muted-foreground)); fill: none; stroke-width: 2; stroke-linecap: round; transition: transform 200ms; }
+.section-chevron.open { transform: rotate(180deg); }
+.section-body { display: flex; flex-direction: column; gap: 14px; padding-bottom: 16px; border-bottom: 1px solid hsl(var(--border) / 0.5); }
+.section-body.collapsed { display: none; }
+
+/* Form elements */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-label { font-size: 12px; font-weight: 500; color: hsl(var(--foreground)); display: flex; align-items: center; gap: 4px; }
+.form-label .req { color: hsl(var(--destructive)); font-size: 12px; }
+.form-input { height: 36px; padding: 0 10px; background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-md); font-size: 13px; color: hsl(var(--foreground)); font-family: var(--font-sans); transition: border-color 120ms; }
+.form-input:focus { outline: none; border-color: hsl(var(--primary) / 0.5); box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1); }
+.form-input::placeholder { color: hsl(var(--muted-foreground)); }
+.form-textarea { height: 72px; padding: 8px 10px; background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-md); font-size: 13px; color: hsl(var(--foreground)); font-family: var(--font-sans); resize: vertical; line-height: 1.5; }
+.form-textarea:focus { outline: none; border-color: hsl(var(--primary) / 0.5); box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1); }
+.form-textarea::placeholder { color: hsl(var(--muted-foreground)); }
+.form-hint { font-size: 11px; color: hsl(var(--muted-foreground)); margin-top: -2px; }
+.form-select { height: 36px; padding: 0 10px; background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-md); font-size: 13px; color: hsl(var(--foreground)); font-family: var(--font-sans); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px; }
+
+/* Toggle feature rows */
+.feature-toggle { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: hsl(var(--muted) / 0.5); border: 1px solid hsl(var(--border) / 0.6); border-radius: var(--radius-md); transition: all 120ms; }
+.feature-toggle:hover { background: hsl(var(--muted)); }
+.feature-toggle.active { background: hsl(var(--primary) / 0.05); border-color: hsl(var(--primary) / 0.25); }
+.ft-left { display: flex; align-items: flex-start; gap: 10px; }
+.ft-icon { width: 32px; height: 32px; border-radius: var(--radius-sm); background: hsl(var(--muted)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.ft-icon svg { width: 14px; height: 14px; stroke: hsl(var(--muted-foreground)); fill: none; stroke-width: 1.5; stroke-linecap: round; }
+.feature-toggle.active .ft-icon { background: hsl(var(--primary) / 0.12); }
+.feature-toggle.active .ft-icon svg { stroke: hsl(var(--primary)); }
+.ft-title { font-size: 13px; font-weight: 500; color: hsl(var(--foreground)); line-height: 1.3; }
+.ft-desc { font-size: 11px; color: hsl(var(--muted-foreground)); margin-top: 2px; line-height: 1.4; }
+
+/* Toggle switch */
+.toggle { width: 36px; height: 20px; border-radius: 10px; background: hsl(var(--border)); border: none; cursor: pointer; position: relative; transition: background 200ms; flex-shrink: 0; }
+.toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: white; transition: transform 200ms; box-shadow: 0 1px 3px hsl(220 24% 10% / 0.2); }
+.toggle.on { background: hsl(var(--primary)); }
+.toggle.on::after { transform: translateX(16px); }
+
+/* Feature sub-content */
+.feature-sub { margin-top: 8px; padding: 14px; background: hsl(var(--muted) / 0.5); border: 1px solid hsl(var(--primary) / 0.15); border-radius: var(--radius-md); display: none; }
+.feature-sub.show { display: block; }
+.feature-sub .form-row { margin-top: 0; }
+
+/* Slice item */
+.slice-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.slice-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-md); }
+.slice-num { width: 20px; height: 20px; border-radius: 50%; background: hsl(var(--primary) / 0.1); color: hsl(var(--primary)); font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.slice-name { flex: 1; font-size: 12px; color: hsl(var(--foreground)); font-weight: 500; }
+.slice-bw { font-size: 11px; color: hsl(var(--muted-foreground)); }
+.slice-del { width: 22px; height: 22px; border-radius: var(--radius-sm); background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: hsl(var(--muted-foreground)); transition: all 100ms; }
+.slice-del:hover { background: hsl(var(--destructive) / 0.1); color: hsl(8 80% 42%); }
+.slice-del svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; }
+
+/* Drawer footer */
+.drawer-footer { padding: 14px 20px; border-top: 1px solid hsl(var(--border)); display: flex; align-items: center; gap: 8px; flex-shrink: 0; background: hsl(var(--card)); }
+.drawer-footer .btn { flex: 1; justify-content: center; }
+.footer-note { font-size: 11px; color: hsl(var(--muted-foreground)); margin-right: auto; }
+
+/* Divider */
+.section-divider { height: 1px; background: hsl(var(--border) / 0.5); margin: 4px 0 8px; }
+
+/* Tooltip icon */
+.tip-icon { width: 14px; height: 14px; border-radius: 50%; background: hsl(var(--muted-foreground) / 0.25); display: inline-flex; align-items: center; justify-content: center; cursor: help; font-size: 9px; font-weight: 700; color: hsl(var(--muted-foreground)); }
+
+/* Sort icon */
+.sort-icon { display: inline-flex; flex-direction: column; gap: 1px; margin-left: 4px; vertical-align: middle; opacity: 0.4; }
+.sort-icon span { display: block; width: 0; height: 0; }
+.sort-icon span:first-child { border-left: 3px solid transparent; border-right: 3px solid transparent; border-bottom: 3px solid currentColor; }
+.sort-icon span:last-child { border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 3px solid currentColor; }
+th.sorted .sort-icon { opacity: 1; color: hsl(var(--primary)); }
+
+/* Pagination */
+.pagination { padding: 12px 24px; display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+.page-info { font-size: 12px; color: hsl(var(--muted-foreground)); margin-right: auto; }
+.pg-btn { height: 28px; min-width: 28px; padding: 0 8px; border-radius: var(--radius-sm); background: hsl(var(--card)); border: 1px solid hsl(var(--border)); font-size: 12px; color: hsl(var(--foreground)); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 100ms; }
+.pg-btn:hover:not(:disabled) { background: hsl(var(--accent)); border-color: hsl(var(--primary) / 0.3); }
+.pg-btn.active { background: hsl(var(--primary)); color: white; border-color: hsl(var(--primary)); }
+.pg-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.pg-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ── Top Navigation ── -->
+  <nav class="topnav">
+    <a class="nav-brand" href="#">
+      <div class="nav-logo">
+        <span class="nav-logo-top">ATAYA</span>
+        <span class="nav-logo-bottom">CHORUS</span>
+      </div>
+    </a>
+    <div class="nav-tabs">
+      <a class="ntab" href="#">
+        <svg viewBox="0 0 16 16"><path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM9 9h5v5H9z"/></svg>
+        Insights &amp; Analytics
+      </a>
+      <a class="ntab" href="#">
+        <svg viewBox="0 0 16 16"><rect x="2" y="5" width="12" height="8" rx="1.5"/><path d="M5 5V3.5a1 1 0 011-1h4a1 1 0 011 1V5"/></svg>
+        Devices
+      </a>
+      <a class="ntab" href="#">
+        <svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="2.5"/><path d="M2.5 13.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg>
+        Clients
+      </a>
+      <a class="ntab active" href="#">
+        <svg viewBox="0 0 16 16"><path d="M4 8h8M4 5h8M4 11h5"/><rect x="1.5" y="2" width="13" height="12" rx="1.5"/></svg>
+        Policies
+      </a>
+      <a class="ntab" href="#">
+        <svg viewBox="0 0 16 16"><rect x="2" y="3" width="5" height="5" rx="1"/><rect x="9" y="3" width="5" height="5" rx="1"/><rect x="2" y="10" width="5" height="5" rx="1"/><rect x="9" y="10" width="5" height="5" rx="1"/></svg>
+        Edge Applications
+      </a>
+      <a class="ntab" href="#">
+        <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 4v4l2.5 2.5"/></svg>
+        Organization
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="btn-ai">
+        <svg viewBox="0 0 12 12"><path d="M6 1l1.2 3.5L11 6 7.2 7.5 6 11 4.8 7.5 1 6l3.8-1.5z"/></svg>
+        AI Assistant
+      </button>
+      <div class="nav-icon-btn" style="position:relative">
+        <svg viewBox="0 0 16 16"><path d="M8 2a5 5 0 015 5v3l1 2H2l1-2V7a5 5 0 015-5z"/><path d="M6.5 13a1.5 1.5 0 003 0"/></svg>
+        <span class="nav-badge">6</span>
+      </div>
+      <div class="nav-icon-btn">
+        <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 10v-1a2 2 0 001.7-2A1.7 1.7 0 108 9"/><circle cx="8" cy="12" r="0.5" fill="currentColor"/></svg>
+      </div>
+      <div class="env-pill"><span class="env-dot"></span> Auto</div>
+      <div class="nav-avatar">SD</div>
+    </div>
+  </nav>
+
+  <!-- ── Body ── -->
+  <div class="body-wrap">
+    <div class="main-content" id="mainContent">
+
+      <!-- Page header -->
+      <div class="page-hdr">
+        <div>
+          <div class="page-title">Policies</div>
+          <div class="page-desc">Create and manage policies to control data, traffic, and network access for clients.</div>
+        </div>
+        <div class="hdr-btns">
+          <button class="btn btn-outline btn-sm">
+            <svg viewBox="0 0 13 13"><path d="M1 1h11M1 5h11M1 9h7"/></svg>
+            Export
+          </button>
+          <button class="btn btn-primary" onclick="openDrawer()">
+            <svg viewBox="0 0 13 13"><path d="M6.5 1v11M1 6.5h11"/></svg>
+            New Policy
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats strip -->
+      <div class="stats-strip">
+        <div class="stat-card active" onclick="filterTab('all')" id="tab-all">
+          <div class="stat-icon si-blue">
+            <svg viewBox="0 0 16 16"><path d="M4 8h8M4 5h8M4 11h8"/><rect x="1.5" y="2" width="13" height="12" rx="1.5"/></svg>
+          </div>
+          <div>
+            <div class="stat-val" id="count-all">16</div>
+            <div class="stat-lbl">All Policies</div>
+          </div>
+        </div>
+        <div class="stat-card" onclick="filterTab('assigned')" id="tab-assigned">
+          <div class="stat-icon si-teal">
+            <svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="2.5"/><path d="M2.5 13.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M11 8l1.5 1.5L14 8"/></svg>
+          </div>
+          <div>
+            <div class="stat-val" id="count-assigned">1</div>
+            <div class="stat-lbl">Assigned</div>
+          </div>
+        </div>
+        <div class="stat-card" onclick="filterTab('unassigned')" id="tab-unassigned">
+          <div class="stat-icon si-amber">
+            <svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="2.5"/><path d="M2.5 13.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M13 10v3M13 8.5v.5"/></svg>
+          </div>
+          <div>
+            <div class="stat-val" id="count-unassigned">15</div>
+            <div class="stat-lbl">Not Assigned</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bulk actions bar (hidden by default) -->
+      <div class="bulk-bar" id="bulkBar">
+        <span class="bulk-sel"><span id="selCount">0</span> policies selected</span>
+        <div class="bulk-actions">
+          <button class="btn btn-outline btn-sm" onclick="clearSelection()">
+            <svg viewBox="0 0 13 13"><path d="M1 1l11 11M12 1L1 12"/></svg>
+            Clear
+          </button>
+          <button class="btn btn-danger btn-sm">
+            <svg viewBox="0 0 13 13"><path d="M2 3h9M5 3V1.5h3V3M3.5 3l.5 8h5l.5-8"/></svg>
+            Delete Selected
+          </button>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 13 13"><circle cx="5.5" cy="5.5" r="4"/><path d="M9 9l2.5 2.5"/></svg>
+          <input class="search-input" type="text" placeholder="Search policies…" id="searchInput" oninput="filterTable()">
+        </div>
+        <select class="filter-select" id="subtenantFilter" onchange="filterTable()">
+          <option value="">All Subtenants</option>
+          <option value="default">Default Tenant</option>
+          <option value="enterprise">Enterprise</option>
+        </select>
+        <select class="filter-select" id="defaultFilter" onchange="filterTable()" style="min-width:120px;">
+          <option value="">Default For: All</option>
+          <option value="5g">5G</option>
+          <option value="wifi">Wi-Fi</option>
+        </select>
+        <div class="toolbar-right">
+          <span class="results-count" id="resultsCount">Showing 16 policies</span>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap">
+        <div class="table-card">
+          <table>
+            <thead>
+              <tr>
+                <th><input type="checkbox" class="cb" id="selectAll" onchange="toggleSelectAll(this)"></th>
+                <th class="sorted" style="cursor:pointer" onclick="sortBy('name')">Name <span class="sort-icon"><span></span><span></span></span></th>
+                <th>Description</th>
+                <th>Attached Clients</th>
+                <th>Status</th>
+                <th style="cursor:pointer" onclick="sortBy('created')">Created On <span class="sort-icon"><span></span><span></span></span></th>
+                <th>Default For</th>
+                <th style="text-align:right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="policyTableBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <span class="page-info" id="pageInfo">Showing 1–16 of 16</span>
+        <button class="pg-btn" disabled>
+          <svg viewBox="0 0 12 12"><path d="M8 2L4 6l4 4"/></svg>
+        </button>
+        <button class="pg-btn active">1</button>
+        <button class="pg-btn" disabled>
+          <svg viewBox="0 0 12 12"><path d="M4 2l4 4-4 4"/></svg>
+        </button>
+      </div>
+
+    </div><!-- /main-content -->
+  </div><!-- /body-wrap -->
+</div><!-- /app -->
+
+<!-- ── Overlay ── -->
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+
+<!-- ── Create / Edit Drawer ── -->
+<div class="drawer" id="drawer">
+  <div class="drawer-hdr">
+    <div>
+      <div class="drawer-title" id="drawerTitle">New Policy</div>
+      <div class="drawer-sub" id="drawerSub">Define traffic rules and network access controls</div>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()">
+      <svg viewBox="0 0 14 14"><path d="M1 1l12 12M13 1L1 13"/></svg>
+    </button>
+  </div>
+
+  <div class="drawer-body">
+
+    <!-- Section: Basic Info -->
+    <div class="form-section">
+      <div class="section-hdr" onclick="toggleSection('basic')">
+        <span class="section-label">Basic Information</span>
+        <svg class="section-chevron open" id="chevron-basic" viewBox="0 0 14 8"><path d="M1 1l6 6 6-6"/></svg>
+      </div>
+      <div class="section-body" id="body-basic">
+        <div class="form-group">
+          <label class="form-label">Policy Name <span class="req">*</span></label>
+          <input class="form-input" type="text" placeholder="e.g. enterprise-high-bandwidth" id="policyName">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description <span class="req">*</span></label>
+          <textarea class="form-textarea" placeholder="Describe what this policy does and when it should be applied…" id="policyDesc"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Traffic Controls -->
+    <div class="form-section">
+      <div class="section-hdr" onclick="toggleSection('traffic')">
+        <span class="section-label">Traffic Controls</span>
+        <svg class="section-chevron open" id="chevron-traffic" viewBox="0 0 14 8"><path d="M1 1l6 6 6-6"/></svg>
+      </div>
+      <div class="section-body" id="body-traffic">
+
+        <!-- Bandwidth Limit -->
+        <div>
+          <div class="feature-toggle" id="ft-bandwidth" onclick="toggleFeature('bandwidth')">
+            <div class="ft-left">
+              <div class="ft-icon">
+                <svg viewBox="0 0 14 14"><path d="M2 7h10M7 2v10M10 4L4 10M4 4l6 6"/></svg>
+              </div>
+              <div>
+                <div class="ft-title">Bandwidth Limit</div>
+                <div class="ft-desc">Set maximum uplink and downlink speeds for each client</div>
+              </div>
+            </div>
+            <button class="toggle" id="toggle-bandwidth" onclick="event.stopPropagation(); toggleFeature('bandwidth')"></button>
+          </div>
+          <div class="feature-sub" id="sub-bandwidth">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">AMBR Up Link (Mbps) <span class="req">*</span></label>
+                <input class="form-input" type="number" placeholder="e.g. 100" min="1">
+              </div>
+              <div class="form-group">
+                <label class="form-label">AMBR Down Link (Mbps) <span class="req">*</span></label>
+                <input class="form-input" type="number" placeholder="e.g. 500" min="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RAT / Frequency -->
+        <div>
+          <div class="feature-toggle" id="ft-rat" onclick="toggleFeature('rat')">
+            <div class="ft-left">
+              <div class="ft-icon">
+                <svg viewBox="0 0 14 14"><path d="M7 2v10M4 5a4.5 4.5 0 000 4M10 5a4.5 4.5 0 010 4M2 3.5a7 7 0 000 7M12 3.5a7 7 0 010 7"/></svg>
+              </div>
+              <div>
+                <div class="ft-title">RAT / Frequency Priority</div>
+                <div class="ft-desc">Select preferred radio access technology for clients</div>
+              </div>
+            </div>
+            <button class="toggle" id="toggle-rat" onclick="event.stopPropagation(); toggleFeature('rat')"></button>
+          </div>
+          <div class="feature-sub" id="sub-rat">
+            <div class="form-group">
+              <label class="form-label">Preferred RAT</label>
+              <select class="form-select">
+                <option>5G NR (Priority)</option>
+                <option>LTE/4G</option>
+                <option>5G + LTE (Auto)</option>
+                <option>Wi-Fi Preferred</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section: Network Access -->
+    <div class="form-section">
+      <div class="section-hdr" onclick="toggleSection('network')">
+        <span class="section-label">Network Access</span>
+        <svg class="section-chevron open" id="chevron-network" viewBox="0 0 14 8"><path d="M1 1l6 6 6-6"/></svg>
+      </div>
+      <div class="section-body" id="body-network">
+
+        <!-- Default Network Slices -->
+        <div>
+          <div class="feature-toggle" id="ft-slices" onclick="toggleFeature('slices')">
+            <div class="ft-left">
+              <div class="ft-icon">
+                <svg viewBox="0 0 14 14"><path d="M7 1l6 3v6l-6 3L1 10V4z"/><path d="M1 4l6 3 6-3M7 7v6"/></svg>
+              </div>
+              <div>
+                <div class="ft-title">Default Network Slices</div>
+                <div class="ft-desc">Assign network slices configured in Service Configuration</div>
+              </div>
+            </div>
+            <button class="toggle" id="toggle-slices" onclick="event.stopPropagation(); toggleFeature('slices')"></button>
+          </div>
+          <div class="feature-sub" id="sub-slices">
+            <div class="form-group">
+              <label class="form-label">Assigned Slices</label>
+              <select class="form-select" multiple style="height:72px; padding: 4px 8px;">
+                <option>Slice A — eMBB</option>
+                <option>Slice B — URLLC</option>
+                <option>Slice C — mMTC</option>
+              </select>
+              <span class="form-hint">Hold Ctrl/⌘ to select multiple slices</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Application Slicing -->
+        <div>
+          <div class="feature-toggle" id="ft-appslice" onclick="toggleFeature('appslice')">
+            <div class="ft-left">
+              <div class="ft-icon">
+                <svg viewBox="0 0 14 14"><rect x="1" y="1" width="5" height="5" rx="1"/><rect x="8" y="1" width="5" height="5" rx="1"/><rect x="1" y="8" width="5" height="5" rx="1"/><rect x="8" y="8" width="5" height="5" rx="1"/></svg>
+              </div>
+              <div>
+                <div class="ft-title">Application Slicing</div>
+                <div class="ft-desc">Assign bandwidth limits per application — up to 4 slices, ordered by precedence</div>
+              </div>
+            </div>
+            <button class="toggle" id="toggle-appslice" onclick="event.stopPropagation(); toggleFeature('appslice')"></button>
+          </div>
+          <div class="feature-sub" id="sub-appslice">
+            <div class="slice-list" id="sliceList">
+              <div class="slice-item">
+                <span class="slice-num">1</span>
+                <span class="slice-name">Video Streaming</span>
+                <span class="slice-bw">↑ 50 Mbps · ↓ 200 Mbps</span>
+                <button class="slice-del" onclick="removeSlice(this)"><svg viewBox="0 0 12 12"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+              </div>
+            </div>
+            <button class="btn btn-outline btn-sm" style="margin-top:10px; width:100%; justify-content:center;" onclick="addSlice()" id="addSliceBtn">
+              <svg viewBox="0 0 13 13"><path d="M6.5 1v11M1 6.5h11"/></svg>
+              Add Application Slice
+            </button>
+            <p class="form-hint" style="margin-top:6px;">Slice 1 has the highest precedence.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section: Security -->
+    <div class="form-section">
+      <div class="section-hdr" onclick="toggleSection('security')">
+        <span class="section-label">Security</span>
+        <svg class="section-chevron open" id="chevron-security" viewBox="0 0 14 8"><path d="M1 1l6 6 6-6"/></svg>
+      </div>
+      <div class="section-body" id="body-security" style="border-bottom:none; padding-bottom: 4px;">
+
+        <!-- Microsegment -->
+        <div>
+          <div class="feature-toggle" id="ft-micro" onclick="toggleFeature('micro')">
+            <div class="ft-left">
+              <div class="ft-icon">
+                <svg viewBox="0 0 14 14"><path d="M7 1l5.5 3v6L7 13 1.5 10V4z"/><circle cx="7" cy="7" r="2"/></svg>
+              </div>
+              <div>
+                <div class="ft-title">Enable Microsegment</div>
+                <div class="ft-desc">Isolate client traffic using a microsegment tag (1–1024)</div>
+              </div>
+            </div>
+            <button class="toggle" id="toggle-micro" onclick="event.stopPropagation(); toggleFeature('micro')"></button>
+          </div>
+          <div class="feature-sub" id="sub-micro">
+            <div class="form-group">
+              <label class="form-label">Microsegment Tag</label>
+              <input class="form-input" type="number" min="1" max="1024" placeholder="1–1024">
+              <span class="form-hint">Unique tag to isolate this segment's traffic.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- IP Filtering -->
+        <div>
+          <div class="feature-toggle" id="ft-ipfilter" onclick="toggleFeature('ipfilter')">
+            <div class="ft-left">
+              <div class="ft-icon">
+                <svg viewBox="0 0 14 14"><path d="M1 3h12l-4 5v4l-4-2V8z"/></svg>
+              </div>
+              <div>
+                <div class="ft-title">IP Filtering</div>
+                <div class="ft-desc">Restrict client access to specific IP ranges or destinations</div>
+              </div>
+            </div>
+            <button class="toggle" id="toggle-ipfilter" onclick="event.stopPropagation(); toggleFeature('ipfilter')"></button>
+          </div>
+          <div class="feature-sub" id="sub-ipfilter">
+            <div class="form-group">
+              <label class="form-label">Allowed IP Ranges</label>
+              <textarea class="form-textarea" placeholder="e.g. 192.168.1.0/24&#10;10.0.0.0/8" style="height: 64px;"></textarea>
+              <span class="form-hint">One CIDR block per line. Leave empty to allow all.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /drawer-body -->
+
+  <div class="drawer-footer">
+    <button class="btn btn-outline" onclick="closeDrawer()">Cancel</button>
+    <button class="btn btn-primary" onclick="savePolicy()">
+      <svg viewBox="0 0 13 13"><path d="M2 7l3 3 6-6"/></svg>
+      Create Policy
+    </button>
+  </div>
+</div><!-- /drawer -->
+
+<script>
+// ── Data ──
+const policies = [
+  { id:1,  name:'Applic',        desc:'Default application control policy',              clients:'-',  created:'Mar 24, 2025', defaultFor:'',    status:'unassigned' },
+  { id:2,  name:'app_qci2_tcp',  desc:'QCI2 TCP optimised for real-time traffic',        clients:'12', created:'Apr 26, 2025', defaultFor:'5G',  status:'assigned'   },
+  { id:3,  name:'app_qci3_',     desc:'QCI3 baseline configuration',                    clients:'-',  created:'Apr 26, 2025', defaultFor:'',    status:'unassigned' },
+  { id:4,  name:'app_qci4_any',  desc:'QCI4 any-bearer policy',                         clients:'-',  created:'Apr 26, 2025', defaultFor:'',    status:'unassigned' },
+  { id:5,  name:'app_qci1_any',  desc:'QCI1 conversational voice policy',               clients:'-',  created:'Apr 26, 2025', defaultFor:'',    status:'unassigned' },
+  { id:6,  name:'8_slices',      desc:'8-slice network segmentation policy',             clients:'-',  created:'Jun 24, 2025', defaultFor:'',    status:'unassigned' },
+  { id:7,  name:'Time1_TW',      desc:'Time-window policy for Taiwan region',            clients:'-',  created:'Jul 4, 2025',  defaultFor:'',    status:'unassigned' },
+  { id:8,  name:'Time2',         desc:'Secondary time-window scheduling policy',        clients:'-',  created:'Jul 4, 2025',  defaultFor:'',    status:'unassigned' },
+  { id:9,  name:'QoS',           desc:'Quality of Service baseline policy',             clients:'-',  created:'Aug 7, 2025',  defaultFor:'',    status:'unassigned' },
+  { id:10, name:'default',       desc:'System default policy for unassigned clients',   clients:'-',  created:'Apr 27, 2026', defaultFor:'',    status:'unassigned' },
+  { id:11, name:'high_bandwidth',desc:'100/500 Mbps AMBR for high-throughput devices', clients:'-',  created:'Jan 10, 2026', defaultFor:'',    status:'unassigned' },
+  { id:12, name:'iot_limited',   desc:'Low-bandwidth IoT device restriction policy',   clients:'-',  created:'Feb 3, 2026',  defaultFor:'',    status:'unassigned' },
+  { id:13, name:'guest_access',  desc:'Guest network with captive portal rules',        clients:'-',  created:'Mar 1, 2026',  defaultFor:'Wi-Fi', status:'unassigned' },
+  { id:14, name:'priority_voice',desc:'Voice prioritisation with low latency QCI',      clients:'-',  created:'Mar 15, 2026', defaultFor:'',    status:'unassigned' },
+  { id:15, name:'slice_test',    desc:'Testing policy for network slice validation',    clients:'-',  created:'Apr 5, 2026',  defaultFor:'',    status:'unassigned' },
+  { id:16, name:'microseg_corp', desc:'Corporate microsegmentation isolation policy',   clients:'-',  created:'Apr 20, 2026', defaultFor:'',    status:'unassigned' },
+];
+
+let currentFilter = 'all';
+let selectedIds = new Set();
+
+function renderTable(data) {
+  const tbody = document.getElementById('policyTableBody');
+  if (data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state">
+      <div class="empty-icon"><svg viewBox="0 0 22 22"><path d="M4 8h14M4 5h14M4 11h8"/><rect x="1.5" y="2" width="19" height="18" rx="2"/></svg></div>
+      <div class="empty-title">No policies found</div>
+      <div class="empty-desc">Try adjusting your search or filters.</div>
+    </div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map(p => `
+    <tr class="${selectedIds.has(p.id) ? 'selected' : ''}" id="row-${p.id}">
+      <td><div class="cb-wrap"><input type="checkbox" class="cb" ${selectedIds.has(p.id) ? 'checked' : ''} onchange="toggleRow(${p.id}, this)"></div></td>
+      <td class="td-name">${p.name}</td>
+      <td><span class="td-desc" title="${p.desc}">${p.desc}</span></td>
+      <td>${p.clients === '-' ? '<span style="color:hsl(var(--muted-foreground))">—</span>' : `<span class="badge badge-blue"><span class="dot"></span>${p.clients} clients</span>`}</td>
+      <td>${p.status === 'assigned'
+        ? `<span class="badge badge-success"><span class="dot"></span>Assigned</span>`
+        : `<span class="badge badge-muted"><span class="dot"></span>Not Assigned</span>`}
+      </td>
+      <td class="td-date">${p.created}</td>
+      <td>${p.defaultFor ? `<span class="badge badge-blue">${p.defaultFor}</span>` : '<span style="color:hsl(var(--muted-foreground));font-size:12px">—</span>'}</td>
+      <td>
+        <div class="td-actions">
+          <button class="act-btn act-edit" onclick="editPolicy(${p.id})">
+            <svg viewBox="0 0 11 11"><path d="M7.5 1.5L9.5 3.5l-6 6H1.5v-2z"/></svg>
+            Edit
+          </button>
+          <button class="act-btn act-del" onclick="deletePolicy(${p.id})">
+            <svg viewBox="0 0 11 11"><path d="M2 2.5h7M4.5 2.5V1.5h2v1M3 2.5l.5 7h4l.5-7"/></svg>
+            Delete
+          </button>
+          <button class="act-more" onclick="moreActions(${p.id})">
+            <svg viewBox="0 0 14 14"><circle cx="7" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="7" r="1" fill="currentColor"/><circle cx="7" cy="11" r="1" fill="currentColor"/></svg>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+  document.getElementById('resultsCount').textContent = `Showing ${data.length} polic${data.length === 1 ? 'y' : 'ies'}`;
+  document.getElementById('pageInfo').textContent = `Showing 1–${data.length} of ${data.length}`;
+}
+
+function getFiltered() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  return policies.filter(p => {
+    if (currentFilter === 'assigned' && p.status !== 'assigned') return false;
+    if (currentFilter === 'unassigned' && p.status !== 'unassigned') return false;
+    if (q && !p.name.toLowerCase().includes(q) && !p.desc.toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function filterTable() { renderTable(getFiltered()); }
+
+function filterTab(tab) {
+  currentFilter = tab;
+  ['all','assigned','unassigned'].forEach(t => {
+    document.getElementById(`tab-${t}`).classList.toggle('active', t === tab);
+  });
+  filterTable();
+}
+
+function toggleSelectAll(cb) {
+  const rows = getFiltered();
+  if (cb.checked) rows.forEach(p => selectedIds.add(p.id));
+  else selectedIds.clear();
+  filterTable();
+  updateBulkBar();
+}
+
+function toggleRow(id, cb) {
+  if (cb.checked) selectedIds.add(id);
+  else selectedIds.delete(id);
+  document.getElementById(`row-${id}`).classList.toggle('selected', cb.checked);
+  updateBulkBar();
+}
+
+function clearSelection() {
+  selectedIds.clear();
+  document.getElementById('selectAll').checked = false;
+  filterTable();
+  updateBulkBar();
+}
+
+function updateBulkBar() {
+  const bar = document.getElementById('bulkBar');
+  document.getElementById('selCount').textContent = selectedIds.size;
+  bar.classList.toggle('show', selectedIds.size > 0);
+}
+
+function sortBy(col) { /* stub — would sort policies array */ filterTable(); }
+
+// ── Drawer ──
+function openDrawer(policy) {
+  document.getElementById('overlay').classList.add('show');
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawerTitle').textContent = policy ? 'Edit Policy' : 'New Policy';
+  document.getElementById('drawerSub').textContent = policy ? `Editing: ${policy.name}` : 'Define traffic rules and network access controls';
+  if (policy) {
+    document.getElementById('policyName').value = policy.name;
+    document.getElementById('policyDesc').value = policy.desc;
+  }
+}
+
+function closeDrawer() {
+  document.getElementById('overlay').classList.remove('show');
+  document.getElementById('drawer').classList.remove('open');
+  // Reset toggles
+  ['bandwidth','rat','slices','appslice','micro','ipfilter'].forEach(f => {
+    document.getElementById(`toggle-${f}`).classList.remove('on');
+    document.getElementById(`ft-${f}`).classList.remove('active');
+    document.getElementById(`sub-${f}`).classList.remove('show');
+  });
+  document.getElementById('policyName').value = '';
+  document.getElementById('policyDesc').value = '';
+}
+
+function editPolicy(id) {
+  const p = policies.find(x => x.id === id);
+  openDrawer(p);
+}
+
+function deletePolicy(id) {
+  // Stub — would show confirmation
+  alert(`Delete policy: ${policies.find(p=>p.id===id)?.name}?`);
+}
+
+function moreActions(id) { /* context menu stub */ }
+
+function savePolicy() {
+  const name = document.getElementById('policyName').value.trim();
+  if (!name) { document.getElementById('policyName').focus(); return; }
+  closeDrawer();
+}
+
+// ── Section toggles ──
+function toggleSection(id) {
+  const body = document.getElementById(`body-${id}`);
+  const chev = document.getElementById(`chevron-${id}`);
+  body.classList.toggle('collapsed');
+  chev.classList.toggle('open', !body.classList.contains('collapsed'));
+}
+
+// ── Feature toggles ──
+function toggleFeature(name) {
+  const toggle = document.getElementById(`toggle-${name}`);
+  const ft = document.getElementById(`ft-${name}`);
+  const sub = document.getElementById(`sub-${name}`);
+  const isOn = toggle.classList.toggle('on');
+  ft.classList.toggle('active', isOn);
+  sub.classList.toggle('show', isOn);
+}
+
+// ── Slice management ──
+let sliceCount = 1;
+function addSlice() {
+  if (sliceCount >= 4) return;
+  sliceCount++;
+  const list = document.getElementById('sliceList');
+  const item = document.createElement('div');
+  item.className = 'slice-item';
+  item.innerHTML = `
+    <span class="slice-num">${sliceCount}</span>
+    <input type="text" placeholder="App name" style="flex:1; border:none; font-size:12px; font-weight:500; background:transparent; outline:none; color:hsl(var(--foreground));">
+    <span class="slice-bw">↑ — Mbps</span>
+    <button class="slice-del" onclick="removeSlice(this)"><svg viewBox="0 0 12 12"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+  `;
+  list.appendChild(item);
+  if (sliceCount >= 4) document.getElementById('addSliceBtn').disabled = true;
+}
+function removeSlice(btn) {
+  btn.closest('.slice-item').remove();
+  sliceCount = Math.max(1, sliceCount - 1);
+  document.getElementById('addSliceBtn').disabled = false;
+  // Renumber
+  document.querySelectorAll('#sliceList .slice-num').forEach((n, i) => n.textContent = i + 1);
+}
+
+// ── Init ──
+renderTable(policies);
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Roboto", sans-serif; background: #F4F7F9; padding: 20px 24px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .cell { background: #fff; border: 1px solid #E2EAF4; border-radius: 6px; padding: 14px 16px; }
+  .cell-label { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #6A6F81; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="grid">
+  <div class="cell">
+    <div class="cell-label">Page Title</div>
+    <div style="font-family:'Work Sans',sans-serif;font-size:18px;font-weight:500;color:#141414;letter-spacing:-0.02em;">Network Overview</div>
+    <div style="font-size:13px;color:#394463;margin-top:4px;">Networks &rsaquo; Network Overview</div>
+  </div>
+  <div class="cell">
+    <div class="cell-label">Section Header (ALL CAPS)</div>
+    <div style="font-family:'Roboto',sans-serif;font-size:12px;font-weight:700;color:#141414;letter-spacing:0.04em;text-transform:uppercase;">System (Up Time: 13 Days)</div>
+    <div style="font-size:11px;color:#6A6F81;margin-top:4px;">KPI widget card header pattern</div>
+  </div>
+  <div class="cell">
+    <div class="cell-label">Field Label + Value</div>
+    <div style="font-size:12px;color:#394463;font-weight:700;text-transform:capitalize;margin-bottom:3px;">Network Name</div>
+    <div style="font-size:14px;color:#141414;font-weight:400;">Tokyo Office 5G</div>
+  </div>
+  <div class="cell">
+    <div class="cell-label">Link / Text Action</div>
+    <div style="font-size:14px;color:#125695;font-weight:500;cursor:pointer;">View Details →</div>
+    <div style="font-size:14px;color:#FF4930;font-weight:400;margin-top:6px;cursor:pointer;">Delete Network</div>
+  </div>
+  <div class="cell">
+    <div class="cell-label">KPI Value</div>
+    <div style="font-size:32px;font-weight:600;color:#141414;line-height:1;">84.4<span style="font-size:16px;font-weight:400;color:#394463;">%</span></div>
+    <div style="font-size:12px;color:#394463;margin-top:4px;font-weight:500;">Memory Usage</div>
+  </div>
+  <div class="cell">
+    <div class="cell-label">Table Header + Row</div>
+    <div style="font-size:12px;color:#394463;font-weight:400;padding:4px 0;border-bottom:1px solid #EEF0F1;">Device Name</div>
+    <div style="font-size:14px;color:#141414;font-weight:500;padding:5px 0;">gnb-tokyo-01</div>
+    <div style="font-size:11px;color:#394463;font-weight:400;">SN: 8A:2F:0C:11:22:33</div>
+  </div>
+</div>
+</body>
+</html>

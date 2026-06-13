@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Roboto", sans-serif; background: #F4F7F9; padding: 20px 24px; }
+  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #6A6F81; margin: 16px 0 10px; }
+  .section-label:first-child { margin-top: 0; }
+  .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 10px; font-size: 12px; font-weight: 500; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-lg { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .status-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .status-item { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; color: #141414; }
+  .alert-box { border-radius: 4px; padding: 10px 14px; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 500; border: 1px solid; }
+</style>
+</head>
+<body>
+  <div class="section-label">Status Badges</div>
+  <div class="row">
+    <div class="badge" style="background:#fff;border:1px solid #46D5B3;color:#469367;"><span class="dot" style="background:#46D5B3;"></span>Up</div>
+    <div class="badge" style="background:#fff;border:1px solid #FF4930;color:#FF4930;"><span class="dot" style="background:#FF4930;"></span>Down</div>
+    <div class="badge" style="background:#fff;border:1px solid #FFB800;color:#c98a00;"><span class="dot" style="background:#FFB800;"></span>Standby</div>
+    <div class="badge" style="background:#fff;border:1px solid #D3D3D3;color:#6A6F81;"><span class="dot" style="background:#D3D3D3;"></span>Unknown</div>
+    <div class="badge" style="background:#fff;border:1px solid #48A6F6;color:#125695;"><span class="dot" style="background:#48A6F6;"></span>Connecting</div>
+    <div class="badge" style="background:#46D5B3;color:#fff;">Active</div>
+    <div class="badge" style="background:#FF4930;color:#fff;">Failed</div>
+    <div class="badge" style="background:#FFB800;color:#fff;">Warning</div>
+  </div>
+
+  <div class="section-label">Status Inline (Name + Status)</div>
+  <div class="status-row">
+    <div class="status-item"><span class="dot-lg" style="background:#46D5B3;"></span>gnb-tokyo-01</div>
+    <div class="status-item"><span class="dot-lg" style="background:#FF4930;"></span>gnb-osaka-02</div>
+    <div class="status-item"><span class="dot-lg" style="background:#FFB800;"></span>gnb-kyoto-03</div>
+    <div class="status-item"><span class="dot-lg" style="background:#D3D3D3;"></span>gnb-nara-04</div>
+  </div>
+
+  <div class="section-label">Tags</div>
+  <div class="row">
+    <span class="tag" style="border-color:#46D5B3;color:#469367;background:#f0fdf8;">Online</span>
+    <span class="tag" style="border-color:#FF4930;color:#FF4930;background:#fff5f5;">Offline</span>
+    <span class="tag" style="border-color:#FFB800;color:#c98a00;background:#fffbeb;">Warning</span>
+    <span class="tag" style="border-color:#48A6F6;color:#125695;background:#eff6ff;">5G NR</span>
+    <span class="tag" style="border-color:#D9E3F0;color:#6A6F81;background:#F4F7F9;">LTE</span>
+    <span class="tag" style="border-color:#126E95;color:#126E95;background:#EFF6FB;">Tenant</span>
+  </div>
+
+  <div class="section-label">Alert Banners</div>
+  <div style="display:flex;flex-direction:column;gap:8px;">
+    <div class="alert-box" style="background:#f0fdf8;border:1px solid #46D5B3;">
+      <span class="dot" style="background:#46D5B3;flex-shrink:0;"></span>
+      <span style="color:#469367;font-weight:500;">Success:</span>&nbsp;<span style="color:#141414;">Network services started successfully.</span>
+    </div>
+    <div class="alert-box" style="background:#fff5f5;border:1px solid #FF4930;">
+      <span class="dot" style="background:#FF4930;flex-shrink:0;"></span>
+      <span style="color:#FF4930;font-weight:500;">Error:</span>&nbsp;<span style="color:#141414;">Connection to core network failed. Check UPF configuration.</span>
+    </div>
+    <div class="alert-box" style="background:#fffbeb;border:1px solid #FFB800;">
+      <span class="dot" style="background:#FFB800;flex-shrink:0;"></span>
+      <span style="color:#c98a00;font-weight:500;">Warning:</span>&nbsp;<span style="color:#141414;">Memory usage above 80%. Consider scaling resources.</span>
+    </div>
+  </div>
+</body>
+</html>

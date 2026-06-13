@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>/* apply saved theme before paint */(function(){var t=localStorage.getItem('ataya-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Tokens &amp; Components · Ataya Chorus Design System v2</title>
+<link rel="stylesheet" href="./tokens-v2.css">
+<link rel="stylesheet" href="./shell.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); font-size: var(--text-base); color: hsl(var(--foreground)); background: hsl(var(--background)); -webkit-font-smoothing: antialiased; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+.main { flex: 1; overflow-y: auto; scroll-behavior: smooth; }
+.content { padding: 8px 28px 96px; max-width: 1160px; }
+
+/* ── Page scaffolding ──────────────────────────────────────── */
+.ds-section { margin-top: 44px; scroll-margin-top: 16px; }
+.ds-section h2 { font-size: var(--text-xl); font-weight: 700; letter-spacing: var(--tracking-tight); display: flex; align-items: center; gap: 10px; }
+.ds-section h2 .sec-num { font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 500; color: hsl(var(--brand-cyan)); }
+.ds-section h3 { font-size: var(--text-md); font-weight: 600; margin: 26px 0 12px; }
+.ds-section p.lead { font-size: var(--text-sm); color: hsl(var(--muted-foreground)); margin: 5px 0 18px; max-width: 70ch; line-height: var(--leading-normal); }
+.ds-section code { font-family: var(--font-mono); font-size: var(--text-xs); background: hsl(var(--muted)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-sm); padding: 1px 5px; }
+.group-label { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: var(--tracking-wide); color: hsl(var(--muted-foreground)); margin: 22px 0 10px; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; }
+
+/* ── Token swatches ────────────────────────────────────────── */
+.tok { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; transition: border-color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out); }
+.tok:hover { border-color: hsl(var(--primary) / 0.5); box-shadow: var(--shadow-sm); }
+.tok .chip { height: 56px; border-bottom: 1px solid hsl(var(--border)); }
+.tok .meta { padding: 9px 12px; }
+.tok .meta .name { font-size: var(--text-sm); font-weight: 600; }
+.tok .meta .var { display: block; font-family: var(--font-mono); font-size: var(--text-xs); color: hsl(var(--muted-foreground)); margin-top: 3px; }
+.tok .meta .val { display: block; font-family: var(--font-mono); font-size: 10px; color: hsl(var(--muted-foreground)); opacity: 0.75; margin-top: 2px; }
+
+.ramp { display: flex; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid hsl(var(--border)); }
+.ramp .step { flex: 1; height: 72px; position: relative; cursor: pointer; }
+.ramp .step span { position: absolute; bottom: 5px; left: 0; right: 0; text-align: center; font-family: var(--font-mono); font-size: 9px; }
+.ramp-cap { font-size: var(--text-xs); color: hsl(var(--muted-foreground)); margin-top: 8px; }
+
+.ontint { display: flex; flex-direction: column; gap: 6px; padding: 14px; border-radius: var(--radius-lg); border: 1px solid hsl(var(--border)); background: hsl(var(--card)); cursor: pointer; }
+.ontint .demo { padding: 8px 12px; border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: 600; }
+.ontint .var { font-family: var(--font-mono); font-size: var(--text-xs); color: hsl(var(--muted-foreground)); }
+
+/* copy feedback toast */
+.copy-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(8px); background: hsl(var(--neutral-900)); color: hsl(var(--neutral-0)); font-size: var(--text-sm); padding: 9px 16px; border-radius: var(--radius-md); box-shadow: var(--shadow-lg); opacity: 0; pointer-events: none; transition: opacity var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out); z-index: 500; font-family: var(--font-mono); }
+.copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── Typography specimens ──────────────────────────────────── */
+.spec-panel { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-lg); padding: 6px 20px; }
+.type-row { display: flex; align-items: baseline; gap: 18px; padding: 13px 0; border-bottom: 1px solid hsl(var(--border)); }
+.type-row:last-child { border-bottom: 0; }
+.type-row .tlabel { width: 110px; flex-shrink: 0; font-family: var(--font-mono); font-size: var(--text-xs); color: hsl(var(--muted-foreground)); }
+.face-row { display: flex; flex-direction: column; gap: 4px; padding: 14px 0; border-bottom: 1px solid hsl(var(--border)); }
+.face-row:last-child { border-bottom: 0; }
+.face-row .fname { font-size: var(--text-xs); color: hsl(var(--muted-foreground)); font-family: var(--font-mono); }
+
+/* ── Spacing / radii / elevation ───────────────────────────── */
+.scale-strip { display: flex; align-items: flex-end; gap: 4px; padding: 14px; background: hsl(var(--muted)); border-radius: var(--radius-lg); }
+.scale-strip .step { background: hsl(var(--primary) / 0.18); border: 1px solid hsl(var(--primary) / 0.3); border-radius: var(--radius-sm); width: 38px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 3px; font-size: 10px; color: hsl(var(--primary)); font-family: var(--font-mono); }
+.radius-box { background: hsl(var(--primary) / 0.15); border: 1px solid hsl(var(--primary) / 0.3); width: 58px; height: 58px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 5px; font-size: var(--text-xs); font-family: var(--font-mono); color: hsl(var(--primary)); }
+.shadow-card { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-lg); height: 84px; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: var(--text-xs); color: hsl(var(--muted-foreground)); }
+.motion-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.motion-table td { padding: 9px 12px; border-bottom: 1px solid hsl(var(--border)); }
+.motion-table td:first-child { font-family: var(--font-mono); font-size: var(--text-xs); color: hsl(var(--muted-foreground)); width: 180px; }
+.motion-table tr:last-child td { border-bottom: 0; }
+.focus-demo { display: inline-flex; }
+.focus-demo .btn { box-shadow: var(--focus-ring); }
+
+/* ── Buttons ───────────────────────────────────────────────── */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: var(--radius-md); font: var(--font-weight-medium) var(--text-sm)/1 var(--font-sans); border: 1px solid transparent; cursor: pointer; user-select: none; transition: background var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out); }
+.btn-sm { height: 30px; padding: 0 10px; font-size: var(--text-xs); }
+.btn-lg { height: 42px; padding: 0 18px; font-size: var(--text-md); }
+.btn-icon-only { width: 36px; padding: 0; }
+.btn-primary { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+.btn-primary:hover { background: hsl(var(--primary) / 0.9); }
+.btn-secondary { background: hsl(var(--secondary)); color: hsl(var(--secondary-foreground)); border-color: hsl(var(--border)); }
+.btn-secondary:hover { background: hsl(var(--accent)); }
+.btn-outline { background: transparent; color: hsl(var(--foreground)); border-color: hsl(var(--border)); }
+.btn-outline:hover { background: hsl(var(--accent)); }
+.btn-ghost { background: transparent; color: hsl(var(--foreground)); }
+.btn-ghost:hover { background: hsl(var(--accent)); }
+.btn-destructive { background: hsl(var(--destructive)); color: hsl(var(--destructive-foreground)); }
+.btn-destructive:hover { background: hsl(var(--destructive) / 0.9); }
+.btn-link { background: transparent; color: hsl(var(--primary)); padding: 0; height: auto; font-weight: 500; }
+.btn-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.btn[disabled] { opacity: 0.5; pointer-events: none; }
+
+/* ── Inputs & forms ────────────────────────────────────────── */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field-label { font-size: var(--text-sm); font-weight: 500; }
+.help { font-size: var(--text-xs); color: hsl(var(--muted-foreground)); }
+.input, .select, .textarea { width: 100%; height: 36px; padding: 0 12px; background: hsl(var(--card)); color: hsl(var(--foreground)); border: 1px solid hsl(var(--input)); border-radius: var(--radius-md); font: 400 var(--text-sm)/1 var(--font-sans); transition: border-color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out); }
+.input::placeholder, .textarea::placeholder { color: hsl(var(--muted-foreground)); }
+.input:focus, .select:focus, .textarea:focus { outline: none; border-color: hsl(var(--ring)); box-shadow: 0 0 0 3px hsl(var(--ring) / 0.18); }
+.textarea { height: auto; padding: 10px 12px; min-height: 72px; resize: vertical; line-height: var(--leading-normal); }
+.input[aria-invalid="true"] { border-color: hsl(var(--destructive)); }
+.input.mono { font-family: var(--font-mono); }
+.select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2364748b' stroke-width='1.5'><path d='m4 6 4 4 4-4'/></svg>"); background-repeat: no-repeat; background-position: right 10px center; background-size: 14px; padding-right: 32px; }
+.check { display: inline-flex; align-items: center; gap: 8px; font-size: var(--text-sm); cursor: pointer; }
+.check input { accent-color: hsl(var(--primary)); width: 16px; height: 16px; }
+.switch { position: relative; display: inline-block; width: 36px; height: 20px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch .track { position: absolute; inset: 0; background: hsl(var(--muted)); border-radius: var(--radius-full); transition: background var(--duration-fast); cursor: pointer; border: 1px solid hsl(var(--border)); }
+.switch .track::before { content: ""; position: absolute; left: 2px; top: 2px; width: 14px; height: 14px; border-radius: 50%; background: hsl(var(--card)); box-shadow: var(--shadow-sm); transition: transform var(--duration-fast) var(--ease-out); }
+.switch input:checked + .track { background: hsl(var(--primary)); border-color: hsl(var(--primary)); }
+.switch input:checked + .track::before { transform: translateX(16px); }
+
+/* ── Cards & KPI ───────────────────────────────────────────── */
+.card { background: hsl(var(--card)); color: hsl(var(--card-foreground)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+.card-header { padding: 16px 20px 0; }
+.card-title { font-size: var(--text-md); font-weight: 600; }
+.card-desc { font-size: var(--text-sm); color: hsl(var(--muted-foreground)); margin-top: 4px; }
+.card-body { padding: 16px 20px; }
+.card-footer { padding: 12px 20px 16px; border-top: 1px solid hsl(var(--border)); display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+.kpi { display: flex; flex-direction: column; gap: 4px; padding: 16px 20px; }
+.kpi .l { font-size: var(--text-xs); color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: var(--tracking-wide); }
+.kpi .v { font-size: var(--text-2xl); font-weight: 600; letter-spacing: var(--tracking-tight); }
+.kpi .delta { font-size: var(--text-xs); color: hsl(var(--on-success)); font-weight: 600; }
+.kpi .delta.down { color: hsl(var(--on-destructive)); }
+
+/* ── Badges, avatars, status ───────────────────────────────── */
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px; border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 500; line-height: 1.6; }
+.badge.solid { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+.badge.subtle-success { background: hsl(var(--success) / 0.18); color: hsl(var(--on-success)); }
+.badge.subtle-warning { background: hsl(var(--warning) / 0.22); color: hsl(var(--on-warning)); }
+.badge.subtle-danger { background: hsl(var(--destructive) / 0.15); color: hsl(var(--on-destructive)); }
+.badge.subtle-info { background: hsl(var(--info) / 0.18); color: hsl(var(--on-info)); }
+.badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.demo-avatar { width: 32px; height: 32px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: hsl(var(--primary) / 0.15); color: hsl(var(--primary)); font-weight: 600; font-size: var(--text-xs); }
+.demo-avatar.lg { width: 40px; height: 40px; font-size: var(--text-sm); }
+.demo-avatar.sm { width: 24px; height: 24px; font-size: 10px; }
+.status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+.status-up { background: hsl(var(--success)); box-shadow: 0 0 0 3px hsl(var(--success) / 0.2); }
+.status-down { background: hsl(var(--destructive)); box-shadow: 0 0 0 3px hsl(var(--destructive) / 0.18); }
+.status-warn { background: hsl(var(--warning)); box-shadow: 0 0 0 3px hsl(var(--warning) / 0.2); }
+
+/* ── Table ─────────────────────────────────────────────────── */
+.table { width: 100%; border-collapse: separate; border-spacing: 0; background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-lg); overflow: hidden; }
+.table th, .table td { padding: 12px 16px; text-align: left; font-size: var(--text-sm); border-bottom: 1px solid hsl(var(--border)); }
+.table thead th { background: hsl(var(--muted)); color: hsl(var(--muted-foreground)); font-weight: 500; font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--tracking-wide); }
+.table tbody tr:last-child td { border-bottom: 0; }
+.table tbody tr:hover { background: hsl(var(--accent)); }
+.table .mono { font-family: var(--font-mono); font-size: var(--text-xs); }
+.kebab { width: 28px; height: 28px; border-radius: var(--radius-md); border: none; background: transparent; color: hsl(var(--muted-foreground)); cursor: pointer; font-size: 15px; line-height: 1; }
+.kebab:hover { background: hsl(var(--accent)); color: hsl(var(--foreground)); }
+
+/* ── Tabs + time range ─────────────────────────────────────── */
+.tabs { display: inline-flex; padding: 4px; background: hsl(var(--muted)); border-radius: var(--radius-md); gap: 2px; }
+.tabs button { background: transparent; border: 0; padding: 6px 12px; border-radius: calc(var(--radius-md) - 2px); font-size: var(--text-sm); color: hsl(var(--muted-foreground)); cursor: pointer; font-family: var(--font-sans); }
+.tabs button[aria-selected="true"] { background: hsl(var(--card)); color: hsl(var(--foreground)); box-shadow: var(--shadow-xs); font-weight: 500; }
+
+/* ── Alerts & toast ────────────────────────────────────────── */
+.alert { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border: 1px solid hsl(var(--border)); border-radius: var(--radius-md); background: hsl(var(--card)); }
+.alert .dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+.alert.info .dot { background: hsl(var(--info)); }
+.alert.success .dot { background: hsl(var(--success)); }
+.alert.warning .dot { background: hsl(var(--warning)); }
+.alert.danger .dot { background: hsl(var(--destructive)); }
+.alert .title { font-size: var(--text-sm); font-weight: 500; }
+.alert .body { font-size: var(--text-sm); color: hsl(var(--muted-foreground)); margin-top: 2px; }
+.toast { background: hsl(var(--neutral-900)); color: hsl(var(--neutral-0)); border-radius: var(--radius-md); padding: 12px 14px; font-size: var(--text-sm); box-shadow: var(--shadow-lg); display: inline-flex; align-items: center; gap: 12px; }
+.toast .ok { color: hsl(var(--brand-teal)); font-weight: 500; }
+
+/* ── Menus & dialog ────────────────────────────────────────── */
+.menu { background: hsl(var(--popover)); color: hsl(var(--popover-foreground)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-md); padding: 4px; min-width: 220px; box-shadow: var(--shadow-lg); }
+.menu .item { padding: 7px 10px; border-radius: calc(var(--radius-md) - 2px); font-size: var(--text-sm); display: flex; align-items: center; justify-content: space-between; gap: 8px; cursor: pointer; }
+.menu .item:hover { background: hsl(var(--accent)); }
+.menu .item.destructive { color: hsl(var(--destructive)); }
+.menu .item.destructive:hover { background: hsl(var(--destructive) / 0.1); }
+.menu .sep { height: 1px; background: hsl(var(--border)); margin: 4px 0; }
+.menu .kbd { font-family: var(--font-mono); font-size: 11px; color: hsl(var(--muted-foreground)); background: hsl(var(--muted)); padding: 1px 5px; border-radius: 4px; border: 1px solid hsl(var(--border)); }
+.dialog-frame { background: hsl(var(--neutral-900) / 0.4); padding: 32px; border-radius: var(--radius-lg); border: 1px solid hsl(var(--border)); }
+.dialog { max-width: 460px; margin: 0 auto; background: hsl(var(--card)); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); border: 1px solid hsl(var(--border)); overflow: hidden; }
+.dialog .head { padding: 20px 24px 8px; }
+.dialog .head h4 { font-size: var(--text-lg); font-weight: 600; }
+.dialog .head p { margin-top: 4px; font-size: var(--text-sm); color: hsl(var(--muted-foreground)); }
+.dialog .body { padding: 12px 24px; }
+.dialog .foot { padding: 16px 24px 20px; display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid hsl(var(--border)); margin-top: 12px; }
+
+/* ── AI primitives (CSS verbatim from ai-assistant-preview.html — do not drift) ── */
+.tile-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+.tile { background: hsl(var(--card) / .6); border: 1px solid hsl(var(--border)); border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
+.tile-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: hsl(var(--brand-cyan)); }
+.tile-note { font-size: var(--text-xs); color: hsl(var(--muted-foreground)); line-height: 1.5; margin-top: auto; }
+
+.msg-user { display: flex; justify-content: flex-end; }
+.msg-user-bubble { max-width: 78%; padding: 11px 16px; background: hsl(var(--brand-blue)); color: #fff; border-radius: 20px 20px 5px 20px; font-size: var(--text-sm); line-height: 1.55; box-shadow: 0 2px 8px hsl(214 78% 33% / .25); }
+.msg-ai { display: flex; gap: 10px; align-items: flex-start; }
+.ai-avatar { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, hsl(195 99% 48%), hsl(163 60% 56%)); display: flex; align-items: center; justify-content: center; }
+.ai-avatar svg { width: 14px; height: 14px; color: #fff; }
+.msg-ai-body { flex: 1; min-width: 0; }
+.msg-ai-name { font-size: 10px; font-weight: 700; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+.msg-ai-bubble { background: hsl(var(--card) / .92); backdrop-filter: blur(12px); border: 1px solid hsl(var(--border)); border-radius: 4px 18px 18px 18px; padding: 14px 18px; font-size: var(--text-sm); line-height: 1.6; box-shadow: 0 2px 12px hsl(var(--accent) / .8); }
+.msg-ai-bubble p { margin-bottom: 8px; }
+.msg-ai-bubble p:last-child { margin-bottom: 0; }
+
+.msg-chart { margin: 12px 0; border: 1px solid hsl(var(--border)); border-radius: 10px; padding: 12px 16px; background: hsl(var(--muted) / .6); }
+.msg-chart-title { font-size: 10px; font-weight: 700; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; }
+.bar-row { display: flex; flex-direction: column; gap: 6px; }
+.bar-item { display: flex; align-items: center; gap: 8px; }
+.bar-label { font-size: var(--text-xs); color: hsl(var(--muted-foreground)); width: 130px; flex-shrink: 0; }
+.bar-track { flex: 1; height: 8px; background: hsl(var(--muted)); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; }
+.bar-pct { font-size: var(--text-xs); font-weight: 700; width: 36px; text-align: right; }
+
+.msg-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.msg-action-chip { padding: 6px 12px; border-radius: 14px; border: 1.5px solid hsl(var(--primary) / .35); background: hsl(var(--primary) / .07); font-size: var(--text-xs); font-weight: 600; cursor: pointer; color: hsl(var(--primary)); transition: all .15s; }
+.msg-action-chip:hover { background: hsl(var(--primary) / .14); border-color: hsl(var(--primary) / .6); }
+
+.meta-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.conf-badge { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px; border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 600; background: hsl(var(--success) / 0.16); color: hsl(var(--on-success)); }
+.conf-badge.low { background: hsl(var(--warning) / 0.18); color: hsl(var(--on-warning)); }
+.conf-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.src-badge { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: var(--radius-full); font-size: var(--text-xs); background: hsl(var(--muted)); color: hsl(var(--muted-foreground)); }
+
+.note-callout { display: flex; gap: 9px; margin: 12px 0 4px; padding: 10px 13px; border-radius: var(--radius-md); background: hsl(var(--info) / 0.09); border: 1px solid hsl(var(--info) / 0.25); font-size: var(--text-sm); line-height: 1.55; color: hsl(var(--foreground)); }
+.note-callout svg { flex-shrink: 0; margin-top: 2px; stroke: hsl(var(--on-info)); }
+.warn-callout { display: flex; gap: 9px; margin: 12px 0; padding: 10px 13px; border-radius: var(--radius-md); background: hsl(var(--warning) / 0.10); border: 1px solid hsl(var(--warning) / 0.35); font-size: var(--text-sm); line-height: 1.55; color: hsl(var(--foreground)); }
+.warn-callout svg { flex-shrink: 0; margin-top: 2px; stroke: hsl(var(--on-warning)); }
+
+.form-preview { display: flex; flex-direction: column; gap: 12px; margin: 14px 0 4px; max-width: 400px; }
+.fp-field label { display: block; font-size: var(--text-xs); font-weight: 600; color: hsl(var(--muted-foreground)); margin-bottom: 5px; }
+.fp-input { width: 100%; padding: 9px 12px; border: 1px solid hsl(var(--border)); border-radius: var(--radius-md); background: hsl(var(--card)); font-size: var(--text-sm); color: hsl(var(--foreground)); font-family: var(--font-sans); }
+.fp-input.mono { font-family: var(--font-mono); }
+.fp-input.warn { border-color: hsl(var(--warning) / 0.6); box-shadow: 0 0 0 1px hsl(var(--warning) / 0.35); }
+.fp-help-warn { font-size: var(--text-xs); color: hsl(var(--on-warning)); margin-top: 5px; }
+.confirm-row { display: flex; gap: 8px; margin-top: 12px; }
+.btn-confirm { height: 34px; padding: 0 22px; border-radius: var(--radius-full); border: none; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); font-size: var(--text-sm); font-weight: 600; cursor: pointer; font-family: var(--font-sans); transition: background .15s; }
+.btn-confirm:hover { background: hsl(var(--primary) / .88); }
+.btn-cancel { height: 34px; padding: 0 18px; border-radius: var(--radius-full); border: 1px solid hsl(var(--border)); background: transparent; color: hsl(var(--foreground)); font-size: var(--text-sm); font-weight: 500; cursor: pointer; font-family: var(--font-sans); }
+.btn-cancel:hover { background: hsl(var(--accent)); }
+
+.receipt { margin: 12px 0; border: 1px solid hsl(var(--success) / 0.35); border-radius: 10px; overflow: hidden; }
+.receipt-head { display: flex; align-items: center; gap: 8px; padding: 9px 14px; background: hsl(var(--success) / 0.12); font-size: var(--text-sm); font-weight: 700; color: hsl(var(--on-success)); }
+.receipt-row { display: flex; gap: 12px; padding: 9px 14px; border-top: 1px solid hsl(var(--border)); font-size: var(--text-sm); line-height: 1.5; }
+.receipt-k { width: 72px; flex-shrink: 0; font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: hsl(var(--muted-foreground)); padding-top: 2px; }
+.receipt-v { flex: 1; color: hsl(var(--foreground)); }
+.audit-line { font-size: var(--text-xs); color: hsl(var(--muted-foreground)); margin-top: 10px; display: flex; align-items: center; gap: 6px; }
+.sys-note { text-align: center; font-size: var(--text-xs); color: hsl(var(--muted-foreground)); }
+.sys-note span { background: hsl(var(--muted)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-full); padding: 3px 12px; }
+
+/* sidebar anchor links */
+.sidebar a.sidebar-item { text-decoration: none; }
+</style>
+</head>
+<body class="ds-v2">
+
+<!-- Top Nav (canonical shell) -->
+<nav class="topnav" aria-label="Primary">
+  <div class="topnav-logo"><span>Ataya</span><span>Chorus</span></div>
+  <button class="nav-tab">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    Insights &amp; Analytics
+  </button>
+  <button class="nav-tab">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    Networks
+  </button>
+  <button class="nav-tab">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    Devices
+  </button>
+  <button class="nav-tab">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+    Clients
+  </button>
+  <button class="nav-tab">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Policies
+  </button>
+  <button class="nav-tab">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+    Edge Applications
+  </button>
+  <button class="nav-tab">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+    Organization
+  </button>
+  <div class="topnav-end">
+    <button class="icon-btn" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <button class="btn-ai">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10"/></svg>
+      AI Assistant
+    </button>
+    <button class="icon-btn" aria-label="Notifications (6 unread)">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span class="notif-badge">6</span>
+    </button>
+    <button class="icon-btn" aria-label="Help">?</button>
+    <button class="avatar" aria-label="Account — Sobhan D.">SD</button>
+  </div>
+</nav>
+
+<div class="app-shell">
+
+  <!-- Contextual sidebar: section TOC -->
+  <aside class="sidebar" aria-label="Design system sections">
+    <div class="sidebar-section-label">Foundations</div>
+    <a class="sidebar-item active" href="#color">Color</a>
+    <a class="sidebar-item" href="#typography">Typography</a>
+    <a class="sidebar-item" href="#spacing">Spacing &amp; Radii</a>
+    <a class="sidebar-item" href="#elevation">Elevation &amp; Motion</a>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-label">Components</div>
+    <a class="sidebar-item" href="#buttons">Buttons</a>
+    <a class="sidebar-item" href="#inputs">Inputs &amp; Forms</a>
+    <a class="sidebar-item" href="#cards">Cards &amp; KPIs</a>
+    <a class="sidebar-item" href="#badges">Badges &amp; Status</a>
+    <a class="sidebar-item" href="#tables">Tables</a>
+    <a class="sidebar-item" href="#tabs">Tabs &amp; Time Range</a>
+    <a class="sidebar-item" href="#alerts">Alerts &amp; Toasts</a>
+    <a class="sidebar-item" href="#menus">Menus &amp; Dialogs</a>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-label">AI Primitives</div>
+    <a class="sidebar-item" href="#ai-primitives">AI Vocabulary</a>
+  </aside>
+
+  <main class="main" id="main">
+
+    <div class="page-header">
+      <div>
+        <div class="breadcrumb"><span>Organization</span><span class="sep">/</span><span>Design System</span></div>
+        <div class="page-title" style="margin-top:6px">
+          Tokens &amp; Components
+          <span class="badge subtle-info" style="font-weight:600">v2 · June 2026</span>
+        </div>
+        <div class="page-desc">Single source of truth for Ataya Chorus. Tokens live in <span style="font-family:var(--font-mono)">tokens-v2.css</span>, shell chrome in <span style="font-family:var(--font-mono)">shell.css</span>. Click any token to copy its CSS variable.</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ════════ COLOR ════════ -->
+      <section class="ds-section" id="color" style="margin-top:28px">
+        <h2><span class="sec-num">01</span>Color</h2>
+        <p class="lead">Tokens are HSL channel triplets, so colors compose with alpha: <code>hsl(var(--primary) / 0.1)</code>. Light is the default; dark applies via <code>[data-theme="dark"]</code> and <code>prefers-color-scheme</code>. Use the moon toggle in the top nav to compare.</p>
+
+        <div class="group-label">Brand anchors</div>
+        <div class="grid-4">
+          <div class="tok" data-copy="--brand-blue"><div class="chip" style="background:hsl(var(--brand-blue))"></div><div class="meta"><span class="name">Brand blue</span><span class="var">--brand-blue</span><span class="val">214 78% 33% · #125695</span></div></div>
+          <div class="tok" data-copy="--brand-cyan"><div class="chip" style="background:hsl(var(--brand-cyan))"></div><div class="meta"><span class="name">Brand cyan</span><span class="var">--brand-cyan</span><span class="val">195 99% 48% · #01BCF3</span></div></div>
+          <div class="tok" data-copy="--brand-teal"><div class="chip" style="background:hsl(var(--brand-teal))"></div><div class="meta"><span class="name">Brand teal</span><span class="var">--brand-teal</span><span class="val">163 60% 56% · #46D5B3</span></div></div>
+          <div class="tok" data-copy="--brand-amber"><div class="chip" style="background:hsl(var(--brand-amber))"></div><div class="meta"><span class="name">Brand amber</span><span class="var">--brand-amber</span><span class="val">42 100% 50% · #FFB800</span></div></div>
+          <div class="tok" data-copy="--brand-red"><div class="chip" style="background:hsl(var(--brand-red))"></div><div class="meta"><span class="name">Brand red</span><span class="var">--brand-red</span><span class="val">8 100% 59% · #FF4930</span></div></div>
+        </div>
+
+        <div class="group-label">Neutral ramp</div>
+        <div class="ramp" role="img" aria-label="Neutral ramp from 0 to 950">
+          <div class="step" data-copy="--neutral-0" style="background:hsl(var(--neutral-0))"><span style="color:hsl(var(--neutral-600))">0</span></div>
+          <div class="step" data-copy="--neutral-50" style="background:hsl(var(--neutral-50))"><span style="color:hsl(var(--neutral-600))">50</span></div>
+          <div class="step" data-copy="--neutral-100" style="background:hsl(var(--neutral-100))"><span style="color:hsl(var(--neutral-600))">100</span></div>
+          <div class="step" data-copy="--neutral-200" style="background:hsl(var(--neutral-200))"><span style="color:hsl(var(--neutral-600))">200</span></div>
+          <div class="step" data-copy="--neutral-300" style="background:hsl(var(--neutral-300))"><span style="color:hsl(var(--neutral-700))">300</span></div>
+          <div class="step" data-copy="--neutral-400" style="background:hsl(var(--neutral-400))"><span style="color:hsl(var(--neutral-800))">400</span></div>
+          <div class="step" data-copy="--neutral-500" style="background:hsl(var(--neutral-500))"><span style="color:hsl(var(--neutral-50))">500</span></div>
+          <div class="step" data-copy="--neutral-600" style="background:hsl(var(--neutral-600))"><span style="color:hsl(var(--neutral-50))">600</span></div>
+          <div class="step" data-copy="--neutral-700" style="background:hsl(var(--neutral-700))"><span style="color:hsl(var(--neutral-50))">700</span></div>
+          <div class="step" data-copy="--neutral-800" style="background:hsl(var(--neutral-800))"><span style="color:hsl(var(--neutral-50))">800</span></div>
+          <div class="step" data-copy="--neutral-900" style="background:hsl(var(--neutral-900))"><span style="color:hsl(var(--neutral-50))">900</span></div>
+          <div class="step" data-copy="--neutral-950" style="background:hsl(var(--neutral-950))"><span style="color:hsl(var(--neutral-50))">950</span></div>
+        </div>
+        <div class="ramp-cap">Perceptually even, hue 220. Replaces v1's ad-hoc grays — <span style="font-family:var(--font-mono)">--neutral-0 … --neutral-950</span>.</div>
+
+        <div class="group-label">Semantic surfaces</div>
+        <div class="grid-4">
+          <div class="tok" data-copy="--background"><div class="chip" style="background:hsl(var(--background))"></div><div class="meta"><span class="name">Background</span><span class="var">--background</span><span class="val">page background</span></div></div>
+          <div class="tok" data-copy="--card"><div class="chip" style="background:hsl(var(--card))"></div><div class="meta"><span class="name">Card</span><span class="var">--card</span><span class="val">cards, panels, popovers</span></div></div>
+          <div class="tok" data-copy="--muted"><div class="chip" style="background:hsl(var(--muted))"></div><div class="meta"><span class="name">Muted</span><span class="var">--muted</span><span class="val">subdued surfaces</span></div></div>
+          <div class="tok" data-copy="--accent"><div class="chip" style="background:hsl(var(--accent))"></div><div class="meta"><span class="name">Accent</span><span class="var">--accent</span><span class="val">hover background</span></div></div>
+          <div class="tok" data-copy="--border"><div class="chip" style="background:hsl(var(--border))"></div><div class="meta"><span class="name">Border</span><span class="var">--border</span><span class="val">hairlines, dividers</span></div></div>
+          <div class="tok" data-copy="--foreground"><div class="chip" style="background:hsl(var(--foreground))"></div><div class="meta"><span class="name">Foreground</span><span class="var">--foreground</span><span class="val">primary text</span></div></div>
+          <div class="tok" data-copy="--muted-foreground"><div class="chip" style="background:hsl(var(--muted-foreground))"></div><div class="meta"><span class="name">Muted foreground</span><span class="var">--muted-foreground</span><span class="val">metadata, captions</span></div></div>
+          <div class="tok" data-copy="--sidebar"><div class="chip" style="background:hsl(var(--sidebar))"></div><div class="meta"><span class="name">Sidebar</span><span class="var">--sidebar</span><span class="val">dark-neutral shell</span></div></div>
+        </div>
+
+        <div class="group-label">Semantic actions &amp; status</div>
+        <div class="grid-4">
+          <div class="tok" data-copy="--primary"><div class="chip" style="background:hsl(var(--primary))"></div><div class="meta"><span class="name">Primary</span><span class="var">--primary</span><span class="val">brand blue · cyan in dark</span></div></div>
+          <div class="tok" data-copy="--secondary"><div class="chip" style="background:hsl(var(--secondary))"></div><div class="meta"><span class="name">Secondary</span><span class="var">--secondary</span><span class="val">neutral action</span></div></div>
+          <div class="tok" data-copy="--success"><div class="chip" style="background:hsl(var(--success))"></div><div class="meta"><span class="name">Success</span><span class="var">--success</span><span class="val">up / healthy</span></div></div>
+          <div class="tok" data-copy="--warning"><div class="chip" style="background:hsl(var(--warning))"></div><div class="meta"><span class="name">Warning</span><span class="var">--warning</span><span class="val">degraded / standby</span></div></div>
+          <div class="tok" data-copy="--destructive"><div class="chip" style="background:hsl(var(--destructive))"></div><div class="meta"><span class="name">Destructive</span><span class="var">--destructive</span><span class="val">down / delete</span></div></div>
+          <div class="tok" data-copy="--info"><div class="chip" style="background:hsl(var(--info))"></div><div class="meta"><span class="name">Info</span><span class="var">--info</span><span class="val">notices, provisioning</span></div></div>
+          <div class="tok" data-copy="--ring"><div class="chip" style="background:hsl(var(--ring))"></div><div class="meta"><span class="name">Ring</span><span class="var">--ring</span><span class="val">focus indicator</span></div></div>
+          <div class="tok" data-copy="--sidebar-active"><div class="chip" style="background:hsl(var(--sidebar-active))"></div><div class="meta"><span class="name">Sidebar active</span><span class="var">--sidebar-active</span><span class="val">cyan rail</span></div></div>
+        </div>
+
+        <div class="group-label">On-tint foregrounds — text on tinted surfaces (theme-aware)</div>
+        <p class="lead" style="margin-bottom:12px">Never hardcode text colors on tinted backgrounds. These four flip per theme so <code>hsl(var(--success) / 0.14)</code> surfaces stay legible in both modes.</p>
+        <div class="grid-4">
+          <div class="ontint" data-copy="--on-success"><div class="demo" style="background:hsl(var(--success) / 0.14); color:hsl(var(--on-success))">Device online</div><span class="var">--on-success</span></div>
+          <div class="ontint" data-copy="--on-warning"><div class="demo" style="background:hsl(var(--warning) / 0.14); color:hsl(var(--on-warning))">License expiring</div><span class="var">--on-warning</span></div>
+          <div class="ontint" data-copy="--on-destructive"><div class="demo" style="background:hsl(var(--destructive) / 0.12); color:hsl(var(--on-destructive))">Node unreachable</div><span class="var">--on-destructive</span></div>
+          <div class="ontint" data-copy="--on-info"><div class="demo" style="background:hsl(var(--info) / 0.12); color:hsl(var(--on-info))">Provisioning</div><span class="var">--on-info</span></div>
+        </div>
+      </section>
+
+      <!-- ════════ TYPOGRAPHY ════════ -->
+      <section class="ds-section" id="typography">
+        <h2><span class="sec-num">02</span>Typography</h2>
+        <p class="lead">Inter is the UI face (with <code>cv11</code>/<code>ss01</code> feature settings); JetBrains Mono is reserved for technical identifiers — serials, MACs, IPs, DNN and policy names.</p>
+
+        <div class="group-label">Faces</div>
+        <div class="spec-panel">
+          <div class="face-row"><span style="font-size:var(--text-xl); font-weight:600">Inter — interface, headings, body</span><span class="fname">--font-sans · 400 / 500 / 600 / 700</span></div>
+          <div class="face-row"><span style="font-size:var(--text-md); font-family:var(--font-mono)">JetBrains Mono — SC280700013 · 00-B0-D0-63-C2-26 · 3.108.0.54</span><span class="fname">--font-mono · 400 / 500 · technical IDs only</span></div>
+        </div>
+
+        <div class="group-label">Type scale</div>
+        <div class="spec-panel">
+          <div class="type-row"><span class="tlabel">--text-4xl · 38px</span><span style="font-size:var(--text-4xl); font-weight:600; letter-spacing:var(--tracking-tight)">Display heading</span></div>
+          <div class="type-row"><span class="tlabel">--text-3xl · 30px</span><span style="font-size:var(--text-3xl); font-weight:600">Page title</span></div>
+          <div class="type-row"><span class="tlabel">--text-2xl · 24px</span><span style="font-size:var(--text-2xl); font-weight:600">Section title / KPI value</span></div>
+          <div class="type-row"><span class="tlabel">--text-xl · 20px</span><span style="font-size:var(--text-xl); font-weight:700">Page header title</span></div>
+          <div class="type-row"><span class="tlabel">--text-lg · 17px</span><span style="font-size:var(--text-lg)">Subhead</span></div>
+          <div class="type-row"><span class="tlabel">--text-md · 15px</span><span style="font-size:var(--text-md)">Body emphasis</span></div>
+          <div class="type-row"><span class="tlabel">--text-base · 14px</span><span style="font-size:var(--text-base)">Default body</span></div>
+          <div class="type-row"><span class="tlabel">--text-sm · 12px</span><span style="font-size:var(--text-sm); color:hsl(var(--muted-foreground))">Caption, table cell, nav label</span></div>
+          <div class="type-row"><span class="tlabel">--text-xs · 11px</span><span style="font-size:var(--text-xs); text-transform:uppercase; letter-spacing:var(--tracking-wide); color:hsl(var(--muted-foreground))">Eyebrow / section label</span></div>
+        </div>
+
+        <div class="group-label">Leading &amp; tracking</div>
+        <div class="spec-panel">
+          <table class="motion-table">
+            <tr><td>--leading-tight · 1.25</td><td>Headings and KPI values</td></tr>
+            <tr><td>--leading-snug · 1.4</td><td>Dense UI copy, callouts</td></tr>
+            <tr><td>--leading-normal · 1.55</td><td>Default body</td></tr>
+            <tr><td>--leading-relaxed · 1.7</td><td>Long-form reading</td></tr>
+            <tr><td>--tracking-tight · −0.01em</td><td>Headings ≥ 20px</td></tr>
+            <tr><td>--tracking-wide · 0.04em</td><td>Uppercase eyebrows only</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <!-- ════════ SPACING & RADII ════════ -->
+      <section class="ds-section" id="spacing">
+        <h2><span class="sec-num">03</span>Spacing &amp; Radii</h2>
+        <p class="lead">Spacing rides a 4-px grid (<code>--space-1 … --space-20</code>). One radius scale replaces v1's ad-hoc 4/6/10/16.</p>
+        <div class="grid-2">
+          <div>
+            <div class="group-label" style="margin-top:0">Spacing scale (px)</div>
+            <div class="scale-strip">
+              <div class="step" style="height:4px">1</div>
+              <div class="step" style="height:8px">2</div>
+              <div class="step" style="height:12px">3</div>
+              <div class="step" style="height:16px">4</div>
+              <div class="step" style="height:20px">5</div>
+              <div class="step" style="height:24px">6</div>
+              <div class="step" style="height:32px">8</div>
+              <div class="step" style="height:40px">10</div>
+              <div class="step" style="height:48px">12</div>
+              <div class="step" style="height:64px">16</div>
+              <div class="step" style="height:80px">20</div>
+            </div>
+          </div>
+          <div>
+            <div class="group-label" style="margin-top:0">Radii</div>
+            <div class="row">
+              <div class="radius-box" style="border-radius:var(--radius-sm)">sm 4</div>
+              <div class="radius-box" style="border-radius:var(--radius-md)">md 6</div>
+              <div class="radius-box" style="border-radius:var(--radius-lg)">lg 10</div>
+              <div class="radius-box" style="border-radius:var(--radius-xl)">xl 14</div>
+              <div class="radius-box" style="border-radius:var(--radius-full)">full</div>
+            </div>
+            <p class="lead" style="margin-top:12px"><code>md</code> for inputs, buttons, badges · <code>lg</code> for cards and popovers · <code>xl</code> for modals and sheets · <code>full</code> for pills and avatars.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════ ELEVATION & MOTION ════════ -->
+      <section class="ds-section" id="elevation">
+        <h2><span class="sec-num">04</span>Elevation &amp; Motion</h2>
+        <p class="lead">A single subtle shadow ramp — legacy glow shadows were removed in v2. Motion is fast and restrained.</p>
+        <div class="group-label">Shadow ramp</div>
+        <div class="grid-4" style="grid-template-columns:repeat(5,1fr)">
+          <div class="shadow-card" style="box-shadow:var(--shadow-xs)">--shadow-xs</div>
+          <div class="shadow-card" style="box-shadow:var(--shadow-sm)">--shadow-sm</div>
+          <div class="shadow-card" style="box-shadow:var(--shadow-md)">--shadow-md</div>
+          <div class="shadow-card" style="box-shadow:var(--shadow-lg)">--shadow-lg</div>
+          <div class="shadow-card" style="box-shadow:var(--shadow-xl)">--shadow-xl</div>
+        </div>
+        <div class="grid-2" style="margin-top:22px">
+          <div>
+            <div class="group-label" style="margin-top:0">Motion</div>
+            <div class="spec-panel">
+              <table class="motion-table">
+                <tr><td>--duration-fast · 120ms</td><td>Hovers, toggles</td></tr>
+                <tr><td>--duration-base · 180ms</td><td>Reveals, fades</td></tr>
+                <tr><td>--duration-slow · 240ms</td><td>Panels, drawers</td></tr>
+                <tr><td>--ease-out</td><td>cubic-bezier(0.16, 1, 0.3, 1)</td></tr>
+                <tr><td>--ease-in-out</td><td>cubic-bezier(0.65, 0, 0.35, 1)</td></tr>
+              </table>
+            </div>
+          </div>
+          <div>
+            <div class="group-label" style="margin-top:0">Focus ring</div>
+            <div class="spec-panel" style="padding:20px">
+              <div class="focus-demo"><button class="btn btn-primary">Focused button</button></div>
+              <p class="lead" style="margin:14px 0 0">Two-layer ring: a background-colored gap plus <code>hsl(var(--ring) / 0.55)</code>. Consistent on every interactive element via <code>:focus-visible</code>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════ BUTTONS ════════ -->
+      <section class="ds-section" id="buttons">
+        <h2><span class="sec-num">05</span>Buttons</h2>
+        <p class="lead">36px default with 30/42 variants. Six intents; hover darkens by 10%. Destructive buttons never appear inline in table rows — row actions live in the kebab menu.</p>
+        <div class="group-label">Variants</div>
+        <div class="row">
+          <button class="btn btn-primary">Add Device</button>
+          <button class="btn btn-secondary">Cancel</button>
+          <button class="btn btn-outline">Configure</button>
+          <button class="btn btn-ghost">Export</button>
+          <button class="btn btn-destructive">Delete</button>
+          <button class="btn btn-link">Learn more →</button>
+        </div>
+        <div class="group-label">Sizes &amp; states</div>
+        <div class="row">
+          <button class="btn btn-primary btn-sm">Small</button>
+          <button class="btn btn-primary">Default</button>
+          <button class="btn btn-primary btn-lg">Large</button>
+          <button class="btn btn-primary" disabled>Disabled</button>
+          <button class="btn btn-outline btn-icon-only" aria-label="More actions">⋯</button>
+          <button class="btn btn-ghost btn-icon-only" aria-label="Close">✕</button>
+        </div>
+        <div class="group-label">With icons</div>
+        <div class="row">
+          <button class="btn btn-primary"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg> Add Device</button>
+          <button class="btn btn-outline"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg> Filter</button>
+          <button class="btn btn-secondary"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg> Continue</button>
+        </div>
+      </section>
+
+      <!-- ════════ INPUTS ════════ -->
+      <section class="ds-section" id="inputs">
+        <h2><span class="sec-num">06</span>Inputs &amp; Forms</h2>
+        <p class="lead">Inputs share the 36px button height so rows line up. Focus is a soft 3px halo at 18% alpha. Technical IDs render in mono.</p>
+        <div class="grid-2">
+          <div class="field">
+            <label class="field-label" for="in-name">Device name</label>
+            <input class="input" id="in-name" type="text" placeholder="Moso Device">
+            <span class="help">Shown in the device list and audit log.</span>
+          </div>
+          <div class="field">
+            <label class="field-label" for="in-zone">Zone</label>
+            <select class="select" id="in-zone">
+              <option>NAT Off / DHCP On (Zone B)</option>
+              <option>Manufacturing Floor (Zone C)</option>
+              <option>Warehouse (Zone A)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field-label" for="in-serial">Serial number</label>
+            <input class="input mono" id="in-serial" type="text" value="SC280700013">
+          </div>
+          <div class="field">
+            <label class="field-label" for="in-vlan">VLAN ID</label>
+            <input class="input" id="in-vlan" type="text" value="abc" aria-invalid="true">
+            <span class="help" style="color:hsl(var(--on-destructive))">VLAN ID must be a number between 1 and 4094.</span>
+          </div>
+        </div>
+        <div class="group-label">Selectors</div>
+        <div class="row">
+          <label class="check"><input type="checkbox" checked> Enable Control Plane</label>
+          <label class="check"><input type="checkbox"> Enable User Plane</label>
+          <label class="check"><span class="switch"><input type="checkbox" checked><span class="track"></span></span> Auto-upgrade</label>
+          <label class="check"><span class="switch"><input type="checkbox"><span class="track"></span></span> Daily digest</label>
+        </div>
+      </section>
+
+      <!-- ════════ CARDS & KPI ════════ -->
+      <section class="ds-section" id="cards">
+        <h2><span class="sec-num">07</span>Cards &amp; KPIs</h2>
+        <p class="lead">Neutral containers with optional header/body/footer. The KPI card is the v2 standard: label / value / delta — no colored top borders.</p>
+        <div class="grid-3">
+          <div class="card kpi"><div class="l">Call drop rate (7d)</div><div class="v">8.6%</div><div class="delta down">↑ 3.6 pts above 5% threshold</div></div>
+          <div class="card kpi"><div class="l">Total traffic (7d)</div><div class="v">401 GB</div><div class="delta">↑ 4.3% vs last week</div></div>
+          <div class="card kpi"><div class="l">Active clients</div><div class="v">212</div><div class="delta">↑ 12 since yesterday</div></div>
+        </div>
+        <div class="grid-3" style="margin-top:16px">
+          <div class="card" style="grid-column:span 2">
+            <div class="card-header">
+              <h4 class="card-title">Network status</h4>
+              <p class="card-desc">Zone C · last 24 hours</p>
+            </div>
+            <div class="card-body">
+              <div class="row" style="gap:28px">
+                <div><div style="font-size:var(--text-3xl); font-weight:600">5</div><div class="help">Nodes</div></div>
+                <div><div style="font-size:var(--text-3xl); font-weight:600; color:hsl(var(--on-destructive))">1</div><div class="help">Down</div></div>
+                <div><div style="font-size:var(--text-3xl); font-weight:600">212</div><div class="help">Clients</div></div>
+                <div><div style="font-size:var(--text-3xl); font-weight:600">12</div><div class="help">Affected</div></div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-outline btn-sm">View details</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4 class="card-title">Utilization bands</h4><p class="card-desc">Threshold-mapped fills</p></div>
+            <div class="card-body" style="display:flex; flex-direction:column; gap:10px">
+              <div class="bar-item"><span class="bar-label" style="width:64px">Node 03</span><div class="bar-track"><div class="bar-fill" style="width:32%;background:hsl(var(--utilization-low))"></div></div><span class="bar-pct" style="color:hsl(var(--on-success))">32%</span></div>
+              <div class="bar-item"><span class="bar-label" style="width:64px">Node 05</span><div class="bar-track"><div class="bar-fill" style="width:61%;background:hsl(var(--utilization-mid))"></div></div><span class="bar-pct" style="color:hsl(var(--on-warning))">61%</span></div>
+              <div class="bar-item"><span class="bar-label" style="width:64px">Node 07</span><div class="bar-track"><div class="bar-fill" style="width:88%;background:hsl(var(--utilization-high))"></div></div><span class="bar-pct" style="color:hsl(var(--on-destructive))">88%</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════ BADGES ════════ -->
+      <section class="ds-section" id="badges">
+        <h2><span class="sec-num">08</span>Badges &amp; Status</h2>
+        <p class="lead">Solid badges carry counts; subtle badges carry status, with on-tint text colors that flip per theme.</p>
+        <div class="group-label">Badges</div>
+        <div class="row">
+          <span class="badge solid">12 new</span>
+          <span class="badge subtle-success"><span class="dot"></span> Up</span>
+          <span class="badge subtle-warning"><span class="dot"></span> Standby</span>
+          <span class="badge subtle-danger"><span class="dot"></span> Down</span>
+          <span class="badge subtle-info"><span class="dot"></span> Provisioning</span>
+        </div>
+        <div class="group-label">Status dots</div>
+        <div class="row" style="font-size:var(--text-sm)">
+          <span><span class="status-dot status-up"></span> Up — 4 nodes</span>
+          <span><span class="status-dot status-warn"></span> Standby — 1 node</span>
+          <span><span class="status-dot status-down"></span> Down — 1 node</span>
+        </div>
+        <div class="group-label">Avatars</div>
+        <div class="row">
+          <span class="demo-avatar sm">SD</span>
+          <span class="demo-avatar">SD</span>
+          <span class="demo-avatar lg">SD</span>
+          <span class="demo-avatar lg" style="background:hsl(var(--success) / 0.18); color:hsl(var(--on-success))">JK</span>
+          <span class="demo-avatar lg" style="background:hsl(var(--warning) / 0.22); color:hsl(var(--on-warning))">RP</span>
+          <span class="demo-avatar lg" style="background:hsl(var(--muted)); color:hsl(var(--muted-foreground))">+3</span>
+        </div>
+      </section>
+
+      <!-- ════════ TABLES ════════ -->
+      <section class="ds-section" id="tables">
+        <h2><span class="sec-num">09</span>Tables</h2>
+        <p class="lead">Muted uppercase header, hover rows in <code>--accent</code>, mono for IPs and serials. Row actions are a kebab menu only — no inline red Delete.</p>
+        <table class="table">
+          <thead>
+            <tr><th>Device</th><th>Serial</th><th>IP</th><th>Status</th><th style="text-align:right">Uptime</th><th style="width:44px"><span style="position:absolute;clip:rect(0 0 0 0)">Actions</span></th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Moso Device</strong></td><td class="mono">SC280700013</td><td class="mono">3.108.0.54</td><td><span class="badge subtle-info"><span class="dot"></span> Provisioning</span></td><td style="text-align:right">—</td><td><button class="kebab" aria-label="Actions for Moso Device">⋮</button></td></tr>
+            <tr><td><strong>PTY202521000L_45</strong></td><td class="mono">PT250091182</td><td class="mono">3.108.0.55</td><td><span class="badge subtle-danger"><span class="dot"></span> Down</span></td><td style="text-align:right">—</td><td><button class="kebab" aria-label="Actions for PTY202521000L_45">⋮</button></td></tr>
+            <tr><td><strong>Camera-C02</strong></td><td class="mono">VC230488210</td><td class="mono">3.108.0.56</td><td><span class="badge subtle-success"><span class="dot"></span> Up</span></td><td style="text-align:right">14d</td><td><button class="kebab" aria-label="Actions for Camera-C02">⋮</button></td></tr>
+            <tr><td><strong>AGV-Floor-1</strong></td><td class="mono">AG240017765</td><td class="mono">3.108.0.57</td><td><span class="badge subtle-warning"><span class="dot"></span> Standby</span></td><td style="text-align:right">2d</td><td><button class="kebab" aria-label="Actions for AGV-Floor-1">⋮</button></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ════════ TABS & TIME RANGE ════════ -->
+      <section class="ds-section" id="tabs">
+        <h2><span class="sec-num">10</span>Tabs &amp; Time Range</h2>
+        <p class="lead">Pill segmented control for inline switching. The time-range selector is standardized across every screen: <code>24h / 7d / 30d / 90d + Custom</code>.</p>
+        <div class="group-label">Content tabs</div>
+        <div class="tabs" role="tablist" aria-label="Device views">
+          <button role="tab" aria-selected="true">Overview</button>
+          <button role="tab" aria-selected="false">Clients</button>
+          <button role="tab" aria-selected="false">Statistics</button>
+          <button role="tab" aria-selected="false">Logs</button>
+        </div>
+        <div class="group-label">Time range (canonical)</div>
+        <div class="tabs" role="tablist" aria-label="Time range">
+          <button role="tab" aria-selected="false">24h</button>
+          <button role="tab" aria-selected="true">7d</button>
+          <button role="tab" aria-selected="false">30d</button>
+          <button role="tab" aria-selected="false">90d</button>
+          <button role="tab" aria-selected="false">Custom</button>
+        </div>
+      </section>
+
+      <!-- ════════ ALERTS ════════ -->
+      <section class="ds-section" id="alerts">
+        <h2><span class="sec-num">11</span>Alerts &amp; Toasts</h2>
+        <p class="lead">Inline alerts live with the content; toasts are transient and stack bottom-right. Four intents, tied to status colors.</p>
+        <div class="grid-2">
+          <div class="alert info"><span class="dot"></span><div><div class="title">New software available</div><div class="body">Upgrade to v1.6.599 to access the refreshed UI.</div></div></div>
+          <div class="alert success"><span class="dot"></span><div><div class="title">Device created</div><div class="body">Moso Device is provisioning in Zone B.</div></div></div>
+          <div class="alert warning"><span class="dot"></span><div><div class="title">License expires in 14 days</div><div class="body">Renew before June 26 to avoid service interruption.</div></div></div>
+          <div class="alert danger"><span class="dot"></span><div><div class="title">PTY202521000L_45 unreachable</div><div class="body">No heartbeat for 8 hours · 12 clients affected.</div></div></div>
+        </div>
+        <div class="group-label">Toast</div>
+        <div class="toast"><span class="ok">✓ Configuration saved</span><span style="color:hsl(var(--neutral-400)); cursor:pointer">Undo</span></div>
+      </section>
+
+      <!-- ════════ MENUS & DIALOG ════════ -->
+      <section class="ds-section" id="menus">
+        <h2><span class="sec-num">12</span>Menus &amp; Dialogs</h2>
+        <p class="lead">Menus share the popover surface; destructive items sit below a separator. Dialogs handle short confirmations — long forms use the right-side drawer.</p>
+        <div class="grid-2" style="align-items:start">
+          <div>
+            <div class="group-label" style="margin-top:0">Row-action kebab menu</div>
+            <div class="menu" role="menu">
+              <div class="item" role="menuitem">View details <span class="kbd">Enter</span></div>
+              <div class="item" role="menuitem">Edit configuration <span class="kbd">⌘E</span></div>
+              <div class="item" role="menuitem">Assign license</div>
+              <div class="item" role="menuitem">Export YAML</div>
+              <div class="sep"></div>
+              <div class="item destructive" role="menuitem">Delete device <span class="kbd">⌘⌫</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="group-label" style="margin-top:0">Confirm dialog</div>
+            <div class="dialog-frame">
+              <div class="dialog">
+                <div class="head">
+                  <h4>Delete this device?</h4>
+                  <p><strong>Camera-C02</strong> will be removed from Zone C. Its 4 connected clients will reattach to other devices.</p>
+                </div>
+                <div class="body">
+                  <label class="check"><input type="checkbox"> Also remove its policies</label>
+                </div>
+                <div class="foot">
+                  <button class="btn btn-ghost">Cancel</button>
+                  <button class="btn btn-destructive">Delete device</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════ AI PRIMITIVES ════════ -->
+      <section class="ds-section" id="ai-primitives">
+        <h2><span class="sec-num">13</span>AI Primitives</h2>
+        <p class="lead">Six primitives for AI-native interactions, shared verbatim between <code>home-preview.html</code> and <code>ai-assistant-preview.html</code>. They encode the Super-Agent guardrails — read-only by default, approval gates, audit trail — as visible interface.</p>
+
+        <div class="tile-grid">
+
+          <!-- 1 Confidence -->
+          <div class="tile">
+            <div class="tile-label">01 · Confidence &amp; provenance</div>
+            <div class="meta-row" style="margin-bottom:0">
+              <span class="conf-badge"><span class="dot"></span>Confidence high · 0.91</span>
+              <span class="src-badge">read-only analysis · 7-day KPI window · 4 sources</span>
+            </div>
+            <div class="meta-row" style="margin-bottom:0">
+              <span class="conf-badge low"><span class="dot"></span>Confidence low on zone match · 0.55</span>
+            </div>
+            <div class="tile-note">Every AI claim carries a score and its data provenance. Low confidence is shown, never hidden behind confident language. <span style="font-family:var(--font-mono)">.conf-badge / .src-badge</span></div>
+          </div>
+
+          <!-- 2 Identity -->
+          <div class="tile">
+            <div class="tile-label">02 · Restrained AI identity</div>
+            <div class="msg-user"><div class="msg-user-bubble">Why is the drop rate elevated?</div></div>
+            <div class="msg-ai">
+              <div class="ai-avatar"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1l1.5 3.5L13 6l-3.5 1.5L8 11l-1.5-3.5L3 6l3.5-1.5z"/></svg></div>
+              <div class="msg-ai-body">
+                <div class="msg-ai-name">Ataya AI</div>
+                <div class="msg-ai-bubble">Call drop rate is <strong>8.6%</strong> — 3.6 pts above the 5% threshold, isolated to <strong>Zone C</strong> over the last 3 days.</div>
+              </div>
+            </div>
+            <div class="msg-actions" style="margin-top:0"><span class="msg-action-chip">Show affected clients</span><span class="msg-action-chip">Diagnostic report</span></div>
+            <div class="tile-note">A gradient avatar and a label — not a persona. Action chips use <span style="font-family:var(--font-mono)">--primary</span> so they flip cyan in dark. <span style="font-family:var(--font-mono)">.msg-user-bubble / .msg-ai-bubble / .msg-action-chip</span></div>
+          </div>
+
+          <!-- 3 Evidence -->
+          <div class="tile">
+            <div class="tile-label">03 · Inline evidence block</div>
+            <div class="msg-chart" style="margin:0">
+              <div class="msg-chart-title">Drop cause analysis — Zone C (72h)</div>
+              <div class="bar-row">
+                <div class="bar-item"><span class="bar-label">RF interference</span><div class="bar-track"><div class="bar-fill" style="width:45%;background:hsl(var(--destructive))"></div></div><span class="bar-pct" style="color:hsl(var(--on-destructive))">45%</span></div>
+                <div class="bar-item"><span class="bar-label">Handover failure</span><div class="bar-track"><div class="bar-fill" style="width:32%;background:hsl(var(--warning))"></div></div><span class="bar-pct" style="color:hsl(var(--on-warning))">32%</span></div>
+                <div class="bar-item"><span class="bar-label">UPF timeout</span><div class="bar-track"><div class="bar-fill" style="width:23%;background:hsl(var(--brand-cyan))"></div></div><span class="bar-pct" style="color:hsl(var(--primary))">23%</span></div>
+              </div>
+            </div>
+            <div class="note-callout" style="margin:0">
+              <svg width="14" height="14" fill="none" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              <div><strong>Read this carefully:</strong> the biggest bar is not the biggest problem — AGVs fail ~2.3× more often per device.</div>
+            </div>
+            <div class="tile-note">Supporting data renders next to the claim it supports; the info callout shapes interpretation. <span style="font-family:var(--font-mono)">.msg-chart / .note-callout</span></div>
+          </div>
+
+          <!-- 4 Uncertainty -->
+          <div class="tile">
+            <div class="tile-label">04 · Uncertainty state</div>
+            <div class="warn-callout" style="margin:0">
+              <svg width="14" height="14" fill="none" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+              <div>I couldn't verify the zone <strong>"Nat Off and DHCP On"</strong> — closest match is <strong>"NAT Off / DHCP On (Zone B)"</strong>.</div>
+            </div>
+            <div class="fp-field" style="max-width:340px">
+              <label for="ds-fp-zone">Zone</label>
+              <input class="fp-input warn" id="ds-fp-zone" type="text" value="Nat Off and DHCP On">
+              <div class="fp-help-warn">Unverified zone — confirm or correct before continuing</div>
+            </div>
+            <div class="msg-actions" style="margin-top:0"><span class="msg-action-chip">Use suggested zone</span></div>
+            <div class="tile-note">When the AI is unsure it says so, flags the exact field, and offers a one-tap correction. <span style="font-family:var(--font-mono)">.warn-callout / .fp-input.warn</span></div>
+          </div>
+
+          <!-- 5 Approval gate -->
+          <div class="tile">
+            <div class="tile-label">05 · Action confirmation gate</div>
+            <div class="form-preview" style="margin:0">
+              <div class="fp-field">
+                <label for="ds-fp-name">Name</label>
+                <input class="fp-input" id="ds-fp-name" type="text" value="Moso Device">
+              </div>
+              <div class="fp-field">
+                <label for="ds-fp-serial">Serial Number</label>
+                <input class="fp-input mono" id="ds-fp-serial" type="text" value="SC280700013">
+              </div>
+            </div>
+            <div class="confirm-row" style="margin-top:0">
+              <button class="btn-confirm">Continue</button>
+              <button class="btn-cancel">Cancel</button>
+            </div>
+            <div class="tile-note">Write actions preview their full payload in editable fields and wait for an explicit human decision — read-only by default. <span style="font-family:var(--font-mono)">.form-preview / .btn-confirm</span></div>
+          </div>
+
+          <!-- 6 Receipt -->
+          <div class="tile">
+            <div class="tile-label">06 · Action receipt</div>
+            <div class="sys-note"><span>You corrected the zone and pressed Continue · 9:19 AM</span></div>
+            <div class="receipt" style="margin:0">
+              <div class="receipt-head">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                Device created
+              </div>
+              <div class="receipt-row"><span class="receipt-k">What</span><span class="receipt-v">Created <strong>Moso Device</strong> in Zone B</span></div>
+              <div class="receipt-row"><span class="receipt-k">Why</span><span class="receipt-v">Your request · confirmed 9:19 AM</span></div>
+              <div class="receipt-row"><span class="receipt-k">Outcome</span><span class="receipt-v">Provisioning · heartbeat pending</span></div>
+            </div>
+            <div class="audit-line" style="margin-top:0">
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              audit log <span style="font-family:var(--font-mono)">#A-2381</span> · reversible 24 h
+            </div>
+            <div class="tile-note">Every AI-initiated action reports back what / why / outcome with an audit reference and undo — no silent background changes. <span style="font-family:var(--font-mono)">.receipt / .sys-note / .audit-line</span></div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<div class="copy-toast" id="copyToast" role="status">copied</div>
+
+<script>
+function toggleTheme(){
+  var r=document.documentElement;
+  var next=(r.getAttribute('data-theme')||'light')==='dark'?'light':'dark';
+  r.setAttribute('data-theme',next);
+  localStorage.setItem('ataya-theme',next);
+}
+
+/* click-to-copy token variables */
+(function(){
+  var toast=document.getElementById('copyToast'), timer;
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('title','Copy '+el.dataset.copy);
+    el.addEventListener('click',function(){
+      var v=el.dataset.copy;
+      var text='hsl(var('+v+'))';
+      (navigator.clipboard?navigator.clipboard.writeText(text):Promise.reject()).catch(function(){});
+      toast.textContent='copied  '+text;
+      toast.classList.add('show');
+      clearTimeout(timer);
+      timer=setTimeout(function(){toast.classList.remove('show');},1400);
+    });
+  });
+})();
+
+/* sidebar active state follows scroll */
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.sidebar a.sidebar-item'));
+  var map={};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)]=a; });
+  var sections=[].slice.call(document.querySelectorAll('.ds-section'));
+  var main=document.getElementById('main');
+  function onScroll(){
+    var current=sections[0];
+    for(var i=0;i<sections.length;i++){
+      if(sections[i].getBoundingClientRect().top<=140) current=sections[i];
+    }
+    links.forEach(function(a){a.classList.remove('active');});
+    if(map[current.id]) map[current.id].classList.add('active');
+  }
+  main.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>

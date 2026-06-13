@@ -1,0 +1,222 @@
+/*
+ * Ataya Harmony Design System — Colors & Typography Tokens
+ * Based on: Figma "Ataya Harmony.fig" + chorus-harmony-ui codebase
+ * Last updated: May 2026
+ */
+
+/* ─── Fonts ─────────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 100 900;
+  src: url("./fonts/WorkSans-VariableFont_wght.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Work Sans";
+  font-style: italic;
+  font-weight: 100 900;
+  src: url("./fonts/WorkSans-Italic-VariableFont_wght.ttf") format("truetype");
+}
+
+/* ─── Base Color Palette ─────────────────────────────────────────── */
+
+:root {
+  /* Brand / Primary */
+  --color-brand-teal:         #46D5B3;   /* primary accent, success, active */
+  --color-brand-teal-dark:    #41A992;   /* hover / pressed teal */
+  --color-brand-blue:         #125695;   /* primary action, CTA buttons */
+  --color-brand-blue-mid:     #126E95;   /* sidebar background, secondary nav */
+  --color-brand-blue-light:   #1A8AFA;   /* interactive link, focus ring */
+  --color-brand-cyan:         #01BCF3;   /* secondary interactive, highlights */
+  --color-brand-cyan-light:   #C0E5F4;   /* light blue surface, input border */
+  --color-brand-cyan-pale:    #74B3FF;   /* chart color */
+
+  /* Semantic */
+  --color-success:            #46D5B3;   /* same as brand teal */
+  --color-success-dark:       #469367;   /* deeper success icon */
+  --color-success-muted:      #A5D750;   /* green chart / alt success */
+  --color-warning:            #FFB800;   /* warning / amber */
+  --color-warning-alt:        #FFB000;   /* secondary warning */
+  --color-error:              #FF4930;   /* error / critical alert */
+  --color-error-mid:          #E8633D;   /* redColor from codebase */
+  --color-error-light:        #FA616D;   /* asset off / soft error */
+  --color-info:               #48A6F6;   /* info state, chart 2 */
+
+  /* Neutrals */
+  --color-black:              #000000;
+  --color-near-black:         #02091C;   /* darkest text/bg (rgb 2,9,28) */
+  --color-gray-900:           #141414;   /* darkGrayColor — primary text */
+  --color-gray-800:           #23262C;   /* dark text (rgb 35,38,44) */
+  --color-gray-700:           #272730;   /* medium dark bg (rgb 39,39,48) */
+  --color-gray-600:           #34283A;   /* sidebar dark variant */
+  --color-gray-500:           #6A6F81;   /* secondary text (rgb 106,111,129) */
+  --color-gray-400:           #C4C4C4;   /* disabled / muted (rgb 196,196,196) */
+  --color-gray-300:           #D3D3D3;   /* lightestGrayColor */
+  --color-gray-200:           #D9E3F0;   /* borderColor */
+  --color-gray-100:           #EEF0F1;   /* very light border */
+  --color-gray-50:            #F4F7F9;   /* backgroundLight / page bg */
+  --color-white:              #FFFFFF;
+
+  /* Text semantic */
+  --color-text-primary:       var(--color-gray-900);
+  --color-text-secondary:     #394463;   /* labelColor */
+  --color-text-muted:         var(--color-gray-500);
+  --color-text-link:          var(--color-brand-blue);
+  --color-text-on-dark:       var(--color-white);
+  --color-text-disabled:      var(--color-gray-400);
+
+  /* Surface semantic */
+  --color-surface-page:       var(--color-gray-50);
+  --color-surface-card:       var(--color-white);
+  --color-surface-selected:   #E5E5E5;
+  --color-surface-sidebar:    var(--color-brand-blue-mid);
+  --color-surface-header:     var(--color-black);
+
+  /* Border semantic */
+  --color-border:             #D9E3F0;
+  --color-border-light:       #E2EAF4;
+  --color-border-focus:       var(--color-brand-cyan-light);
+
+  /* Shadow tokens */
+  --shadow-card:              0px 0px 22px 0.05px #EFEFEF;
+  --shadow-card-hover:        0px 5px 25px rgba(1, 188, 243, 0.2);
+  --shadow-header-glow:       0px 0px 28px 0.4px rgba(26, 138, 250, 0.4);
+  --shadow-drawer:            -12px 0 38px rgba(38, 111, 226, 0.15);
+  --shadow-button-blue:       drop-shadow(0px 4px 4px rgba(26, 138, 250, 0.1));
+  --shadow-page:              0px 0px 12px var(--color-gray-50);
+}
+
+/* ─── Typography Scale ───────────────────────────────────────────── */
+
+:root {
+  /* Font families */
+  --font-sans:        "Work Sans", "Roboto", sans-serif;
+  --font-ui:          "Roboto", "Work Sans", sans-serif;
+  --font-display:     "Inter", "Work Sans", sans-serif;
+  --font-mono:        "Menlo", "Consolas", monospace;
+
+  /* Font sizes */
+  --font-size-xs:     10px;   /* tiny labels, sub-text */
+  --font-size-sm:     12px;   /* small/table cell text */
+  --font-size-meta:   13px;   /* metadata, breadcrumbs, descriptions */
+  --font-size-base:   14px;   /* default UI body text */
+  --font-size-md:     16px;   /* clickable items, medium emphasis */
+  --font-size-lg:     18px;   /* page titles, section headers */
+  --font-size-xl:     20px;   /* component titles */
+  --font-size-2xl:    24px;   /* card KPI values */
+  --font-size-3xl:    32px;   /* large KPI / display numbers */
+  --font-size-display: 46px;  /* hero KPI figures */
+
+  /* Font weights */
+  --font-weight-normal:    400;
+  --font-weight-medium:    500;
+  --font-weight-semibold:  600;
+  --font-weight-bold:      700;
+
+  /* Line heights */
+  --line-height-tight:   1.2;
+  --line-height-normal:  1.4;
+  --line-height-relaxed: 1.6;
+  --line-height-loose:   1.75;
+
+  /* Letter spacing */
+  --letter-spacing-tight:   -0.02em;
+  --letter-spacing-normal:  0;
+  --letter-spacing-wide:    0.02em;
+}
+
+/* ─── Semantic Type Roles ────────────────────────────────────────── */
+
+:root {
+  /* Headings */
+  --type-h1-font:    var(--font-display);
+  --type-h1-size:    var(--font-size-display);
+  --type-h1-weight:  var(--font-weight-bold);
+  --type-h1-color:   var(--color-brand-blue);
+
+  --type-h2-font:    var(--font-display);
+  --type-h2-size:    var(--font-size-3xl);
+  --type-h2-weight:  var(--font-weight-bold);
+  --type-h2-color:   var(--color-text-primary);
+
+  --type-h3-font:    var(--font-display);
+  --type-h3-size:    var(--font-size-2xl);
+  --type-h3-weight:  var(--font-weight-bold);
+  --type-h3-color:   var(--color-text-primary);
+
+  --type-h4-font:    var(--font-sans);
+  --type-h4-size:    var(--font-size-xl);
+  --type-h4-weight:  var(--font-weight-semibold);
+  --type-h4-color:   var(--color-text-primary);
+
+  /* UI Text */
+  --type-page-title-font:   var(--font-sans);
+  --type-page-title-size:   var(--font-size-lg);
+  --type-page-title-weight: var(--font-weight-medium);
+  --type-page-title-color:  var(--color-text-primary);
+
+  --type-section-title-font:   var(--font-ui);
+  --type-section-title-size:   var(--font-size-md);
+  --type-section-title-weight: var(--font-weight-medium);
+  --type-section-title-color:  var(--color-text-primary);
+
+  --type-body-font:    var(--font-ui);
+  --type-body-size:    var(--font-size-base);
+  --type-body-weight:  var(--font-weight-normal);
+  --type-body-color:   var(--color-text-primary);
+
+  --type-label-font:   var(--font-ui);
+  --type-label-size:   var(--font-size-sm);
+  --type-label-weight: var(--font-weight-normal);
+  --type-label-color:  var(--color-text-secondary);
+
+  --type-caption-font:   var(--font-ui);
+  --type-caption-size:   var(--font-size-xs);
+  --type-caption-weight: var(--font-weight-normal);
+  --type-caption-color:  var(--color-text-muted);
+
+  --type-code-font:   var(--font-mono);
+  --type-code-size:   var(--font-size-sm);
+  --type-code-weight: var(--font-weight-normal);
+  --type-code-color:  var(--color-text-primary);
+}
+
+/* ─── Spacing Tokens ─────────────────────────────────────────────── */
+
+:root {
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-7:   28px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+
+  /* Component-specific */
+  --padding-card:        20px;
+  --padding-card-lg:     24px;
+  --padding-section:     24px;
+  --gap-default:         16px;
+  --gap-tight:           10px;
+  --gap-loose:           24px;
+
+  /* Layout */
+  --header-height:       72px;
+  --sidebar-width:       228px;
+  --sidebar-collapsed:   80px;
+}
+
+/* ─── Border Radius Tokens ───────────────────────────────────────── */
+
+:root {
+  --radius-sm:    4px;    /* cards, inputs, standard components */
+  --radius-md:    6px;    /* buttons, tables, drawers */
+  --radius-lg:    10px;   /* pills, tags, badges */
+  --radius-full:  16px;   /* icon buttons, fully round */
+  --radius-circle: 50%;   /* avatar circles */
+}

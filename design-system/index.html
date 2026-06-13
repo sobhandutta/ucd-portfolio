@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ataya Harmony — Design System v2</title>
+<link rel="stylesheet" href="./tokens-v2.css">
+<style>
+  body.ds-v2 { padding: 0; }
+
+  .shell { max-width: 1200px; margin: 0 auto; padding: 32px 32px 96px; }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px;
+    background: hsl(var(--card) / 0.85);
+    backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid hsl(var(--border));
+  }
+  .topbar .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.01em; }
+  .topbar .brand .mark { width: 22px; height: 22px; border-radius: var(--radius-md); background: hsl(var(--primary)); display:inline-flex; align-items:center; justify-content:center; color: hsl(var(--primary-foreground)); font-size: 12px; font-weight: 700; }
+  .topbar nav { display: flex; gap: 6px; }
+  .topbar nav a { color: hsl(var(--muted-foreground)); text-decoration: none; font-size: var(--text-sm); padding: 6px 10px; border-radius: var(--radius-md); }
+  .topbar nav a:hover { color: hsl(var(--foreground)); background: hsl(var(--accent)); }
+  .topbar .right { display: flex; align-items: center; gap: 8px; }
+
+  /* Section primitives */
+  section { margin-top: 56px; scroll-margin-top: 80px; }
+  section:first-of-type { margin-top: 32px; }
+  h1 { font-size: var(--text-4xl); font-weight: 600; letter-spacing: var(--tracking-tight); margin: 0 0 8px; }
+  h2 { font-size: var(--text-2xl); font-weight: 600; letter-spacing: var(--tracking-tight); margin: 0 0 6px; }
+  h3 { font-size: var(--text-lg); font-weight: 600; margin: 24px 0 10px; }
+  p.lead { color: hsl(var(--muted-foreground)); font-size: var(--text-md); margin: 0 0 24px; max-width: 64ch; }
+  .eyebrow { display:inline-block; font-size: var(--text-xs); font-weight: 500; text-transform: uppercase; letter-spacing: var(--tracking-wide); color: hsl(var(--muted-foreground)); margin-bottom: 6px; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+
+  /* ── Tokens panels ────────────────────────────────────────── */
+  .swatch { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-lg); overflow: hidden; }
+  .swatch .chip { height: 64px; }
+  .swatch .meta { padding: 10px 12px; display: flex; justify-content: space-between; gap: 8px; font-size: var(--text-sm); }
+  .swatch .meta .name { font-weight: 500; }
+  .swatch .meta .val { color: hsl(var(--muted-foreground)); font-family: var(--font-mono); font-size: var(--text-xs); }
+
+  .type-row { display:flex; align-items:baseline; gap: 16px; padding: 14px 0; border-bottom: 1px solid hsl(var(--border)); }
+  .type-row:last-child { border-bottom: 0; }
+  .type-row .label { width: 90px; color: hsl(var(--muted-foreground)); font-family: var(--font-mono); font-size: var(--text-xs); }
+
+  .scale-strip { display: flex; align-items: flex-end; gap: 4px; padding: 12px; background: hsl(var(--muted)); border-radius: var(--radius-lg); }
+  .scale-strip .step { background: hsl(var(--primary) / 0.18); border: 1px solid hsl(var(--primary) / 0.3); border-radius: var(--radius-sm); width: 36px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; font-size: var(--text-xs); color: hsl(var(--primary)); font-family: var(--font-mono); }
+
+  /* ── Buttons ──────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    height: 36px; padding: 0 14px; border-radius: var(--radius-md);
+    font: var(--font-weight-medium) var(--text-sm)/1 var(--font-sans);
+    border: 1px solid transparent; cursor: pointer; user-select: none;
+    transition: background var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+  }
+  .btn-sm { height: 30px; padding: 0 10px; font-size: var(--text-xs); }
+  .btn-lg { height: 42px; padding: 0 18px; font-size: var(--text-md); }
+  .btn-icon { width: 36px; padding: 0; }
+
+  .btn-primary { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+  .btn-primary:hover { background: hsl(var(--primary) / 0.9); }
+  .btn-secondary { background: hsl(var(--secondary)); color: hsl(var(--secondary-foreground)); border-color: hsl(var(--border)); }
+  .btn-secondary:hover { background: hsl(var(--accent)); }
+  .btn-outline { background: transparent; color: hsl(var(--foreground)); border-color: hsl(var(--border)); }
+  .btn-outline:hover { background: hsl(var(--accent)); }
+  .btn-ghost { background: transparent; color: hsl(var(--foreground)); }
+  .btn-ghost:hover { background: hsl(var(--accent)); }
+  .btn-destructive { background: hsl(var(--destructive)); color: hsl(var(--destructive-foreground)); }
+  .btn-destructive:hover { background: hsl(var(--destructive) / 0.9); }
+  .btn-link { background: transparent; color: hsl(var(--primary)); padding: 0; height: auto; font-weight: 500; }
+  .btn-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .btn[disabled], .btn[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+
+  /* ── Inputs ───────────────────────────────────────────────── */
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .label { font-size: var(--text-sm); font-weight: 500; color: hsl(var(--foreground)); }
+  .help { font-size: var(--text-xs); color: hsl(var(--muted-foreground)); }
+  .input, .select, .textarea {
+    width: 100%; height: 36px; padding: 0 12px;
+    background: hsl(var(--card)); color: hsl(var(--foreground));
+    border: 1px solid hsl(var(--input)); border-radius: var(--radius-md);
+    font: 400 var(--text-sm)/1 var(--font-sans);
+    transition: border-color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+  }
+  .input::placeholder, .textarea::placeholder { color: hsl(var(--muted-foreground)); }
+  .input:focus, .select:focus, .textarea:focus { outline: none; border-color: hsl(var(--ring)); box-shadow: 0 0 0 3px hsl(var(--ring) / 0.18); }
+  .textarea { height: auto; padding: 10px 12px; min-height: 84px; resize: vertical; line-height: var(--leading-normal); }
+  .input[aria-invalid="true"] { border-color: hsl(var(--destructive)); }
+  .select {
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2364748b' stroke-width='1.5'><path d='m4 6 4 4 4-4'/></svg>");
+    background-repeat: no-repeat; background-position: right 10px center; background-size: 14px; padding-right: 32px;
+  }
+  .check { display: inline-flex; align-items: center; gap: 8px; font-size: var(--text-sm); cursor: pointer; }
+  .check input { accent-color: hsl(var(--primary)); width: 16px; height: 16px; }
+  .switch { position: relative; display: inline-block; width: 36px; height: 20px; flex-shrink: 0; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .switch .track { position:absolute; inset: 0; background: hsl(var(--muted)); border-radius: var(--radius-full); transition: background var(--duration-fast); cursor: pointer; }
+  .switch .track::before { content: ""; position:absolute; left:2px; top:2px; width:16px; height:16px; border-radius:50%; background: hsl(var(--card)); box-shadow: var(--shadow-sm); transition: transform var(--duration-fast) var(--ease-out); }
+  .switch input:checked + .track { background: hsl(var(--primary)); }
+  .switch input:checked + .track::before { transform: translateX(16px); }
+
+  /* ── Cards ────────────────────────────────────────────────── */
+  .card {
+    background: hsl(var(--card)); color: hsl(var(--card-foreground));
+    border: 1px solid hsl(var(--border)); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+  .card-header { padding: 16px 20px 0; }
+  .card-title { font-size: var(--text-md); font-weight: 600; margin: 0; }
+  .card-desc { font-size: var(--text-sm); color: hsl(var(--muted-foreground)); margin: 4px 0 0; }
+  .card-body { padding: 16px 20px; }
+  .card-footer { padding: 12px 20px 16px; border-top: 1px solid hsl(var(--border)); display: flex; justify-content: flex-end; gap: 8px; }
+
+  .kpi { display: flex; flex-direction: column; gap: 4px; padding: 16px 20px; }
+  .kpi .v { font-size: var(--text-2xl); font-weight: 600; letter-spacing: var(--tracking-tight); }
+  .kpi .l { font-size: var(--text-xs); color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: var(--tracking-wide); }
+  .kpi .delta { font-size: var(--text-xs); color: hsl(var(--success)); font-weight: 500; }
+  .kpi .delta.down { color: hsl(var(--destructive)); }
+
+  /* ── Navigation (top + side) ─────────────────────────────── */
+  .nav-demo { border: 1px solid hsl(var(--border)); border-radius: var(--radius-lg); overflow: hidden; background: hsl(var(--card)); display: grid; grid-template-columns: 220px 1fr; min-height: 280px; }
+  .nav-side { background: hsl(var(--sidebar)); color: hsl(var(--sidebar-foreground)); padding: 16px 12px; display: flex; flex-direction: column; gap: 2px; }
+  .nav-side .logo { font-weight: 700; letter-spacing: var(--tracking-tight); padding: 6px 8px 14px; font-size: var(--text-md); }
+  .nav-side .item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--radius-md); font-size: var(--text-sm); cursor: pointer; color: hsl(var(--sidebar-foreground) / 0.85); }
+  .nav-side .item:hover { background: hsl(var(--sidebar-accent)); color: hsl(var(--sidebar-foreground)); }
+  .nav-side .item.active { background: hsl(var(--sidebar-accent)); color: hsl(var(--sidebar-foreground)); }
+  .nav-side .item.active::before { content: ""; width: 3px; height: 16px; background: hsl(var(--sidebar-active)); border-radius: 2px; margin-right: -2px; }
+  .nav-side .icon { width: 14px; height: 14px; opacity: 0.85; }
+  .nav-top { background: hsl(var(--card)); border-bottom: 1px solid hsl(var(--border)); padding: 0 16px; height: 52px; display: flex; align-items: center; gap: 4px; }
+  .nav-top .tab { padding: 0 14px; height: 100%; display: inline-flex; align-items: center; gap: 8px; color: hsl(var(--muted-foreground)); font-size: var(--text-sm); border-bottom: 2px solid transparent; cursor: pointer; }
+  .nav-top .tab.active { color: hsl(var(--foreground)); border-color: hsl(var(--primary)); font-weight: 500; }
+  .nav-top .spacer { flex: 1; }
+  .nav-content { padding: 24px; color: hsl(var(--muted-foreground)); font-size: var(--text-sm); }
+
+  /* ── Table ────────────────────────────────────────────────── */
+  .table { width: 100%; border-collapse: separate; border-spacing: 0; background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-lg); overflow: hidden; }
+  .table th, .table td { padding: 12px 16px; text-align: left; font-size: var(--text-sm); border-bottom: 1px solid hsl(var(--border)); }
+  .table thead th { background: hsl(var(--muted)); color: hsl(var(--muted-foreground)); font-weight: 500; font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--tracking-wide); }
+  .table tbody tr:last-child td { border-bottom: 0; }
+  .table tbody tr:hover { background: hsl(var(--accent)); }
+
+  /* ── Tabs ─────────────────────────────────────────────────── */
+  .tabs { display: inline-flex; padding: 4px; background: hsl(var(--muted)); border-radius: var(--radius-md); gap: 2px; }
+  .tabs button {
+    background: transparent; border: 0; padding: 6px 12px;
+    border-radius: calc(var(--radius-md) - 2px);
+    font-size: var(--text-sm); color: hsl(var(--muted-foreground)); cursor: pointer;
+  }
+  .tabs button[aria-selected="true"] { background: hsl(var(--card)); color: hsl(var(--foreground)); box-shadow: var(--shadow-xs); font-weight: 500; }
+
+  /* ── Toast / Alert ────────────────────────────────────────── */
+  .alert { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border: 1px solid hsl(var(--border)); border-radius: var(--radius-md); background: hsl(var(--card)); }
+  .alert .dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .alert.info .dot { background: hsl(var(--info)); }
+  .alert.success .dot { background: hsl(var(--success)); }
+  .alert.warning .dot { background: hsl(var(--warning)); }
+  .alert.danger .dot { background: hsl(var(--destructive)); }
+  .alert .title { font-size: var(--text-sm); font-weight: 500; }
+  .alert .body { font-size: var(--text-sm); color: hsl(var(--muted-foreground)); margin-top: 2px; }
+
+  .toast { background: hsl(var(--neutral-900)); color: hsl(var(--neutral-0)); border-radius: var(--radius-md); padding: 12px 14px; font-size: var(--text-sm); box-shadow: var(--shadow-lg); display: inline-flex; align-items: center; gap: 12px; }
+  .toast .ok { color: hsl(var(--brand-teal)); font-weight: 500; }
+
+  /* ── Avatar / Badge ───────────────────────────────────────── */
+  .avatar { width: 32px; height: 32px; border-radius: 50%; display:inline-flex; align-items:center; justify-content:center; background: hsl(var(--primary) / 0.15); color: hsl(var(--primary)); font-weight: 600; font-size: var(--text-xs); }
+  .avatar.lg { width: 40px; height: 40px; font-size: var(--text-sm); }
+  .avatar.sm { width: 24px; height: 24px; font-size: 10px; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px; border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 500; line-height: 1.6; }
+  .badge.solid { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+  .badge.subtle-success { background: hsl(var(--success) / 0.18); color: hsl(163 60% 30%); }
+  .badge.subtle-warning { background: hsl(var(--warning) / 0.22); color: hsl(35 90% 30%); }
+  .badge.subtle-danger { background: hsl(var(--destructive) / 0.15); color: hsl(8 75% 40%); }
+  .badge.subtle-info { background: hsl(var(--info) / 0.18); color: hsl(195 80% 30%); }
+  .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  /* ── Dropdown menu ────────────────────────────────────────── */
+  .menu { background: hsl(var(--popover)); color: hsl(var(--popover-foreground)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-md); padding: 4px; min-width: 220px; box-shadow: var(--shadow-lg); }
+  .menu .item { padding: 7px 10px; border-radius: calc(var(--radius-md) - 2px); font-size: var(--text-sm); display:flex; align-items: center; justify-content: space-between; gap: 8px; cursor: pointer; }
+  .menu .item:hover { background: hsl(var(--accent)); }
+  .menu .item.destructive { color: hsl(var(--destructive)); }
+  .menu .item.destructive:hover { background: hsl(var(--destructive) / 0.1); }
+  .menu .sep { height: 1px; background: hsl(var(--border)); margin: 4px 0; }
+  .menu .kbd { font-family: var(--font-mono); font-size: 11px; color: hsl(var(--muted-foreground)); background: hsl(var(--muted)); padding: 1px 5px; border-radius: 4px; border: 1px solid hsl(var(--border)); }
+
+  /* ── Dialog ───────────────────────────────────────────────── */
+  .dialog-frame { background: hsl(var(--neutral-900) / 0.4); padding: 32px; border-radius: var(--radius-lg); border: 1px solid hsl(var(--border)); }
+  .dialog { max-width: 480px; margin: 0 auto; background: hsl(var(--card)); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); border: 1px solid hsl(var(--border)); overflow: hidden; }
+  .dialog .head { padding: 20px 24px 8px; }
+  .dialog .head h4 { margin: 0; font-size: var(--text-lg); font-weight: 600; }
+  .dialog .head p  { margin: 4px 0 0; font-size: var(--text-sm); color: hsl(var(--muted-foreground)); }
+  .dialog .body { padding: 12px 24px; }
+  .dialog .foot { padding: 16px 24px 20px; display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid hsl(var(--border)); margin-top: 12px; }
+
+  /* ── Theme toggle ─────────────────────────────────────────── */
+  .theme-toggle { display: inline-flex; gap: 0; border: 1px solid hsl(var(--border)); border-radius: var(--radius-md); overflow: hidden; }
+  .theme-toggle button { background: transparent; border: 0; padding: 6px 10px; font-size: var(--text-xs); color: hsl(var(--muted-foreground)); cursor: pointer; }
+  .theme-toggle button[aria-pressed="true"] { background: hsl(var(--accent)); color: hsl(var(--foreground)); }
+
+  /* Status dot reused inline */
+  .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+  .status-up   { background: hsl(var(--success)); box-shadow: 0 0 0 3px hsl(var(--success) / 0.2); }
+  .status-down { background: hsl(var(--destructive)); box-shadow: 0 0 0 3px hsl(var(--destructive) / 0.18); }
+  .status-warn { background: hsl(var(--warning)); box-shadow: 0 0 0 3px hsl(var(--warning) / 0.2); }
+</style>
+</head>
+<body class="ds-v2">
+
+<div class="topbar">
+  <div class="brand"><span class="mark">A</span>Ataya Harmony · Design System v2</div>
+  <nav>
+    <a href="#tokens">Tokens</a>
+    <a href="#buttons">Buttons</a>
+    <a href="#inputs">Inputs</a>
+    <a href="#cards">Cards</a>
+    <a href="#navigation">Navigation</a>
+    <a href="#tables">Tables</a>
+    <a href="#dialog">Dialogs</a>
+    <a href="#tabs">Tabs</a>
+    <a href="#alerts">Alerts</a>
+    <a href="#avatars">Badges</a>
+    <a href="#menus">Menus</a>
+  </nav>
+  <div class="right">
+    <div class="theme-toggle" role="group" aria-label="Theme">
+      <button id="theme-light" aria-pressed="true">Light</button>
+      <button id="theme-dark"  aria-pressed="false">Dark</button>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <header>
+    <div class="eyebrow">v2 · May 2026</div>
+    <h1>A refreshed system for Ataya Harmony</h1>
+    <p class="lead">v1 patterns retuned with a tighter type scale, a perceptual neutral ramp, semantic surface tokens, and accessible focus rings. Brand anchors (the deep blue, the cyan accent, the teal up-state) are preserved so existing screens still feel like Ataya — just sharper.</p>
+  </header>
+
+  <!-- Tokens -->
+  <section id="tokens">
+    <h2>Tokens</h2>
+    <p class="lead">Consume via <code>hsl(var(--primary))</code>. Alpha composition is built in: <code>hsl(var(--primary) / 0.1)</code> for subtle tints.</p>
+
+    <h3>Brand</h3>
+    <div class="grid-4">
+      <div class="swatch"><div class="chip" style="background: hsl(var(--brand-blue))"></div><div class="meta"><span class="name">Brand blue</span><span class="val">--brand-blue</span></div></div>
+      <div class="swatch"><div class="chip" style="background: hsl(var(--brand-cyan))"></div><div class="meta"><span class="name">Brand cyan</span><span class="val">--brand-cyan</span></div></div>
+      <div class="swatch"><div class="chip" style="background: hsl(var(--brand-teal))"></div><div class="meta"><span class="name">Brand teal</span><span class="val">--brand-teal</span></div></div>
+      <div class="swatch"><div class="chip" style="background: hsl(var(--brand-amber))"></div><div class="meta"><span class="name">Brand amber</span><span class="val">--brand-amber</span></div></div>
+    </div>
+
+    <h3>Semantic surfaces</h3>
+    <div class="grid-4">
+      <div class="swatch"><div class="chip" style="background: hsl(var(--background)); border-bottom: 1px solid hsl(var(--border))"></div><div class="meta"><span class="name">Background</span><span class="val">--background</span></div></div>
+      <div class="swatch"><div class="chip" style="background: hsl(var(--card)); border-bottom: 1px solid hsl(var(--border))"></div><div class="meta"><span class="name">Card</span><span class="val">--card</span></div></div>
+      <div class="swatch"><div class="chip" style="background: hsl(var(--muted))"></div><div class="meta"><span class="name">Muted</span><span class="val">--muted</span></div></div>
+      <div class="swatch"><div class="chip" style="background: hsl(var(--accent))"></div><div class="meta"><span class="name">Accent (hover)</span><span class="val">--accent</span></div></div>
+      <div class="swatch"><div class="chip" style="background: hsl(var(--primary))"></div><div class="meta"><span class="name">Primary</span><span class="val">--primary</span></div></div>
+      <div class="swatch"><div class="chip" style="background: hsl(var(--destructive))"></div><div class="meta"><span class="name">Destructive</span><span class="val">--destructive</span></div></div>
+      <div class="swatch"><div class="chip" style="background: hsl(var(--success))"></div><div class="meta"><span class="name">Success</span><span class="val">--success</span></div></div>
+      <div class="swatch"><div class="chip" style="background: hsl(var(--warning))"></div><div class="meta"><span class="name">Warning</span><span class="val">--warning</span></div></div>
+    </div>
+
+    <h3>Type scale</h3>
+    <div style="background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-lg); padding: 8px 20px;">
+      <div class="type-row"><span class="label">--text-4xl</span><span style="font-size: var(--text-4xl); font-weight: 600; letter-spacing: var(--tracking-tight)">Display heading</span></div>
+      <div class="type-row"><span class="label">--text-3xl</span><span style="font-size: var(--text-3xl); font-weight: 600">Page title</span></div>
+      <div class="type-row"><span class="label">--text-2xl</span><span style="font-size: var(--text-2xl); font-weight: 600">Section title</span></div>
+      <div class="type-row"><span class="label">--text-xl</span><span style="font-size: var(--text-xl); font-weight: 500">Card title</span></div>
+      <div class="type-row"><span class="label">--text-lg</span><span style="font-size: var(--text-lg)">Subhead 17 px</span></div>
+      <div class="type-row"><span class="label">--text-md</span><span style="font-size: var(--text-md)">Body emphasis 15 px</span></div>
+      <div class="type-row"><span class="label">--text-base</span><span style="font-size: var(--text-base)">Default body 14 px</span></div>
+      <div class="type-row"><span class="label">--text-sm</span><span style="font-size: var(--text-sm); color: hsl(var(--muted-foreground))">Caption 12 px / muted</span></div>
+      <div class="type-row"><span class="label">--text-xs</span><span style="font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: hsl(var(--muted-foreground))">Eyebrow 11 px</span></div>
+    </div>
+
+    <h3>Spacing &amp; radius</h3>
+    <div class="grid-2">
+      <div>
+        <div class="eyebrow">Spacing</div>
+        <div class="scale-strip">
+          <div class="step" style="height: 4px">1</div>
+          <div class="step" style="height: 8px">2</div>
+          <div class="step" style="height: 12px">3</div>
+          <div class="step" style="height: 16px">4</div>
+          <div class="step" style="height: 20px">5</div>
+          <div class="step" style="height: 24px">6</div>
+          <div class="step" style="height: 32px">8</div>
+          <div class="step" style="height: 40px">10</div>
+          <div class="step" style="height: 48px">12</div>
+          <div class="step" style="height: 64px">16</div>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow">Radii</div>
+        <div class="row">
+          <div style="background: hsl(var(--primary) / 0.15); border:1px solid hsl(var(--primary) / 0.3); width: 56px; height: 56px; border-radius: var(--radius-sm); display:flex; align-items:flex-end; justify-content:center; padding-bottom: 4px; font-size: var(--text-xs); font-family: var(--font-mono)">sm</div>
+          <div style="background: hsl(var(--primary) / 0.15); border:1px solid hsl(var(--primary) / 0.3); width: 56px; height: 56px; border-radius: var(--radius-md); display:flex; align-items:flex-end; justify-content:center; padding-bottom: 4px; font-size: var(--text-xs); font-family: var(--font-mono)">md</div>
+          <div style="background: hsl(var(--primary) / 0.15); border:1px solid hsl(var(--primary) / 0.3); width: 56px; height: 56px; border-radius: var(--radius-lg); display:flex; align-items:flex-end; justify-content:center; padding-bottom: 4px; font-size: var(--text-xs); font-family: var(--font-mono)">lg</div>
+          <div style="background: hsl(var(--primary) / 0.15); border:1px solid hsl(var(--primary) / 0.3); width: 56px; height: 56px; border-radius: var(--radius-xl); display:flex; align-items:flex-end; justify-content:center; padding-bottom: 4px; font-size: var(--text-xs); font-family: var(--font-mono)">xl</div>
+          <div style="background: hsl(var(--primary) / 0.15); border:1px solid hsl(var(--primary) / 0.3); width: 56px; height: 56px; border-radius: var(--radius-full); display:flex; align-items:flex-end; justify-content:center; padding-bottom: 4px; font-size: var(--text-xs); font-family: var(--font-mono)">full</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Buttons -->
+  <section id="buttons">
+    <h2>Buttons</h2>
+    <p class="lead">36 px default with 30/42 size variants. Six intents — primary, secondary, outline, ghost, destructive, link — plus icon-only. Hover darkens by 10 %; focus uses the consistent 2 px ring.</p>
+
+    <h3>Variants</h3>
+    <div class="row">
+      <button class="btn btn-primary">Add Network</button>
+      <button class="btn btn-secondary">Cancel</button>
+      <button class="btn btn-outline">Configure</button>
+      <button class="btn btn-ghost">Export</button>
+      <button class="btn btn-destructive">Delete</button>
+      <button class="btn btn-link">Learn more →</button>
+    </div>
+
+    <h3>Sizes &amp; states</h3>
+    <div class="row">
+      <button class="btn btn-primary btn-sm">Small</button>
+      <button class="btn btn-primary">Default</button>
+      <button class="btn btn-primary btn-lg">Large</button>
+      <button class="btn btn-primary" disabled>Disabled</button>
+      <button class="btn btn-outline btn-icon" aria-label="More">⋯</button>
+      <button class="btn btn-ghost btn-icon" aria-label="Close">✕</button>
+    </div>
+
+    <h3>With icons</h3>
+    <div class="row">
+      <button class="btn btn-primary"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg> Add Node</button>
+      <button class="btn btn-outline"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="m4 6 4 4 4-4"/></svg> Filter</button>
+      <button class="btn btn-secondary"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg> Continue</button>
+    </div>
+  </section>
+
+  <!-- Inputs -->
+  <section id="inputs">
+    <h2>Inputs &amp; forms</h2>
+    <p class="lead">Inputs share the 36 px height of buttons so they line up cleanly. Focus uses a soft 3 px halo at 18 % alpha — visible without being noisy on dense forms.</p>
+
+    <div class="grid-2">
+      <div class="field">
+        <label class="label">Network name</label>
+        <input class="input" type="text" placeholder="West Coast Office">
+        <span class="help">Shown in the network selector and breadcrumbs.</span>
+      </div>
+      <div class="field">
+        <label class="label">Region</label>
+        <select class="select">
+          <option>US-West (Oregon)</option>
+          <option>US-East (Virginia)</option>
+          <option>EU-West (Ireland)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="label">VLAN ID</label>
+        <input class="input" type="text" value="abc" aria-invalid="true">
+        <span class="help" style="color: hsl(var(--destructive))">VLAN ID must be a number between 1 and 4094.</span>
+      </div>
+      <div class="field">
+        <label class="label">Description</label>
+        <textarea class="textarea" placeholder="What does this network do?"></textarea>
+      </div>
+    </div>
+
+    <h3>Selectors</h3>
+    <div class="row">
+      <label class="check"><input type="checkbox" checked> Enable Control Plane</label>
+      <label class="check"><input type="checkbox"> Enable User Plane</label>
+      <label class="check"><span class="switch"><input type="checkbox" checked><span class="track"></span></span> Auto-upgrade</label>
+      <label class="check"><span class="switch"><input type="checkbox"><span class="track"></span></span> Send daily digest</label>
+    </div>
+  </section>
+
+  <!-- Cards -->
+  <section id="cards">
+    <h2>Cards</h2>
+    <p class="lead">A neutral container with optional header/body/footer. KPI variant for dense numerics on dashboards.</p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Network status</h4>
+          <p class="card-desc">Last 24 hours</p>
+        </div>
+        <div class="card-body">
+          <div class="row" style="gap: 24px">
+            <div><div style="font-size: var(--text-3xl); font-weight: 600">5</div><div class="help">Nodes</div></div>
+            <div><div style="font-size: var(--text-3xl); font-weight: 600; color: hsl(var(--destructive))">1</div><div class="help">Down</div></div>
+            <div><div style="font-size: var(--text-3xl); font-weight: 600">212</div><div class="help">Clients</div></div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-outline btn-sm">View details</button>
+        </div>
+      </div>
+
+      <div class="card kpi"><div class="l">Active connections</div><div class="v">1,284</div><div class="delta">↑ 4.3% vs last week</div></div>
+      <div class="card kpi"><div class="l">Throughput</div><div class="v">86 Gbps</div><div class="delta down">↓ 2.1% vs last week</div></div>
+    </div>
+  </section>
+
+  <!-- Navigation -->
+  <section id="navigation">
+    <h2>Navigation</h2>
+    <p class="lead">Top tabs lead the page; sidebar leads the section. Active state is a 2 px underline on tabs and a 3 px accent rail in the sidebar.</p>
+
+    <div class="nav-demo">
+      <aside class="nav-side">
+        <div class="logo">ATAYA</div>
+        <div class="item active">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5"/><path d="M3 8h10M8 3v10"/></svg>
+          Networks Overview
+        </div>
+        <div class="item">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1"/><path d="M2 7h12"/></svg>
+          5G Network
+        </div>
+        <div class="item">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v6m0 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+          Radio Access Network
+        </div>
+        <div class="item">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h10v3H3zM3 9h10v3H3z"/></svg>
+          Edge Applications
+        </div>
+        <div class="item">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="6" r="2.5"/><path d="M3 13c0-2.5 2.5-4 5-4s5 1.5 5 4"/></svg>
+          Clients &amp; Policies
+        </div>
+      </aside>
+      <div>
+        <div class="nav-top">
+          <div class="tab active">Insight &amp; Analytics</div>
+          <div class="tab">Networks</div>
+          <div class="tab">Clients &amp; Policies</div>
+          <div class="tab">Edge Applications</div>
+          <div class="spacer"></div>
+          <button class="btn btn-ghost btn-icon" aria-label="Search">🔍</button>
+          <button class="btn btn-ghost btn-icon" aria-label="Notifications">🔔</button>
+          <span class="avatar sm">SD</span>
+        </div>
+        <div class="nav-content">
+          <div class="eyebrow">West Coast Office</div>
+          <h3 style="margin-top: 0">Network Overview</h3>
+          <p>Live counts, deployment status, and per-node health for this tenant.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tables -->
+  <section id="tables">
+    <h2>Tables</h2>
+    <p class="lead">Header is muted, uppercase eyebrow type. Rows tighten to 12 px vertical padding (up from v1's 10 px) for more breathing room. Hover highlights the row in <code>--accent</code>.</p>
+    <table class="table">
+      <thead>
+        <tr><th>Node</th><th>IP</th><th>Services</th><th>Status</th><th style="text-align:right">Uptime</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>NODE 1</strong></td><td>3.108.0.54</td><td>Control Plane</td><td><span class="badge subtle-success"><span class="dot"></span> Up</span></td><td style="text-align:right">14d</td></tr>
+        <tr><td><strong>NODE 2</strong></td><td>3.108.0.55</td><td>Control Plane</td><td><span class="badge subtle-success"><span class="dot"></span> Up</span></td><td style="text-align:right">14d</td></tr>
+        <tr><td><strong>NODE 3</strong></td><td>3.108.0.56</td><td>Data Plane</td><td><span class="badge subtle-warning"><span class="dot"></span> Standby</span></td><td style="text-align:right">2d</td></tr>
+        <tr><td><strong>NODE 4</strong></td><td>3.108.0.54</td><td>Data Plane</td><td><span class="badge subtle-danger"><span class="dot"></span> Down</span></td><td style="text-align:right">—</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Dialog -->
+  <section id="dialog">
+    <h2>Dialogs</h2>
+    <p class="lead">Used for focused decisions and forms. The pattern preserves Ataya's right-side drawer for long forms (see PLAN.md), but adopts the centered confirm dialog for short interactions.</p>
+
+    <div class="dialog-frame">
+      <div class="dialog">
+        <div class="head">
+          <h4>Delete this node?</h4>
+          <p>NODE 4 will be removed from the West Coast Office network. Connected clients will reattach to other nodes.</p>
+        </div>
+        <div class="body">
+          <label class="check"><input type="checkbox"> Also delete the node's policies</label>
+        </div>
+        <div class="foot">
+          <button class="btn btn-ghost">Cancel</button>
+          <button class="btn btn-destructive">Delete node</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabs -->
+  <section id="tabs">
+    <h2>Tabs</h2>
+    <p class="lead">Two flavors: an underline pattern for page-level switching (see Navigation), and a pill segmented control for inline filters.</p>
+
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true">Overview</button>
+      <button role="tab" aria-selected="false">Nodes</button>
+      <button role="tab" aria-selected="false">Services</button>
+      <button role="tab" aria-selected="false">Logs</button>
+    </div>
+  </section>
+
+  <!-- Alerts -->
+  <section id="alerts">
+    <h2>Alerts &amp; toasts</h2>
+    <p class="lead">Inline alerts live with the content; toasts are transient and stack bottom-right. Both share the four intents tied to status colors.</p>
+
+    <div class="grid-2">
+      <div class="alert info"><span class="dot"></span><div><div class="title">New software available</div><div class="body">Upgrade to v1.6.599 to access the refreshed UI.</div></div></div>
+      <div class="alert success"><span class="dot"></span><div><div class="title">Network deployed</div><div class="body">West Coast Office is now serving 212 clients.</div></div></div>
+      <div class="alert warning"><span class="dot"></span><div><div class="title">License expires in 14 days</div><div class="body">Renew before May 18 to avoid service interruption.</div></div></div>
+      <div class="alert danger"><span class="dot"></span><div><div class="title">NODE 4 unreachable</div><div class="body">No heartbeat in the last 2 minutes. Investigating…</div></div></div>
+    </div>
+
+    <h3>Toast</h3>
+    <div class="toast"><span class="ok">✓ Configuration saved</span><span style="color: hsl(var(--neutral-400))">Undo</span></div>
+  </section>
+
+  <!-- Avatars / Badges -->
+  <section id="avatars">
+    <h2>Avatars &amp; badges</h2>
+    <p class="lead">Avatars use a tinted brand fill when there's no image; badges come in solid (counts) and subtle (status) treatments tied to the four intents.</p>
+
+    <h3>Avatars</h3>
+    <div class="row">
+      <span class="avatar sm">SD</span>
+      <span class="avatar">SD</span>
+      <span class="avatar lg">SD</span>
+      <span class="avatar lg" style="background: hsl(var(--success) / 0.18); color: hsl(163 60% 28%)">JK</span>
+      <span class="avatar lg" style="background: hsl(var(--warning) / 0.22); color: hsl(35 90% 28%)">RP</span>
+      <span class="avatar lg" style="background: hsl(var(--neutral-200)); color: hsl(var(--muted-foreground))">+3</span>
+    </div>
+
+    <h3>Badges</h3>
+    <div class="row">
+      <span class="badge solid">12 new</span>
+      <span class="badge subtle-success"><span class="dot"></span> Up</span>
+      <span class="badge subtle-warning"><span class="dot"></span> Standby</span>
+      <span class="badge subtle-danger"><span class="dot"></span> Down</span>
+      <span class="badge subtle-info"><span class="dot"></span> Provisioning</span>
+    </div>
+
+    <h3>Inline status dots</h3>
+    <div class="row">
+      <span><span class="status-dot status-up"></span> Up — 4 nodes</span>
+      <span><span class="status-dot status-warn"></span> Standby — 1 node</span>
+      <span><span class="status-dot status-down"></span> Down — 1 node</span>
+    </div>
+  </section>
+
+  <!-- Menus -->
+  <section id="menus">
+    <h2>Dropdowns &amp; menus</h2>
+    <p class="lead">Menus open from a trigger button, share the popover surface, and support icons, shortcuts, and a destructive section.</p>
+
+    <div class="row" style="align-items: flex-start; gap: 32px">
+      <div class="menu" role="menu">
+        <div class="item" role="menuitem">View details <span class="kbd">Enter</span></div>
+        <div class="item" role="menuitem">Edit configuration <span class="kbd">⌘E</span></div>
+        <div class="item" role="menuitem">Duplicate <span class="kbd">⌘D</span></div>
+        <div class="item" role="menuitem">Export YAML</div>
+        <div class="sep"></div>
+        <div class="item destructive" role="menuitem">Delete node <span class="kbd">⌘⌫</span></div>
+      </div>
+
+      <div>
+        <div class="eyebrow">Trigger</div>
+        <button class="btn btn-outline">
+          Actions
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="m4 6 4 4 4-4"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // Theme toggle
+  const root = document.documentElement;
+  const lightBtn = document.getElementById("theme-light");
+  const darkBtn  = document.getElementById("theme-dark");
+  function setTheme(t) {
+    root.setAttribute("data-theme", t);
+    lightBtn.setAttribute("aria-pressed", t === "light");
+    darkBtn.setAttribute("aria-pressed", t === "dark");
+  }
+  lightBtn.addEventListener("click", () => setTheme("light"));
+  darkBtn.addEventListener("click",  () => setTheme("dark"));
+  setTheme("light");
+</script>
+</body>
+</html>

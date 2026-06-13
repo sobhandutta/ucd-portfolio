@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home — Ataya Chorus</title>
+  <link rel="stylesheet" href="tokens-v2.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: hsl(var(--background));
+      color: hsl(var(--foreground));
+      font-size: var(--text-base);
+      height: 100vh; overflow: hidden;
+      display: flex; flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Topnav ──────────────────────────────────────────── */
+    .topnav {
+      height: 52px; background: hsl(var(--neutral-900));
+      display: flex; align-items: center; padding: 0 24px; gap: 0;
+      flex-shrink: 0; z-index: 100; position: relative;
+    }
+    .topnav-logo { display: flex; flex-direction: column; line-height: 1; margin-right: 32px; }
+    .topnav-logo .brand { font-size: 10px; font-weight: 700; color: hsl(var(--brand-cyan)); letter-spacing: .14em; text-transform: uppercase; }
+    .topnav-logo .product { font-size: 15px; font-weight: 700; color: #fff; letter-spacing: -.01em; }
+    .topnav-links { display: flex; align-items: stretch; height: 52px; flex: 1; }
+    .topnav-link {
+      display: flex; align-items: center; gap: 5px; padding: 0 14px;
+      color: hsl(var(--neutral-400)); font-size: var(--text-sm); font-weight: 500;
+      cursor: pointer; border-bottom: 2px solid transparent;
+      transition: color .15s, border-color .15s; white-space: nowrap;
+    }
+    .topnav-link:hover { color: #fff; }
+    .topnav-link.active { color: hsl(var(--brand-cyan)); border-bottom-color: hsl(var(--brand-cyan)); }
+    .topnav-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+    .nav-icon {
+      width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; color: hsl(var(--neutral-400)); cursor: pointer; position: relative;
+    }
+    .nav-icon:hover { background: hsl(var(--neutral-800)); color: #fff; }
+    .nav-icon svg { width: 15px; height: 15px; }
+    .badge-dot { position: absolute; top: 4px; right: 4px; width: 7px; height: 7px; border-radius: 50%; background: hsl(var(--brand-red)); border: 2px solid hsl(var(--neutral-900)); }
+    .nav-avatar { width: 30px; height: 30px; border-radius: 50%; background: hsl(var(--brand-blue)); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .nav-name { font-size: var(--text-sm); color: hsl(var(--neutral-300)); font-weight: 500; }
+
+    /* ── App Shell ───────────────────────────────────────── */
+    .app-shell {
+      flex: 1; position: relative; overflow: hidden;
+    }
+
+    /* ── Background Image ────────────────────────────────── */
+    .bg-layer {
+      position: absolute; inset: 0;
+      background: hsl(215 40% 97%);
+    }
+    .bg-layer::after {
+      content: ''; position: absolute; inset: 0;
+      background: url('assets/background.png') center center / cover no-repeat;
+      opacity: 0.5;
+    }
+
+    /* ── Views ───────────────────────────────────────────── */
+    .view {
+      position: absolute; inset: 0;
+      transition: opacity .4s cubic-bezier(0.16,1,.3,1), transform .4s cubic-bezier(0.16,1,.3,1);
+    }
+    .view.hidden {
+      opacity: 0; pointer-events: none;
+    }
+    .view-overview.hidden { transform: translateY(-12px); }
+    .view-chat.hidden     { transform: translateY(12px); }
+
+    /* ── View: Overview ──────────────────────────────────── */
+    .overview-inner {
+      height: 100%; display: flex; flex-direction: column;
+      padding: 24px 32px 28px;
+      max-width: 1180px; margin: 0 auto; width: 100%;
+    }
+
+    /* Greeting */
+    .greeting {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .greeting-text h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -.02em; }
+    .greeting-text h1 span { color: hsl(var(--brand-blue)); }
+    .greeting-text p { font-size: var(--text-sm); color: hsl(var(--neutral-600)); margin-top: 3px; }
+    .system-health {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 14px; border-radius: 20px;
+      background: rgba(255,255,255,.75); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.7);
+      font-size: var(--text-xs); font-weight: 500; color: hsl(var(--neutral-700));
+    }
+    .health-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .health-dot.green { background: hsl(163 60% 44%); box-shadow: 0 0 6px hsl(163 60% 50% / .6); }
+    .health-dot.red   { background: hsl(var(--brand-red)); box-shadow: 0 0 6px hsl(8 100% 59% / .5); animation: alertPulse 2s infinite; }
+    @keyframes alertPulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+    .health-badge {
+      padding: 2px 7px; border-radius: 8px; font-size: 10px; font-weight: 700;
+    }
+    .health-badge.warn { background: hsl(8 100% 59% / .1); color: hsl(8 100% 44%); }
+
+    /* Status Cards */
+    .status-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+      margin: 18px 0; flex-shrink: 0;
+    }
+    .status-card {
+      background: rgba(255,255,255,.82); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,.75);
+      border-radius: 18px; padding: 20px 22px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.06), 0 1px 4px rgba(0,0,0,.04);
+      cursor: pointer; transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .status-card:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,0,0,.1), 0 2px 8px rgba(0,0,0,.05); }
+    .status-card.alert-card {
+      background: rgba(255,242,242,.88);
+      border-color: rgba(255,100,80,.2);
+    }
+    .card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+    .card-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card-icon.green { background: hsl(163 60% 50% / .12); }
+    .card-icon.green svg { color: hsl(163 55% 38%); }
+    .card-icon.red   { background: hsl(8 100% 59% / .1); }
+    .card-icon.red svg { color: hsl(8 100% 45%); }
+    .card-icon svg { width: 20px; height: 20px; }
+    .card-link-arrow { color: hsl(var(--neutral-400)); font-size: 14px; }
+    .card-label { font-size: var(--text-xs); font-weight: 600; color: hsl(var(--neutral-500)); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+    .card-value { font-size: 34px; font-weight: 800; line-height: 1; letter-spacing: -.03em; }
+    .card-value .suffix { font-size: var(--text-md); font-weight: 500; color: hsl(var(--neutral-500)); margin-left: 3px; }
+    .card-desc { font-size: var(--text-xs); color: hsl(var(--neutral-500)); margin-top: 4px; line-height: 1.4; }
+    .card-bullets { margin-top: 12px; display: flex; flex-direction: column; gap: 5px; }
+    .card-bullet { display: flex; align-items: center; gap: 6px; font-size: var(--text-xs); }
+    .card-bullet.ok   { color: hsl(163 55% 36%); }
+    .card-bullet.err  { color: hsl(8 100% 44%); }
+    .card-bullet.neutral { color: hsl(var(--neutral-600)); }
+    .bullet-icon { width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .bullet-icon.ok  { background: hsl(163 60% 50% / .15); }
+    .bullet-icon.err { background: hsl(8 100% 59% / .12); }
+    .bullet-icon svg { width: 9px; height: 9px; }
+
+    /* Sparkline */
+    .card-sparkline { margin-top: 12px; }
+    .sparkline-label { font-size: 10px; color: hsl(var(--neutral-500)); margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; }
+    .sparkline-label .alert-text { color: hsl(8 100% 44%); font-weight: 700; }
+    .card-sparkline svg { display: block; }
+
+    /* ── AI Section ──────────────────────────────────────── */
+    .ai-section { margin-top: auto; display: flex; flex-direction: column; align-items: center; }
+    .ai-heading { font-size: var(--text-xl); font-weight: 600; text-align: center; letter-spacing: -.01em; margin-bottom: 14px; }
+    .ai-heading span { color: hsl(var(--brand-blue)); }
+
+    .suggestion-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; margin-bottom: 18px; max-width: 820px; }
+    .chip {
+      padding: 8px 14px; border-radius: 20px;
+      background: rgba(255,255,255,.78); backdrop-filter: blur(10px);
+      border: 1px solid rgba(0,0,0,.09);
+      font-size: var(--text-sm); cursor: pointer; color: hsl(var(--neutral-700));
+      transition: all .15s; white-space: nowrap;
+    }
+    .chip:hover {
+      background: rgba(255,255,255,.95); border-color: hsl(var(--brand-blue) / .35);
+      color: hsl(var(--brand-blue)); transform: translateY(-1px);
+    }
+    .chip.alert-chip {
+      background: rgba(255,235,232,.82);
+      border-color: hsl(8 100% 59% / .25); color: hsl(8 100% 40%);
+    }
+    .chip.alert-chip:hover { background: rgba(255,220,215,.95); }
+
+    /* AI Input */
+    .ai-input-outer { width: 100%; max-width: 760px; }
+    .ai-input-bar {
+      display: flex; align-items: center; gap: 10px;
+      padding: 13px 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.92); backdrop-filter: blur(24px);
+      border: 1.5px solid rgba(0,0,0,.09);
+      box-shadow: 0 4px 28px rgba(0,0,0,.07), 0 1px 3px rgba(0,0,0,.04);
+      transition: box-shadow .25s, border-color .25s;
+    }
+    .ai-input-bar:focus-within {
+      box-shadow: 0 6px 40px hsl(214 78% 33% / .14), 0 1px 4px rgba(0,0,0,.06);
+      border-color: hsl(var(--brand-blue) / .45);
+    }
+    .ai-plus {
+      width: 26px; height: 26px; border-radius: 50%; background: hsl(var(--neutral-100));
+      border: 1.5px solid hsl(var(--neutral-200)); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0; color: hsl(var(--neutral-500)); transition: all .15s;
+    }
+    .ai-plus:hover { background: hsl(var(--neutral-200)); color: hsl(var(--foreground)); }
+    .ai-plus svg { width: 12px; height: 12px; }
+    .ai-input-field {
+      flex: 1; border: none; background: transparent; outline: none;
+      font-size: var(--text-md); color: hsl(var(--foreground));
+      font-family: var(--font-sans);
+    }
+    .ai-input-field::placeholder { color: hsl(var(--neutral-400)); }
+    .ai-input-actions { display: flex; align-items: center; gap: 8px; }
+    .ai-btn-icon {
+      width: 32px; height: 32px; border-radius: 50%; border: none; background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      color: hsl(var(--neutral-400)); cursor: pointer; transition: all .15s;
+    }
+    .ai-btn-icon:hover { background: hsl(var(--neutral-100)); color: hsl(var(--foreground)); }
+    .ai-btn-icon svg { width: 16px; height: 16px; }
+    .ai-send {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: hsl(var(--brand-blue)); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px hsl(214 78% 33% / .3);
+      transition: background .15s, transform .15s;
+    }
+    .ai-send:hover { background: hsl(214 78% 26%); transform: scale(1.05); }
+    .ai-send svg { width: 14px; height: 14px; color: #fff; }
+    .ai-hint { margin-top: 10px; font-size: 11px; color: hsl(var(--neutral-500)); text-align: center; }
+    .ai-hint kbd {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 1px 5px; border-radius: 4px;
+      background: rgba(255,255,255,.7); border: 1px solid rgba(0,0,0,.12);
+      font-family: var(--font-mono); font-size: 10px;
+    }
+
+    /* ── View: Chat ──────────────────────────────────────── */
+    .chat-shell { height: 100%; display: flex; flex-direction: column; }
+    .chat-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 24px;
+      background: rgba(255,255,255,.85); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,.07);
+      flex-shrink: 0; z-index: 10; position: relative;
+    }
+    .chat-topbar-left { display: flex; align-items: center; gap: 10px; }
+    .chat-back-btn {
+      display: flex; align-items: center; gap: 5px; padding: 6px 12px;
+      border-radius: 8px; border: 1px solid rgba(0,0,0,.1); background: rgba(255,255,255,.7);
+      font-size: var(--text-xs); font-weight: 600; cursor: pointer; color: hsl(var(--neutral-700));
+      transition: all .15s;
+    }
+    .chat-back-btn:hover { background: rgba(255,255,255,.95); color: hsl(var(--foreground)); }
+    .chat-back-btn svg { width: 12px; height: 12px; }
+    .ai-status-dot { width: 7px; height: 7px; border-radius: 50%; background: hsl(var(--brand-cyan)); animation: statusPulse 2.5s infinite; }
+    @keyframes statusPulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .chat-topbar-title { font-size: var(--text-sm); font-weight: 600; }
+    .chat-topbar-sub { font-size: var(--text-xs); color: hsl(var(--neutral-500)); margin-top: 1px; }
+    .chat-topbar-right { display: flex; align-items: center; gap: 6px; }
+    .chat-action-btn {
+      padding: 5px 12px; border-radius: 7px; border: 1px solid rgba(0,0,0,.1);
+      background: rgba(255,255,255,.7); font-size: var(--text-xs); font-weight: 600;
+      cursor: pointer; color: hsl(var(--neutral-600)); transition: all .15s;
+    }
+    .chat-action-btn:hover { background: rgba(255,255,255,.95); }
+
+    /* Chat Layout */
+    .chat-layout { flex: 1; display: flex; overflow: hidden; }
+    .chat-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+    /* Messages */
+    .messages-wrap { flex: 1; overflow-y: auto; padding: 24px 40px; display: flex; flex-direction: column; gap: 20px; }
+    .messages-inner { max-width: 820px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 20px; }
+
+    /* User bubble */
+    .msg-user { display: flex; justify-content: flex-end; }
+    .msg-user-bubble {
+      max-width: 65%; padding: 11px 16px;
+      background: hsl(var(--brand-blue)); color: #fff;
+      border-radius: 20px 20px 5px 20px;
+      font-size: var(--text-sm); line-height: 1.55;
+      box-shadow: 0 2px 8px hsl(214 78% 33% / .25);
+    }
+
+    /* AI bubble */
+    .msg-ai { display: flex; gap: 10px; align-items: flex-start; }
+    .ai-avatar {
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, hsl(195 99% 48%), hsl(163 60% 56%));
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ai-avatar svg { width: 14px; height: 14px; color: #fff; }
+    .msg-ai-body { flex: 1; }
+    .msg-ai-name { font-size: 10px; font-weight: 700; color: hsl(var(--neutral-500)); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+    .msg-ai-bubble {
+      background: rgba(255,255,255,.88); backdrop-filter: blur(12px);
+      border: 1px solid rgba(0,0,0,.07);
+      border-radius: 4px 18px 18px 18px;
+      padding: 14px 18px;
+      font-size: var(--text-sm); line-height: 1.6;
+      box-shadow: 0 2px 12px rgba(0,0,0,.05);
+    }
+    .msg-ai-bubble p { margin-bottom: 8px; }
+    .msg-ai-bubble p:last-child { margin-bottom: 0; }
+    .msg-ai-bubble strong { font-weight: 700; }
+    .msg-ai-bubble ul { padding-left: 16px; margin: 6px 0; display: flex; flex-direction: column; gap: 3px; }
+    .msg-ai-bubble li { line-height: 1.5; }
+
+    /* Inline chart in message */
+    .msg-chart {
+      margin: 12px 0; border: 1px solid rgba(0,0,0,.07);
+      border-radius: 10px; padding: 12px 16px;
+      background: rgba(248,250,252,.9);
+    }
+    .msg-chart-title { font-size: 10px; font-weight: 700; color: hsl(var(--neutral-500)); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; }
+    .bar-row { display: flex; flex-direction: column; gap: 6px; }
+    .bar-item { display: flex; align-items: center; gap: 8px; }
+    .bar-label { font-size: var(--text-xs); color: hsl(var(--neutral-600)); width: 130px; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 8px; background: hsl(var(--neutral-100)); border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; }
+    .bar-pct { font-size: var(--text-xs); font-weight: 700; width: 36px; text-align: right; }
+
+    /* Action chips in message */
+    .msg-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .msg-action-chip {
+      padding: 6px 12px; border-radius: 14px;
+      border: 1.5px solid hsl(var(--brand-blue) / .25);
+      background: hsl(var(--brand-blue) / .05);
+      font-size: var(--text-xs); font-weight: 600; cursor: pointer;
+      color: hsl(var(--brand-blue)); transition: all .15s;
+    }
+    .msg-action-chip:hover { background: hsl(var(--brand-blue) / .1); border-color: hsl(var(--brand-blue) / .5); }
+
+    /* Message feedback */
+    .msg-feedback { display: flex; align-items: center; gap: 4px; margin-top: 8px; padding-left: 2px; }
+    .fb-btn { width: 26px; height: 26px; border-radius: 6px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: hsl(var(--neutral-400)); transition: all .12s; }
+    .fb-btn:hover { background: rgba(0,0,0,.05); color: hsl(var(--neutral-700)); }
+    .fb-btn svg { width: 12px; height: 12px; }
+    .fb-time { font-size: 10px; color: hsl(var(--neutral-400)); margin-left: 6px; }
+
+    /* Typing indicator */
+    .typing-indicator { display: flex; gap: 10px; align-items: flex-start; }
+    .typing-bubble {
+      background: rgba(255,255,255,.88); backdrop-filter: blur(12px);
+      border: 1px solid rgba(0,0,0,.07);
+      border-radius: 4px 18px 18px 18px;
+      padding: 14px 20px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .typing-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: hsl(var(--neutral-400)); animation: typingBounce 1.2s ease-in-out infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: .15s; }
+    .typing-dot:nth-child(3) { animation-delay: .3s; }
+    @keyframes typingBounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-8px)} }
+
+    /* Chat input */
+    .chat-input-area {
+      padding: 12px 40px 20px; flex-shrink: 0;
+    }
+    .chat-input-inner { max-width: 820px; margin: 0 auto; }
+    .chat-input-bar {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 16px; border-radius: 18px;
+      background: rgba(255,255,255,.92); backdrop-filter: blur(20px);
+      border: 1.5px solid rgba(0,0,0,.09);
+      box-shadow: 0 4px 20px rgba(0,0,0,.07);
+      transition: box-shadow .2s, border-color .2s;
+    }
+    .chat-input-bar:focus-within {
+      box-shadow: 0 4px 32px hsl(214 78% 33% / .12);
+      border-color: hsl(var(--brand-blue) / .4);
+    }
+    .chat-input-field {
+      flex: 1; border: none; background: transparent; outline: none;
+      font-size: var(--text-sm); color: hsl(var(--foreground));
+      font-family: var(--font-sans);
+    }
+    .chat-input-field::placeholder { color: hsl(var(--neutral-400)); }
+
+    /* Chat sidebar */
+    .chat-sidebar {
+      width: 268px; flex-shrink: 0;
+      background: rgba(255,255,255,.7); backdrop-filter: blur(20px);
+      border-left: 1px solid rgba(0,0,0,.08);
+      overflow-y: auto; padding: 16px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .sidebar-section-title { font-size: var(--text-xs); font-weight: 700; color: hsl(var(--neutral-500)); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+    .sidebar-section-title span { font-size: 10px; font-weight: 500; color: hsl(var(--brand-blue)); cursor: pointer; text-transform: none; letter-spacing: 0; }
+
+    /* History items */
+    .history-item {
+      display: flex; align-items: flex-start; gap: 8px;
+      padding: 8px 10px; border-radius: 8px; cursor: pointer;
+      transition: background .12s; margin-bottom: 2px;
+    }
+    .history-item:hover { background: rgba(0,0,0,.04); }
+    .history-icon { width: 28px; height: 28px; border-radius: 7px; background: hsl(var(--neutral-100)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .history-icon svg { width: 13px; height: 13px; color: hsl(var(--neutral-500)); }
+    .history-text { flex: 1; min-width: 0; }
+    .history-title { font-size: var(--text-xs); font-weight: 600; color: hsl(var(--neutral-700)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .history-meta { font-size: 10px; color: hsl(var(--neutral-400)); margin-top: 2px; }
+
+    /* Recommendations */
+    .rec-item {
+      padding: 10px 12px; border-radius: 10px;
+      background: rgba(255,255,255,.65);
+      border: 1px solid rgba(0,0,0,.07);
+      margin-bottom: 6px; cursor: pointer; transition: all .15s;
+    }
+    .rec-item:hover { background: rgba(255,255,255,.9); transform: translateX(2px); }
+    .rec-item-header { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+    .rec-priority { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .rec-priority.high { background: hsl(8 100% 55%); }
+    .rec-priority.med  { background: hsl(38 90% 45%); }
+    .rec-priority.low  { background: hsl(163 55% 42%); }
+    .rec-title { font-size: var(--text-xs); font-weight: 600; color: hsl(var(--neutral-800)); }
+    .rec-desc { font-size: 10px; color: hsl(var(--neutral-500)); line-height: 1.4; }
+
+    /* Network context panel */
+    .context-card {
+      padding: 12px; border-radius: 10px;
+      background: linear-gradient(135deg, hsl(214 78% 33% / .06), hsl(163 60% 56% / .06));
+      border: 1px solid hsl(214 78% 33% / .12);
+    }
+    .context-card-title { font-size: 10px; font-weight: 700; color: hsl(var(--neutral-600)); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+    .context-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+    .context-label { font-size: var(--text-xs); color: hsl(var(--neutral-500)); }
+    .context-val { font-size: var(--text-xs); font-weight: 700; }
+    .context-val.good { color: hsl(163 55% 36%); }
+    .context-val.warn { color: hsl(38 85% 36%); }
+    .context-val.bad  { color: hsl(8 100% 44%); }
+  </style>
+</head>
+<body>
+
+<!-- ── Topnav ──────────────────────────────────────────────── -->
+<nav class="topnav">
+  <div class="topnav-logo">
+    <span class="brand">ATAYA</span>
+    <span class="product">CHORUS</span>
+  </div>
+  <div class="topnav-links">
+    <span class="topnav-link active">Networks</span>
+    <span class="topnav-link">Devices</span>
+    <span class="topnav-link">Clients</span>
+    <span class="topnav-link">Policies</span>
+    <span class="topnav-link">Organization</span>
+  </div>
+  <div class="topnav-right">
+    <div class="nav-icon">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a5 5 0 00-5 5v2.5L1.5 10V12h13v-2L13 8.5V6a5 5 0 00-5-5zm0 13a1.5 1.5 0 01-1.5-1.5h3A1.5 1.5 0 018 14z"/></svg>
+      <span class="badge-dot"></span>
+    </div>
+    <div class="nav-avatar">JD</div>
+    <span class="nav-name">John Doe</span>
+  </div>
+</nav>
+
+<div class="app-shell">
+
+  <!-- ── Background ──────────────────────────────────────── -->
+  <div class="bg-layer" aria-hidden="true"></div>
+
+  <!-- ── View: Overview ──────────────────────────────────── -->
+  <div class="view view-overview" id="viewOverview">
+    <div class="overview-inner">
+
+      <!-- Greeting -->
+      <div class="greeting">
+        <div class="greeting-text">
+          <h1>Good morning, <span>John</span>.</h1>
+          <p id="greetingSub">Loading status…</p>
+        </div>
+        <div class="system-health">
+          <div class="health-dot red"></div>
+          1 alert active
+          <span class="health-badge warn">Call Drops ↑</span>
+          <span style="color:hsl(220 10% 70%)">·</span>
+          <span id="liveClock" style="font-variant-numeric:tabular-nums"></span>
+        </div>
+      </div>
+
+      <!-- Status Cards -->
+      <div class="status-grid">
+
+        <!-- Network Up -->
+        <div class="status-card" onclick="quickAsk('Tell me more about network stability today')">
+          <div class="card-header">
+            <div class="card-icon green">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M2 10a8 8 0 1116 0A8 8 0 012 10z"/>
+                <path d="M6 10l3 3 5-5"/>
+              </svg>
+            </div>
+            <span class="card-link-arrow">→</span>
+          </div>
+          <div class="card-label">Network Up</div>
+          <div class="card-value">98<span class="suffix">%</span></div>
+          <div class="card-desc">8% better than 7-day average</div>
+          <div class="card-bullets">
+            <div class="card-bullet ok">
+              <div class="bullet-icon ok"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5l2.5 2.5 3.5-4"/></svg></div>
+              5G Services operational
+            </div>
+            <div class="card-bullet ok">
+              <div class="bullet-icon ok"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5l2.5 2.5 3.5-4"/></svg></div>
+              Data Plane healthy
+            </div>
+          </div>
+        </div>
+
+        <!-- Devices Up -->
+        <div class="status-card" onclick="quickAsk('Which device is down and for how long?')">
+          <div class="card-header">
+            <div class="card-icon green">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <rect x="3" y="5" width="14" height="10" rx="2"/>
+                <path d="M7 15v2M13 15v2M5 17h10"/>
+              </svg>
+            </div>
+            <span class="card-link-arrow">→</span>
+          </div>
+          <div class="card-label">Devices Up</div>
+          <div class="card-value">89<span class="suffix">%</span></div>
+          <div class="card-desc">2% better than 7-day average</div>
+          <div class="card-bullets">
+            <div class="card-bullet ok">
+              <div class="bullet-icon ok"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5l2.5 2.5 3.5-4"/></svg></div>
+              6 Devices Up
+            </div>
+            <div class="card-bullet err">
+              <div class="bullet-icon err"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l4 4M7 3l-4 4"/></svg></div>
+              1 Device down · 8 hrs
+            </div>
+          </div>
+        </div>
+
+        <!-- Clients Served -->
+        <div class="status-card" onclick="quickAsk('Show me a breakdown of active clients by type')">
+          <div class="card-header">
+            <div class="card-icon green">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M10 2a4 4 0 100 8 4 4 0 000-8z"/>
+                <path d="M4 18a6 6 0 0112 0"/>
+              </svg>
+            </div>
+            <span class="card-link-arrow">→</span>
+          </div>
+          <div class="card-label">Clients Served</div>
+          <div class="card-value">94<span class="suffix">%</span></div>
+          <div class="card-desc">Success rate · 513 total clients</div>
+          <div class="card-bullets">
+            <div class="card-bullet ok">
+              <div class="bullet-icon ok"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5l2.5 2.5 3.5-4"/></svg></div>
+              435 active clients
+            </div>
+            <div class="card-bullet ok">
+              <div class="bullet-icon ok"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5l2.5 2.5 3.5-4"/></svg></div>
+              20% better than avg
+            </div>
+          </div>
+        </div>
+
+        <!-- Call Drop Rate — ALERT -->
+        <div class="status-card alert-card" onclick="quickAsk('Why is the call drop rate above threshold in Zone C?')">
+          <div class="card-header">
+            <div class="card-icon red">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M10 2l8 14H2L10 2z"/>
+                <path d="M10 8v4M10 14v.5"/>
+              </svg>
+            </div>
+            <span class="card-link-arrow" style="color:hsl(8,100%,45%)">→</span>
+          </div>
+          <div class="card-label" style="color:hsl(8,100%,44%)">Call Drop Rate ⚠</div>
+          <div class="card-value" style="color:hsl(8,100%,40%)">8.6<span class="suffix">%</span></div>
+          <div class="card-desc" style="color:hsl(8 90% 40%)">3.6% above threshold · Zone C</div>
+          <div class="card-sparkline">
+            <div class="sparkline-label">
+              <span>7-day trend</span>
+              <span class="alert-text">↑ 3 days</span>
+            </div>
+            <svg width="100%" height="32" viewBox="0 0 200 32" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="spG" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="hsl(8,100%,55%)" stop-opacity=".25"/>
+                  <stop offset="100%" stop-color="hsl(8,100%,55%)" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0 24 L28 22 L56 20 L84 21 L112 18 L140 14 L168 10 L196 6 L196 32 L0 32 Z" fill="url(#spG)"/>
+              <polyline points="0,24 28,22 56,20 84,21 112,18 140,14 168,10 196,6"
+                fill="none" stroke="hsl(8,100%,52%)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- AI Section -->
+      <div class="ai-section">
+        <p class="ai-heading">What would you like to do <span>today</span>?</p>
+        <div class="suggestion-chips">
+          <span class="chip alert-chip" onclick="quickAsk('Why is the call drop rate above threshold in Zone C?')">⚠ Why is the call drop rate elevated?</span>
+          <span class="chip" onclick="quickAsk('What are the last 5 changes in system configuration?')">Last 5 system config changes</span>
+          <span class="chip" onclick="quickAsk('Which device has been down the longest?')">Which device is down the longest?</span>
+          <span class="chip" onclick="quickAsk('Show me traffic breakdown by zone for today')">Traffic breakdown by zone</span>
+          <span class="chip" onclick="quickAsk('Which clients were affected when device PTY202521000L_45 went down?')">Clients affected by device outage</span>
+        </div>
+        <div class="ai-input-outer">
+          <div class="ai-input-bar">
+            <div class="ai-plus">
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M6 1v10M1 6h10"/>
+              </svg>
+            </div>
+            <input class="ai-input-field" id="overviewInput" placeholder="Ask anything or type / for options…"
+              onkeydown="handleOverviewKey(event)" oninput="syncInputs(this)"/>
+            <div class="ai-input-actions">
+              <button class="ai-btn-icon" title="Voice">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a3 3 0 00-3 3v4a3 3 0 006 0V4a3 3 0 00-3-3zm-5 7a5 5 0 0010 0v-.5a.5.5 0 00-1 0V8a4 4 0 01-8 0v-.5a.5.5 0 00-1 0V8z"/></svg>
+              </button>
+              <button class="ai-send" onclick="submitFromOverview()">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M14.5 1.5l-13 5 5 2 2 5 6-12z"/></svg>
+              </button>
+            </div>
+          </div>
+          <p class="ai-hint">Press <kbd>/</kbd> for commands &nbsp;·&nbsp; Click any card for quick insights</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── View: Chat ────────────────────────────────────────── -->
+  <div class="view view-chat hidden" id="viewChat">
+    <div class="chat-shell">
+
+      <!-- Chat topbar -->
+      <div class="chat-topbar">
+        <div class="chat-topbar-left">
+          <button class="chat-back-btn" onclick="backToOverview()">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 1L3 6l5 5"/></svg>
+            Dashboard
+          </button>
+          <div class="ai-status-dot"></div>
+          <div>
+            <div class="chat-topbar-title">Ataya AI — Network Assistant</div>
+            <div class="chat-topbar-sub">Analyzing your 5G core in real time</div>
+          </div>
+        </div>
+        <div class="chat-topbar-right">
+          <button class="chat-action-btn">New conversation</button>
+          <button class="chat-action-btn">Export chat</button>
+        </div>
+      </div>
+
+      <div class="chat-layout">
+
+        <!-- Messages + Input -->
+        <div class="chat-main">
+          <div class="messages-wrap" id="messagesWrap">
+            <div class="messages-inner" id="messagesInner">
+              <!-- messages injected here -->
+            </div>
+          </div>
+          <div class="chat-input-area">
+            <div class="chat-input-inner">
+              <div class="chat-input-bar">
+                <div class="ai-plus">
+                  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg>
+                </div>
+                <input class="chat-input-field" id="chatInput" placeholder="Ask a follow-up or a new question…"
+                  onkeydown="handleChatKey(event)"/>
+                <button class="ai-btn-icon" title="Voice">
+                  <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a3 3 0 00-3 3v4a3 3 0 006 0V4a3 3 0 00-3-3zm-5 7a5 5 0 0010 0v-.5a.5.5 0 00-1 0V8a4 4 0 01-8 0v-.5a.5.5 0 00-1 0V8z"/></svg>
+                </button>
+                <button class="ai-send" onclick="sendChatMessage()">
+                  <svg viewBox="0 0 16 16" fill="currentColor"><path d="M14.5 1.5l-13 5 5 2 2 5 6-12z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="chat-sidebar">
+
+          <!-- Context card -->
+          <div class="context-card">
+            <div class="context-card-title">Live Network State</div>
+            <div class="context-row"><span class="context-label">Stability</span><span class="context-val good">98%</span></div>
+            <div class="context-row"><span class="context-label">Active Devices</span><span class="context-val good">6 / 7</span></div>
+            <div class="context-row"><span class="context-label">Active Clients</span><span class="context-val good">435</span></div>
+            <div class="context-row"><span class="context-label">Drop Rate</span><span class="context-val bad">8.6% ↑</span></div>
+            <div class="context-row"><span class="context-label">Impacted Zone</span><span class="context-val warn">Zone C</span></div>
+          </div>
+
+          <!-- History -->
+          <div>
+            <div class="sidebar-section-title">History <span>View all</span></div>
+            <div class="history-item">
+              <div class="history-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7 1a6 6 0 100 12A6 6 0 007 1zm0 3v4l2.5 1.5"/></svg></div>
+              <div class="history-text">
+                <div class="history-title">Network performance this week</div>
+                <div class="history-meta">2 days ago</div>
+              </div>
+            </div>
+            <div class="history-item">
+              <div class="history-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7 1a6 6 0 100 12A6 6 0 007 1zm0 3v4l2.5 1.5"/></svg></div>
+              <div class="history-text">
+                <div class="history-title">Device bandwidth breakdown</div>
+                <div class="history-meta">3 days ago</div>
+              </div>
+            </div>
+            <div class="history-item">
+              <div class="history-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7 1a6 6 0 100 12A6 6 0 007 1zm0 3v4l2.5 1.5"/></svg></div>
+              <div class="history-text">
+                <div class="history-title">Client connection analysis</div>
+                <div class="history-meta">1 week ago</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommendations -->
+          <div>
+            <div class="sidebar-section-title">Recommendations</div>
+            <div class="rec-item">
+              <div class="rec-item-header">
+                <div class="rec-priority high"></div>
+                <span class="rec-title">Review Zone C RF shielding</span>
+              </div>
+              <div class="rec-desc">Signal interference detected near manufacturing floor</div>
+            </div>
+            <div class="rec-item">
+              <div class="rec-item-header">
+                <div class="rec-priority high"></div>
+                <span class="rec-title">Check gNB-C02 ↔ C03 handover</span>
+              </div>
+              <div class="rec-desc">Handover failure rate 2.8x above normal</div>
+            </div>
+            <div class="rec-item">
+              <div class="rec-item-header">
+                <div class="rec-priority med"></div>
+                <span class="rec-title">Schedule EP-07 maintenance</span>
+              </div>
+              <div class="rec-desc">UPF timeout events on edge node 07</div>
+            </div>
+            <div class="rec-item">
+              <div class="rec-item-header">
+                <div class="rec-priority low"></div>
+                <span class="rec-title">Update policy for Limited Data</span>
+              </div>
+              <div class="rec-desc">14 clients approaching data limit</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Clock ──────────────────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  const t = now.toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const d = now.toLocaleDateString('en-US', {weekday:'short',month:'short',day:'numeric'});
+  const el = document.getElementById('liveClock');
+  if(el) el.textContent = `${d} · ${t}`;
+  const sub = document.getElementById('greetingSub');
+  if(sub) sub.textContent = `Your network is running with 1 active alert · ${d}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ── View state ─────────────────────────────────────────────
+let inChat = false;
+function showChat() {
+  if(inChat) return; inChat = true;
+  document.getElementById('viewOverview').classList.add('hidden');
+  document.getElementById('viewChat').classList.remove('hidden');
+}
+function backToOverview() {
+  inChat = false;
+  document.getElementById('viewChat').classList.add('hidden');
+  document.getElementById('viewOverview').classList.remove('hidden');
+  document.getElementById('overviewInput').value = '';
+}
+
+// ── Input sync ─────────────────────────────────────────────
+function syncInputs(src) {
+  const other = document.getElementById('chatInput');
+  if(other && src.id !== 'chatInput') other.value = src.value;
+}
+
+// ── Send logic ─────────────────────────────────────────────
+let isWaiting = false;
+
+function handleOverviewKey(e) { if(e.key === 'Enter') submitFromOverview(); }
+function handleChatKey(e)     { if(e.key === 'Enter') sendChatMessage(); }
+
+function submitFromOverview() {
+  const val = document.getElementById('overviewInput').value.trim();
+  if(!val) return;
+  showChat();
+  setTimeout(() => addAndRespond(val), 120);
+}
+
+function sendChatMessage() {
+  const inp = document.getElementById('chatInput');
+  const val = inp.value.trim();
+  if(!val || isWaiting) return;
+  inp.value = '';
+  addAndRespond(val);
+}
+
+function quickAsk(q) {
+  document.getElementById('overviewInput').value = q;
+  document.getElementById('chatInput').value = q;
+  showChat();
+  setTimeout(() => addAndRespond(q), 120);
+}
+
+// ── Messages ───────────────────────────────────────────────
+function addAndRespond(text) {
+  if(isWaiting) return;
+  isWaiting = true;
+
+  const container = document.getElementById('messagesInner');
+  // User message
+  const userEl = document.createElement('div');
+  userEl.className = 'msg-user';
+  userEl.innerHTML = `<div class="msg-user-bubble">${escHtml(text)}</div>`;
+  container.appendChild(userEl);
+  scrollBottom();
+
+  // Typing indicator
+  const typingEl = document.createElement('div');
+  typingEl.className = 'typing-indicator';
+  typingEl.id = 'typingIndicator';
+  typingEl.innerHTML = `
+    <div class="ai-avatar" style="margin-top:4px">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.2 3.8H13l-3.1 2.2 1.2 3.8L8 8.8l-3.1 2.2 1.2-3.8L3 5.8h3.8z"/></svg>
+    </div>
+    <div class="typing-bubble">
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    </div>`;
+  container.appendChild(typingEl);
+  scrollBottom();
+
+  // Generate response after delay
+  setTimeout(() => {
+    const t = document.getElementById('typingIndicator');
+    if(t) t.remove();
+    const response = getResponse(text);
+    const aiEl = document.createElement('div');
+    aiEl.className = 'msg-ai';
+    aiEl.innerHTML = response;
+    container.appendChild(aiEl);
+    isWaiting = false;
+    scrollBottom();
+  }, 1600);
+}
+
+function scrollBottom() {
+  const w = document.getElementById('messagesWrap');
+  setTimeout(() => w.scrollTop = w.scrollHeight, 50);
+}
+
+function escHtml(s) { return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+// ── Response generator ─────────────────────────────────────
+function getResponse(text) {
+  const t = text.toLowerCase();
+
+  if(t.includes('call drop') || t.includes('drop rate') || t.includes('threshold')) {
+    return aiMsg(`
+      <p>The call drop rate is currently <strong>8.6%</strong> — that's 3.6 percentage points above the 5% threshold, and it has been climbing for 3 consecutive days. The issue is localized to <strong>Zone C</strong> in your network.</p>
+      <p>Here's the breakdown of contributing factors:</p>
+      <div class="msg-chart">
+        <div class="msg-chart-title">Drop cause analysis — Zone C (last 72 hrs)</div>
+        <div class="bar-row">
+          <div class="bar-item">
+            <span class="bar-label">RF Interference (Mfg floor)</span>
+            <div class="bar-track"><div class="bar-fill" style="width:45%;background:hsl(8,100%,55%)"></div></div>
+            <span class="bar-pct" style="color:hsl(8,100%,40%)">45%</span>
+          </div>
+          <div class="bar-item">
+            <span class="bar-label">Handover failure C02↔C03</span>
+            <div class="bar-track"><div class="bar-fill" style="width:32%;background:hsl(38,90%,48%)"></div></div>
+            <span class="bar-pct" style="color:hsl(38,85%,36%)">32%</span>
+          </div>
+          <div class="bar-item">
+            <span class="bar-label">UPF timeout — EP-07</span>
+            <div class="bar-track"><div class="bar-fill" style="width:23%;background:hsl(214,78%,42%)"></div></div>
+            <span class="bar-pct" style="color:hsl(214,78%,33%)">23%</span>
+          </div>
+        </div>
+      </div>
+      <p>I recommend checking RF shielding near the Zone C manufacturing floor first, as that's your highest-impact action. Want me to show the affected clients or generate a diagnostic report?</p>
+      <div class="msg-actions">
+        <span class="msg-action-chip" onclick="quickAsk('Show clients affected by the drop in Zone C')">Show affected clients</span>
+        <span class="msg-action-chip" onclick="quickAsk('Generate diagnostic report for Zone C drop rate')">Diagnostic report</span>
+        <span class="msg-action-chip" onclick="quickAsk('What are the recommended configuration changes to fix the handover failure?')">Fix handover params</span>
+      </div>
+    `, 'Today 9:14 AM');
+  }
+
+  if(t.includes('config') || t.includes('configuration') || t.includes('changes')) {
+    return aiMsg(`
+      <p>Here are the last <strong>5 system configuration changes</strong> in your deployment:</p>
+      <div class="msg-chart">
+        <div class="msg-chart-title">Recent configuration changes</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px">
+          ${[
+            ['Jun 11','UPF-07','Max session timeout: 600s → 1200s','hsl(163,55%,40%)'],
+            ['Jun 10','gNB-C02','Handover hysteresis: 3dB → 5dB','hsl(163,55%,40%)'],
+            ['Jun 9','Policy: LimitedData','Threshold: 5GB → 3GB','hsl(38,85%,38%)'],
+            ['Jun 8','gNB-B01','Cell bandwidth: 100MHz → 80MHz','hsl(38,85%,38%)'],
+            ['Jun 7','DNN: internet','QoS profile updated to v2.1','hsl(214,78%,40%)']
+          ].map(([date,component,change,color])=>`
+            <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:7px;background:rgba(0,0,0,.03)">
+              <span style="font-size:10px;font-weight:700;color:hsl(220,9%,55%);width:40px;flex-shrink:0">${date}</span>
+              <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;background:${color}//.1;color:${color};white-space:nowrap">${component}</span>
+              <span style="font-size:11px;color:hsl(220,11%,38%);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${change}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <p>The handover hysteresis change on Jun 10 to <strong>gNB-C02</strong> is worth reviewing — it coincides with when the drop rate started increasing. Would you like to roll back that change or investigate further?</p>
+      <div class="msg-actions">
+        <span class="msg-action-chip" onclick="quickAsk('Roll back the handover hysteresis change on gNB-C02')">Review rollback options</span>
+        <span class="msg-action-chip" onclick="quickAsk('Show me the impact of the gNB-C02 handover change')">Show impact analysis</span>
+      </div>
+    `, 'Today 9:14 AM');
+  }
+
+  if(t.includes('device') && (t.includes('down') || t.includes('longest'))) {
+    return aiMsg(`
+      <p>The device that has been down the longest is <strong>PTY202521000L_45</strong>, which has been offline for <strong>8 hours and 14 minutes</strong>.</p>
+      <div class="msg-chart">
+        <div class="msg-chart-title">Device: PTY202521000L_45</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div><div style="font-size:10px;color:hsl(220,9%,55%);text-transform:uppercase;letter-spacing:.04em">Status</div><div style="font-size:12px;font-weight:700;color:hsl(8,100%,44%);margin-top:2px">● Offline</div></div>
+          <div><div style="font-size:10px;color:hsl(220,9%,55%);text-transform:uppercase;letter-spacing:.04em">Down since</div><div style="font-size:12px;font-weight:700;margin-top:2px">01:03 AM</div></div>
+          <div><div style="font-size:10px;color:hsl(220,9%,55%);text-transform:uppercase;letter-spacing:.04em">Location</div><div style="font-size:12px;font-weight:700;margin-top:2px">Zone B · Cell B04</div></div>
+          <div><div style="font-size:10px;color:hsl(220,9%,55%);text-transform:uppercase;letter-spacing:.04em">Model</div><div style="font-size:12px;font-weight:700;margin-top:2px">Nokia 5G AirScale</div></div>
+          <div><div style="font-size:10px;color:hsl(220,9%,55%);text-transform:uppercase;letter-spacing:.04em">Clients affected</div><div style="font-size:12px;font-weight:700;color:hsl(38,85%,36%);margin-top:2px">12 clients</div></div>
+          <div><div style="font-size:10px;color:hsl(220,9%,55%);text-transform:uppercase;letter-spacing:.04em">Last uptime</div><div style="font-size:12px;font-weight:700;margin-top:2px">28% this week</div></div>
+        </div>
+      </div>
+      <p>12 clients that were previously attached to this device have failed over to adjacent cells. No service degradation detected for those clients at this time.</p>
+      <div class="msg-actions">
+        <span class="msg-action-chip" onclick="quickAsk('Show the 12 clients affected by PTY202521000L_45 outage')">Show affected clients</span>
+        <span class="msg-action-chip" onclick="quickAsk('What is the history of PTY202521000L_45 outages?')">Device outage history</span>
+      </div>
+    `, 'Today 9:14 AM');
+  }
+
+  if(t.includes('traffic') && t.includes('zone')) {
+    return aiMsg(`
+      <p>Here's the traffic breakdown by zone for today (midnight to now):</p>
+      <div class="msg-chart">
+        <div class="msg-chart-title">Traffic by zone — today</div>
+        <div class="bar-row">
+          <div class="bar-item">
+            <span class="bar-label">Zone A (HQ)</span>
+            <div class="bar-track"><div class="bar-fill" style="width:68%;background:hsl(195,90%,42%)"></div></div>
+            <span class="bar-pct" style="color:hsl(195,80%,36%)">42 GB</span>
+          </div>
+          <div class="bar-item">
+            <span class="bar-label">Zone B (Manufacturing)</span>
+            <div class="bar-track"><div class="bar-fill" style="width:82%;background:hsl(214,78%,42%)"></div></div>
+            <span class="bar-pct" style="color:hsl(214,78%,33%)">51 GB</span>
+          </div>
+          <div class="bar-item">
+            <span class="bar-label">Zone C (R&amp;D)</span>
+            <div class="bar-track"><div class="bar-fill" style="width:38%;background:hsl(163,55%,42%)"></div></div>
+            <span class="bar-pct" style="color:hsl(163,55%,36%)">24 GB</span>
+          </div>
+          <div class="bar-item">
+            <span class="bar-label">Zone D (Warehouse)</span>
+            <div class="bar-track"><div class="bar-fill" style="width:22%;background:hsl(38,85%,48%)"></div></div>
+            <span class="bar-pct" style="color:hsl(38,85%,36%)">14 GB</span>
+          </div>
+        </div>
+      </div>
+      <p>Zone B is the heaviest consumer today at 51 GB, driven by AGV (automated guided vehicle) sensor telemetry. This is within the normal 45–60 GB range for weekdays. Would you like to see a per-device breakdown for Zone B?</p>
+      <div class="msg-actions">
+        <span class="msg-action-chip" onclick="quickAsk('Show device-level breakdown for Zone B traffic')">Zone B device breakdown</span>
+        <span class="msg-action-chip" onclick="quickAsk('Compare today traffic to last week same time')">Compare to last week</span>
+      </div>
+    `, 'Today 9:14 AM');
+  }
+
+  if(t.includes('affected') && (t.includes('client') || t.includes('zone c'))) {
+    return aiMsg(`
+      <p>Currently <strong>47 clients</strong> in Zone C are experiencing elevated drop rates. Here's the breakdown by client category:</p>
+      <div class="msg-chart">
+        <div class="msg-chart-title">Affected clients — Zone C</div>
+        <div class="bar-row">
+          <div class="bar-item">
+            <span class="bar-label">Industrial sensors</span>
+            <div class="bar-track"><div class="bar-fill" style="width:55%;background:hsl(8,100%,55%)"></div></div>
+            <span class="bar-pct" style="color:hsl(8,100%,40%)">26</span>
+          </div>
+          <div class="bar-item">
+            <span class="bar-label">Employee devices</span>
+            <div class="bar-track"><div class="bar-fill" style="width:30%;background:hsl(38,85%,48%)"></div></div>
+            <span class="bar-pct" style="color:hsl(38,85%,36%)">14</span>
+          </div>
+          <div class="bar-item">
+            <span class="bar-label">AGVs</span>
+            <div class="bar-track"><div class="bar-fill" style="width:15%;background:hsl(214,78%,42%)"></div></div>
+            <span class="bar-pct" style="color:hsl(214,78%,33%)">7</span>
+          </div>
+        </div>
+      </div>
+      <p>The industrial sensors are the most impacted due to their fixed placement near the interference source. The 7 AGVs are the highest priority — drop events can cause them to halt mid-route, creating safety and throughput issues.</p>
+      <div class="msg-actions">
+        <span class="msg-action-chip" onclick="quickAsk('Show the full list of affected AGV devices')">Show AGV list</span>
+        <span class="msg-action-chip" onclick="quickAsk('What is the recommended fix to restore Zone C coverage?')">Recommended fix</span>
+      </div>
+    `, 'Today 9:18 AM');
+  }
+
+  // Generic fallback
+  return aiMsg(`
+    <p>I understand you're asking about: <strong>"${escHtml(text)}"</strong>.</p>
+    <p>I'm analyzing your network data now. Based on current network state — 98% stability, 1 device offline, 8.6% drop rate in Zone C — here are the most relevant data points I can help with:</p>
+    <div class="msg-actions">
+      <span class="msg-action-chip" onclick="quickAsk('Why is the call drop rate above threshold in Zone C?')">Zone C drop analysis</span>
+      <span class="msg-action-chip" onclick="quickAsk('Show me traffic breakdown by zone for today')">Traffic by zone</span>
+      <span class="msg-action-chip" onclick="quickAsk('What are the last 5 changes in system configuration?')">Recent changes</span>
+    </div>
+  `, 'Today 9:14 AM');
+}
+
+function aiMsg(html, time) {
+  return `
+    <div class="ai-avatar" style="margin-top:4px">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.2 3.8H13l-3.1 2.2 1.2 3.8L8 8.8l-3.1 2.2 1.2-3.8L3 5.8h3.8z"/></svg>
+    </div>
+    <div class="msg-ai-body">
+      <div class="msg-ai-name">Ataya AI</div>
+      <div class="msg-ai-bubble">${html}</div>
+      <div class="msg-feedback">
+        <button class="fb-btn" title="Copy"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="8" height="9" rx="1.5"/><path d="M4 4V2.5A1.5 1.5 0 015.5 1H12a1.5 1.5 0 011.5 1.5V10A1.5 1.5 0 0112 11.5H10"/></svg></button>
+        <button class="fb-btn" title="Helpful"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 5V2a1 1 0 00-1-1L5 7v5h6.5l.5-5H9z"/><path d="M5 7H3a1 1 0 00-1 1v3a1 1 0 001 1h2"/></svg></button>
+        <button class="fb-btn" title="Not helpful"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 9v3a1 1 0 001 1l3-5V1H2.5l-.5 5H5z"/><path d="M9 3h2a1 1 0 011 1v3a1 1 0 01-1 1H9"/></svg></button>
+        <button class="fb-btn" title="Read aloud"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 5h3l3-3v10l-3-3H1V5z"/><path d="M9 4.5a3 3 0 010 5M11 2.5a6 6 0 010 9"/></svg></button>
+        <span class="fb-time">${time}</span>
+      </div>
+    </div>`;
+}
+</script>
+</body>
+</html>

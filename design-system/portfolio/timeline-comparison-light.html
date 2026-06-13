@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timeline Comparison — UX Design Process</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #F4F6FC; }
+.w { width: 100%; }
+svg { display: block; width: 100%; height: auto; }
+</style>
+</head>
+<body>
+<div class="w">
+<svg viewBox="0 0 1160 455" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>Timeline Comparison: Traditional 6-Week UX Cycle vs. AI-Native 5-Day Sprint</title>
+  <desc>Both timelines share the same scale — 30px per day. The 5-day AI-native cycle ends exactly where Week 1 ends on the traditional timeline.</desc>
+
+  <defs>
+    <style>
+      text { font-family: 'Inter', sans-serif; }
+      .serif { font-family: 'EB Garamond', Georgia, serif; }
+    </style>
+    <pattern id="dots" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="8" cy="8" r="1.5" fill="#CBD5EA"/>
+    </pattern>
+    <filter id="glow" x="-5%" y="-10%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="1" stdDeviation="3" flood-color="#01BCF3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- ── BACKGROUND ── -->
+  <rect width="1160" height="455" fill="#F4F6FC"/>
+
+  <!-- ── HEADER ── -->
+  <rect width="1160" height="60" fill="#FFFFFF"/>
+  <rect x="0" y="59" width="1160" height="1" fill="#E8ECF5"/>
+  <rect x="0" y="0" width="4" height="60" fill="#01BCF3"/>
+  <text x="24" y="23" font-size="10" fill="#01BCF3" letter-spacing="0.1em" font-weight="500">TIMELINE COMPARISON · UX DESIGN PROCESS</text>
+  <text x="24" y="47" class="serif" font-size="18" fill="#1E2140" font-weight="500">Traditional 6-week UX cycle vs. AI-native 5-day sprint — same phases, radically compressed</text>
+
+  <!-- ── WEEK GRID ──
+       x=220..1120, 900px = 30 days = 6 weeks, 150px/wk, 30px/day -->
+  <line x1="220" y1="70" x2="220" y2="242" stroke="#E4E8F4" stroke-width="1"/>
+  <line x1="370" y1="70" x2="370" y2="242" stroke="#01BCF3" stroke-width="1" stroke-dasharray="3,4" opacity="0.6"/>
+  <line x1="520" y1="70" x2="520" y2="242" stroke="#E4E8F4" stroke-width="1"/>
+  <line x1="670" y1="70" x2="670" y2="242" stroke="#E4E8F4" stroke-width="1"/>
+  <line x1="820" y1="70" x2="820" y2="242" stroke="#E4E8F4" stroke-width="1"/>
+  <line x1="970" y1="70" x2="970" y2="242" stroke="#E4E8F4" stroke-width="1"/>
+  <line x1="1120" y1="70" x2="1120" y2="242" stroke="#E4E8F4" stroke-width="1"/>
+
+  <text x="295" y="81" text-anchor="middle" font-size="9" fill="#A0ACCC" letter-spacing="0.07em">WEEK 1</text>
+  <text x="445" y="81" text-anchor="middle" font-size="9" fill="#A0ACCC" letter-spacing="0.07em">WEEK 2</text>
+  <text x="595" y="81" text-anchor="middle" font-size="9" fill="#A0ACCC" letter-spacing="0.07em">WEEK 3</text>
+  <text x="745" y="81" text-anchor="middle" font-size="9" fill="#A0ACCC" letter-spacing="0.07em">WEEK 4</text>
+  <text x="895" y="81" text-anchor="middle" font-size="9" fill="#A0ACCC" letter-spacing="0.07em">WEEK 5</text>
+  <text x="1045" y="81" text-anchor="middle" font-size="9" fill="#A0ACCC" letter-spacing="0.07em">WEEK 6</text>
+
+  <!-- ── OLD BAR (y=86..146, h=60) ── -->
+  <text x="24" y="101" font-size="9" fill="#A0ACCC" letter-spacing="0.08em">BEFORE</text>
+  <text x="24" y="126" font-size="22" fill="#8090B0" font-weight="700">6</text>
+  <text x="48" y="124" font-size="11" fill="#98A8C0" font-weight="500">weeks</text>
+
+  <!-- Ph1: Kick-off 2d -->
+  <rect x="220" y="86" width="60" height="60" fill="#EEF1FB"/>
+  <rect x="220" y="86" width="60" height="3" fill="#7090C8"/>
+  <text x="250" y="112" text-anchor="middle" font-size="9" fill="#506090" font-weight="600">Kick-off</text>
+  <text x="250" y="127" text-anchor="middle" font-size="8" fill="#8098B8">2 days</text>
+
+  <!-- Ph2: Research 8d -->
+  <rect x="281" y="86" width="238" height="60" fill="#EAF1FB"/>
+  <rect x="281" y="86" width="238" height="3" fill="#3278C8"/>
+  <text x="400" y="112" text-anchor="middle" font-size="10.5" fill="#205898" font-weight="600">User research &amp; interviews</text>
+  <text x="400" y="129" text-anchor="middle" font-size="9" fill="#6880A8">8 days · scheduling, travel, analysis</text>
+
+  <!-- Ph3: Synthesis 4d -->
+  <rect x="521" y="86" width="119" height="60" fill="#EDEAFB"/>
+  <rect x="521" y="86" width="119" height="3" fill="#7060C8"/>
+  <text x="580" y="112" text-anchor="middle" font-size="10" fill="#504890" font-weight="600">Synthesis</text>
+  <text x="580" y="127" text-anchor="middle" font-size="8" fill="#8070A8">4 days</text>
+
+  <!-- Ph4: Concept + proto 6d -->
+  <rect x="641" y="86" width="179" height="60" fill="#EBF6EF"/>
+  <rect x="641" y="86" width="179" height="3" fill="#309878"/>
+  <text x="730" y="112" text-anchor="middle" font-size="10" fill="#1E7858" font-weight="600">Concept &amp; prototyping</text>
+  <text x="730" y="127" text-anchor="middle" font-size="8" fill="#508870">6 days</text>
+
+  <!-- Ph5: Testing 5d -->
+  <rect x="821" y="86" width="149" height="60" fill="#FAF3E4"/>
+  <rect x="821" y="86" width="149" height="3" fill="#C89820"/>
+  <text x="895" y="112" text-anchor="middle" font-size="10" fill="#8A6810" font-weight="600">User testing</text>
+  <text x="895" y="127" text-anchor="middle" font-size="8" fill="#A08830">5 days</text>
+
+  <!-- Ph6: Handoff 5d -->
+  <rect x="971" y="86" width="149" height="60" fill="#EBF6EC"/>
+  <rect x="971" y="86" width="149" height="3" fill="#309858"/>
+  <text x="1045" y="112" text-anchor="middle" font-size="10" fill="#1E7840" font-weight="600">Handoff &amp; docs</text>
+  <text x="1045" y="127" text-anchor="middle" font-size="8" fill="#508860">5 days</text>
+
+  <!-- Phase dividers -->
+  <line x1="280" y1="86" x2="280" y2="146" stroke="#F4F6FC" stroke-width="1.5"/>
+  <line x1="520" y1="86" x2="520" y2="146" stroke="#F4F6FC" stroke-width="1.5"/>
+  <line x1="640" y1="86" x2="640" y2="146" stroke="#F4F6FC" stroke-width="1.5"/>
+  <line x1="820" y1="86" x2="820" y2="146" stroke="#F4F6FC" stroke-width="1.5"/>
+  <line x1="970" y1="86" x2="970" y2="146" stroke="#F4F6FC" stroke-width="1.5"/>
+
+  <!-- Old bar bracket -->
+  <line x1="220" y1="152" x2="1120" y2="152" stroke="#C8D0E8" stroke-width="0.75"/>
+  <line x1="220" y1="149" x2="220" y2="155" stroke="#C8D0E8" stroke-width="1"/>
+  <line x1="1120" y1="149" x2="1120" y2="155" stroke="#C8D0E8" stroke-width="1"/>
+  <text x="670" y="164" text-anchor="middle" font-size="9" fill="#A8B4CC" letter-spacing="0.06em">30 WORKING DAYS</text>
+
+  <!-- ── NEW BAR SECTION ── -->
+
+  <!-- Week 1 highlight zone -->
+  <rect x="219" y="172" width="152" height="58" fill="#E8F7FD" rx="4"/>
+  <rect x="219" y="172" width="152" height="58" fill="none" stroke="#01BCF3" stroke-width="1" rx="4" opacity="0.5"/>
+
+  <!-- Reclaimed zone -->
+  <rect x="371" y="178" width="749" height="45" fill="#EDF0FA"/>
+  <rect x="371" y="178" width="749" height="45" fill="url(#dots)"/>
+  <text x="745" y="197" text-anchor="middle" font-size="10" fill="#A0ACCC" font-style="italic">The entire AI-native cycle fits inside Week 1</text>
+  <text x="745" y="213" text-anchor="middle" font-size="9.5" fill="#B0BAD4" letter-spacing="0.07em">25 WORKING DAYS RECLAIMED</text>
+
+  <!-- Row label -->
+  <text x="24" y="192" font-size="9" fill="#01BCF3" letter-spacing="0.08em">AFTER</text>
+  <text x="24" y="217" font-size="22" fill="#0A7CB0" font-weight="700">5</text>
+  <text x="48" y="213" font-size="11" fill="#3898B8" font-weight="500">days</text>
+
+  <!-- NEW BAR phases (y=178..223, h=45) -->
+  <g filter="url(#glow)">
+    <rect x="220" y="178" width="30" height="45" fill="#0580A8"/>
+    <rect x="220" y="178" width="30" height="3" fill="#01BCF3"/>
+    <rect x="250" y="178" width="30" height="45" fill="#1A8068"/>
+    <rect x="250" y="178" width="30" height="3" fill="#46D5B3"/>
+    <rect x="280" y="178" width="30" height="45" fill="#1660A8"/>
+    <rect x="280" y="178" width="30" height="3" fill="#5B9BD5"/>
+    <rect x="310" y="178" width="30" height="45" fill="#A07800"/>
+    <rect x="310" y="178" width="30" height="3" fill="#FFB800"/>
+    <rect x="340" y="178" width="30" height="45" fill="#1A8068"/>
+    <rect x="340" y="178" width="30" height="3" fill="#46D5B3"/>
+  </g>
+
+  <!-- Phase labels below new bar -->
+  <text x="235" y="236" text-anchor="middle" font-size="8" fill="#0590B8" font-weight="700">Rsch</text>
+  <text x="265" y="236" text-anchor="middle" font-size="8" fill="#1A9070" font-weight="700">Idea</text>
+  <text x="295" y="236" text-anchor="middle" font-size="8" fill="#3070B8" font-weight="700">Proto</text>
+  <text x="325" y="236" text-anchor="middle" font-size="8" fill="#B08800" font-weight="700">Test</text>
+  <text x="355" y="236" text-anchor="middle" font-size="8" fill="#1A9070" font-weight="700">Ship</text>
+
+  <!-- New bar bracket -->
+  <line x1="220" y1="242" x2="370" y2="242" stroke="#60A8C8" stroke-width="0.75"/>
+  <line x1="220" y1="239" x2="220" y2="245" stroke="#60A8C8" stroke-width="1"/>
+  <line x1="370" y1="239" x2="370" y2="245" stroke="#60A8C8" stroke-width="1"/>
+  <text x="295" y="255" text-anchor="middle" font-size="8.5" fill="#70A0C0" letter-spacing="0.05em">5 DAYS</text>
+
+  <!-- ── METRICS ── -->
+  <line x1="0" y1="266" x2="1160" y2="266" stroke="#E4E8F4" stroke-width="1"/>
+
+  <text x="220" y="316" font-size="42" fill="#0A6FAA" font-weight="700">6×</text>
+  <text x="220" y="335" font-size="11" fill="#7080A0">faster end-to-end</text>
+
+  <text x="390" y="316" font-size="42" fill="#188B72" font-weight="700">83%</text>
+  <text x="390" y="335" font-size="11" fill="#7080A0">time reduction</text>
+
+  <text x="600" y="307" font-size="14" fill="#1E2140" font-weight="700">Day 1</text>
+  <text x="600" y="324" font-size="10.5" fill="#7080A0">complete research synthesis</text>
+  <text x="600" y="339" font-size="10" fill="#A0ACCC">(was: 10 days)</text>
+
+  <!-- What AI replaced — card -->
+  <rect x="826" y="274" width="282" height="76" rx="8" fill="#FFFFFF"/>
+  <rect x="826" y="274" width="282" height="76" rx="8" fill="none" stroke="#E4E8F4" stroke-width="1"/>
+  <text x="842" y="292" font-size="9" fill="#A0ACCC" letter-spacing="0.08em">WHAT AI REPLACED, NOT CUT</text>
+  <text x="842" y="309" font-size="10.5" fill="#3A4A68">·  Research: 10 days → synthesis in hours</text>
+  <text x="842" y="326" font-size="10.5" fill="#3A4A68">·  Synthesis: 4 days → structured output, day 1</text>
+  <text x="842" y="343" font-size="10.5" fill="#3A4A68">·  Phases collapsed — not removed</text>
+
+  <!-- ── FOOTER ── -->
+  <rect x="0" y="358" width="1160" height="97" fill="#FFFFFF"/>
+  <rect x="0" y="358" width="1160" height="1" fill="#E4E8F4"/>
+
+  <text x="24" y="378" font-size="9" fill="#B0BACC" letter-spacing="0.08em">AI-NATIVE PHASES</text>
+
+  <rect x="24" y="387" width="10" height="10" rx="2" fill="#0580A8"/>
+  <rect x="24" y="387" width="10" height="2.5" fill="#01BCF3"/>
+  <text x="40" y="397" font-size="10.5" fill="#6878A0">Day 1 · Research + AI synthesis</text>
+
+  <rect x="218" y="387" width="10" height="10" rx="2" fill="#1A8068"/>
+  <rect x="218" y="387" width="10" height="2.5" fill="#46D5B3"/>
+  <text x="234" y="397" font-size="10.5" fill="#6878A0">Day 2 · Concept generation</text>
+
+  <rect x="398" y="387" width="10" height="10" rx="2" fill="#1660A8"/>
+  <rect x="398" y="387" width="10" height="2.5" fill="#5B9BD5"/>
+  <text x="414" y="397" font-size="10.5" fill="#6878A0">Day 3 · Prototype</text>
+
+  <rect x="550" y="387" width="10" height="10" rx="2" fill="#A07800"/>
+  <rect x="550" y="387" width="10" height="2.5" fill="#FFB800"/>
+  <text x="566" y="397" font-size="10.5" fill="#6878A0">Day 4 · User testing</text>
+
+  <rect x="703" y="387" width="10" height="10" rx="2" fill="#1A8068"/>
+  <rect x="703" y="387" width="10" height="2.5" fill="#46D5B3"/>
+  <text x="719" y="397" font-size="10.5" fill="#6878A0">Day 5 · Handoff</text>
+
+  <text x="24" y="423" font-size="11" fill="#8898B8">Phases are compressed, not skipped — AI handles synthesis so the designer focuses on judgment and direction, not production.</text>
+  <text x="24" y="440" font-size="11" fill="#8898B8">The traditional cycle was slow because of scheduling, handoffs, and manual synthesis — not because designers were slow.</text>
+</svg>
+</div>
+</body>
+</html>

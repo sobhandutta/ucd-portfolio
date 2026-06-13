@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>/* apply saved theme before paint */(function(){var t=localStorage.getItem('ataya-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Assistant — Connection Drop Analysis · Ataya Chorus</title>
+<link rel="stylesheet" href="./tokens-v2.css">
+<link rel="stylesheet" href="./shell.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); font-size: var(--text-base); color: hsl(var(--foreground)); background: hsl(var(--background)); -webkit-font-smoothing: antialiased; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+.main { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+
+/* ── Chat components (shared with home-preview.html) ── */
+.ai-plus {
+      width: 26px; height: 26px; border-radius: 50%; background: hsl(var(--muted));
+      border: 1.5px solid hsl(var(--border)); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0; color: hsl(var(--muted-foreground)); transition: all .15s;
+    }
+    .ai-plus:hover { background: hsl(var(--accent)); color: hsl(var(--foreground)); }
+    .ai-plus svg { width: 12px; height: 12px; }
+    .ai-input-field {
+      flex: 1; border: none; background: transparent; outline: none;
+      font-size: var(--text-md); color: hsl(var(--foreground));
+      font-family: var(--font-sans);
+    }
+    .ai-input-field::placeholder { color: hsl(var(--muted-foreground)); }
+    .ai-input-actions { display: flex; align-items: center; gap: 8px; }
+    .ai-btn-icon {
+      width: 32px; height: 32px; border-radius: 50%; border: none; background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      color: hsl(var(--muted-foreground)); cursor: pointer; transition: all .15s;
+    }
+    .ai-btn-icon:hover { background: hsl(var(--muted)); color: hsl(var(--foreground)); }
+    .ai-btn-icon svg { width: 16px; height: 16px; }
+    .ai-send {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: hsl(var(--brand-blue)); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px hsl(214 78% 33% / .3);
+      transition: background .15s, transform .15s;
+    }
+    .ai-send:hover { background: hsl(214 78% 26%); transform: scale(1.05); }
+    .ai-send svg { width: 14px; height: 14px; color: #fff; }
+    .ai-hint { margin-top: 10px; font-size: 11px; color: hsl(var(--muted-foreground)); text-align: center; }
+    .ai-hint kbd {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 1px 5px; border-radius: 4px;
+      background: hsl(var(--card) / .7); border: 1px solid hsl(var(--border));
+      font-family: var(--font-mono); font-size: 10px;
+    }
+
+    /* ── View: Chat ──────────────────────────────────────── */
+    .chat-shell { height: 100%; display: flex; flex-direction: column; }
+    .chat-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 24px;
+      background: hsl(var(--card) / .85); backdrop-filter: blur(20px);
+      border-bottom: 1px solid hsl(var(--border));
+      flex-shrink: 0; z-index: 10; position: relative;
+    }
+    .chat-topbar-left { display: flex; align-items: center; gap: 10px; }
+    .chat-back-btn {
+      display: flex; align-items: center; gap: 5px; padding: 6px 12px;
+      border-radius: 8px; border: 1px solid hsl(var(--border)); background: hsl(var(--card) / .7);
+      font-size: var(--text-xs); font-weight: 600; cursor: pointer; color: hsl(var(--foreground));
+      transition: all .15s;
+    }
+    .chat-back-btn:hover { background: hsl(var(--card) / .95); color: hsl(var(--foreground)); }
+    .chat-back-btn svg { width: 12px; height: 12px; }
+    .ai-status-dot { width: 7px; height: 7px; border-radius: 50%; background: hsl(var(--brand-cyan)); animation: statusPulse 2.5s infinite; }
+    @keyframes statusPulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .chat-topbar-title { font-size: var(--text-sm); font-weight: 600; }
+    .chat-topbar-sub { font-size: var(--text-xs); color: hsl(var(--muted-foreground)); margin-top: 1px; }
+    .chat-topbar-right { display: flex; align-items: center; gap: 6px; }
+    .chat-action-btn {
+      padding: 5px 12px; border-radius: 7px; border: 1px solid hsl(var(--border));
+      background: hsl(var(--card) / .7); font-size: var(--text-xs); font-weight: 600;
+      cursor: pointer; color: hsl(var(--muted-foreground)); transition: all .15s;
+    }
+    .chat-action-btn:hover { background: hsl(var(--card) / .95); }
+
+    /* Chat Layout */
+    .chat-layout { flex: 1; display: flex; overflow: hidden; }
+    .chat-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+    /* Messages */
+    .messages-wrap { flex: 1; overflow-y: auto; padding: 24px 40px; display: flex; flex-direction: column; gap: 20px; }
+    .messages-inner { max-width: 820px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 20px; }
+
+    /* User bubble */
+    .msg-user { display: flex; justify-content: flex-end; }
+    .msg-user-bubble {
+      max-width: 65%; padding: 11px 16px;
+      background: hsl(var(--brand-blue)); color: #fff;
+      border-radius: 20px 20px 5px 20px;
+      font-size: var(--text-sm); line-height: 1.55;
+      box-shadow: 0 2px 8px hsl(214 78% 33% / .25);
+    }
+
+    /* AI bubble */
+    .msg-ai { display: flex; gap: 10px; align-items: flex-start; }
+    .ai-avatar {
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, hsl(195 99% 48%), hsl(163 60% 56%));
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ai-avatar svg { width: 14px; height: 14px; color: #fff; }
+    .msg-ai-body { flex: 1; }
+    .msg-ai-name { font-size: 10px; font-weight: 700; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+    .msg-ai-bubble {
+      background: hsl(var(--card) / .92); backdrop-filter: blur(12px);
+      border: 1px solid hsl(var(--border));
+      border-radius: 4px 18px 18px 18px;
+      padding: 14px 18px;
+      font-size: var(--text-sm); line-height: 1.6;
+      box-shadow: 0 2px 12px hsl(var(--accent) / .8);
+    }
+    .msg-ai-bubble p { margin-bottom: 8px; }
+    .msg-ai-bubble p:last-child { margin-bottom: 0; }
+    .msg-ai-bubble strong { font-weight: 700; }
+    .msg-ai-bubble ul { padding-left: 16px; margin: 6px 0; display: flex; flex-direction: column; gap: 3px; }
+    .msg-ai-bubble li { line-height: 1.5; }
+
+    /* Inline chart in message */
+    .msg-chart {
+      margin: 12px 0; border: 1px solid hsl(var(--border));
+      border-radius: 10px; padding: 12px 16px;
+      background: hsl(var(--muted) / .6);
+    }
+    .msg-chart-title { font-size: 10px; font-weight: 700; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; }
+    .bar-row { display: flex; flex-direction: column; gap: 6px; }
+    .bar-item { display: flex; align-items: center; gap: 8px; }
+    .bar-label { font-size: var(--text-xs); color: hsl(var(--muted-foreground)); width: 130px; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 8px; background: hsl(var(--muted)); border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; }
+    .bar-pct { font-size: var(--text-xs); font-weight: 700; width: 36px; text-align: right; }
+
+    /* Action chips in message */
+    .msg-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .msg-action-chip {
+      padding: 6px 12px; border-radius: 14px;
+      border: 1.5px solid hsl(var(--primary) / .35);
+      background: hsl(var(--primary) / .07);
+      font-size: var(--text-xs); font-weight: 600; cursor: pointer;
+      color: hsl(var(--primary)); transition: all .15s;
+    }
+    .msg-action-chip:hover { background: hsl(var(--primary) / .14); border-color: hsl(var(--primary) / .6); }
+
+    /* Message feedback */
+    .msg-feedback { display: flex; align-items: center; gap: 4px; margin-top: 8px; padding-left: 2px; }
+    .fb-btn { width: 26px; height: 26px; border-radius: 6px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: hsl(var(--muted-foreground)); transition: all .12s; }
+    .fb-btn:hover { background: hsl(var(--accent) / .8); color: hsl(var(--foreground)); }
+    .fb-btn svg { width: 12px; height: 12px; }
+    .fb-time { font-size: 10px; color: hsl(var(--muted-foreground)); margin-left: 6px; }
+
+    /* Typing indicator */
+    .typing-indicator { display: flex; gap: 10px; align-items: flex-start; }
+    .typing-bubble {
+      background: hsl(var(--card) / .92); backdrop-filter: blur(12px);
+      border: 1px solid hsl(var(--border));
+      border-radius: 4px 18px 18px 18px;
+      padding: 14px 20px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .typing-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: hsl(var(--muted-foreground)); animation: typingBounce 1.2s ease-in-out infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: .15s; }
+    .typing-dot:nth-child(3) { animation-delay: .3s; }
+    @keyframes typingBounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-8px)} }
+
+    /* Chat input */
+    .chat-input-area {
+      padding: 12px 40px 20px; flex-shrink: 0;
+    }
+    .chat-input-inner { max-width: 820px; margin: 0 auto; }
+    .chat-input-bar {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 16px; border-radius: 18px;
+      background: hsl(var(--card) / .97); backdrop-filter: blur(20px);
+      border: 1.5px solid hsl(var(--border));
+      box-shadow: var(--shadow-md);
+      transition: box-shadow .2s, border-color .2s;
+    }
+    .chat-input-bar:focus-within {
+      box-shadow: 0 4px 32px hsl(214 78% 33% / .12);
+      border-color: hsl(var(--primary) / .5);
+    }
+    .chat-input-field {
+      flex: 1; border: none; background: transparent; outline: none;
+      font-size: var(--text-sm); color: hsl(var(--foreground));
+      font-family: var(--font-sans);
+    }
+    .chat-input-field::placeholder { color: hsl(var(--muted-foreground)); }
+
+    /* Chat sidebar */
+    .chat-sidebar {
+      width: 268px; flex-shrink: 0;
+      background: hsl(var(--card) / .7); backdrop-filter: blur(20px);
+      border-left: 1px solid rgba(0,0,0,.08);
+      overflow-y: auto; padding: 16px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .sidebar-section-title { font-size: var(--text-xs); font-weight: 700; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+    .sidebar-section-title span { font-size: 10px; font-weight: 500; color: hsl(var(--brand-blue)); cursor: pointer; text-transform: none; letter-spacing: 0; }
+
+    /* History items */
+    .history-item {
+      display: flex; align-items: flex-start; gap: 8px;
+      padding: 8px 10px; border-radius: 8px; cursor: pointer;
+      transition: background .12s; margin-bottom: 2px;
+    }
+    .history-item:hover { background: rgba(0,0,0,.04); }
+    .history-icon { width: 28px; height: 28px; border-radius: 7px; background: hsl(var(--muted)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .history-icon svg { width: 13px; height: 13px; color: hsl(var(--muted-foreground)); }
+    .history-text { flex: 1; min-width: 0; }
+    .history-title { font-size: var(--text-xs); font-weight: 600; color: hsl(var(--foreground)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .history-meta { font-size: 10px; color: hsl(var(--muted-foreground)); margin-top: 2px; }
+
+    /* Recommendations */
+    .rec-item {
+      padding: 10px 12px; border-radius: 10px;
+      background: hsl(var(--card) / .7);
+      border: 1px solid hsl(var(--border));
+      margin-bottom: 6px; cursor: pointer; transition: all .15s;
+    }
+    .rec-item:hover { background: hsl(var(--accent)); transform: translateX(2px); }
+    .rec-item-header { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+    .rec-priority { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .rec-priority.high { background: hsl(8 100% 55%); }
+    .rec-priority.med  { background: hsl(38 90% 45%); }
+    .rec-priority.low  { background: hsl(163 55% 42%); }
+    .rec-title { font-size: var(--text-xs); font-weight: 600; color: hsl(var(--foreground)); }
+    .rec-desc { font-size: 10px; color: hsl(var(--muted-foreground)); line-height: 1.4; }
+
+    /* Network context panel */
+    .context-card {
+      padding: 12px; border-radius: 10px;
+      background: linear-gradient(135deg, hsl(214 78% 33% / .06), hsl(163 60% 56% / .06));
+      border: 1px solid hsl(214 78% 33% / .12);
+    }
+    .context-card-title { font-size: 10px; font-weight: 700; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+    .context-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+    .context-label { font-size: var(--text-xs); color: hsl(var(--muted-foreground)); }
+    .context-val { font-size: var(--text-xs); font-weight: 700; }
+    .context-val.good { color: hsl(var(--on-success)); }
+    .context-val.warn { color: hsl(38 85% 36%); }
+    .context-val.bad  { color: hsl(8 100% 44%); }
+  
+
+/* Pie charts + legends (page-specific) */
+.chart-row { display: flex; align-items: center; gap: 28px; margin: 4px 0; flex-wrap: wrap; }
+.legend { display: flex; flex-direction: column; gap: 9px; }
+.legend-item { display: flex; align-items: center; gap: 10px; font-size: var(--text-sm); color: hsl(var(--foreground)); }
+.legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.bar-pct { width: 52px; white-space: nowrap; }
+
+/* Story: trust & uncertainty signals */
+.meta-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.conf-badge { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px; border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 600; background: hsl(var(--success) / 0.16); color: hsl(var(--on-success)); }
+.conf-badge.low { background: hsl(var(--warning) / 0.18); color: hsl(var(--on-warning)); }
+.conf-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.src-badge { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: var(--radius-full); font-size: var(--text-xs); background: hsl(var(--muted)); color: hsl(var(--muted-foreground)); }
+
+/* Accurate-mental-model callout */
+.note-callout { display: flex; gap: 9px; margin: 12px 0 4px; padding: 10px 13px; border-radius: var(--radius-md); background: hsl(var(--info) / 0.09); border: 1px solid hsl(var(--info) / 0.25); font-size: var(--text-sm); line-height: 1.55; color: hsl(var(--foreground)); }
+.note-callout svg { flex-shrink: 0; margin-top: 2px; stroke: hsl(var(--on-info)); }
+
+/* Uncertainty / correction */
+.warn-callout { display: flex; gap: 9px; margin: 12px 0; padding: 10px 13px; border-radius: var(--radius-md); background: hsl(var(--warning) / 0.10); border: 1px solid hsl(var(--warning) / 0.35); font-size: var(--text-sm); line-height: 1.55; color: hsl(var(--foreground)); }
+.warn-callout svg { flex-shrink: 0; margin-top: 2px; stroke: hsl(var(--on-warning)); }
+.fp-input.warn { border-color: hsl(var(--warning) / 0.6); box-shadow: 0 0 0 1px hsl(var(--warning) / 0.35); }
+.fp-help-warn { font-size: var(--text-xs); color: hsl(var(--on-warning)); margin-top: 5px; }
+
+/* Completion receipt */
+.receipt { margin: 12px 0; border: 1px solid hsl(var(--success) / 0.35); border-radius: 10px; overflow: hidden; }
+.receipt-head { display: flex; align-items: center; gap: 8px; padding: 9px 14px; background: hsl(var(--success) / 0.12); font-size: var(--text-sm); font-weight: 700; color: hsl(var(--on-success)); }
+.receipt-row { display: flex; gap: 12px; padding: 9px 14px; border-top: 1px solid hsl(var(--border)); font-size: var(--text-sm); line-height: 1.5; }
+.receipt-k { width: 72px; flex-shrink: 0; font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: hsl(var(--muted-foreground)); padding-top: 2px; }
+.receipt-v { flex: 1; color: hsl(var(--foreground)); }
+.audit-line { font-size: var(--text-xs); color: hsl(var(--muted-foreground)); margin-top: 10px; display: flex; align-items: center; gap: 6px; }
+
+/* System note (between messages) */
+.sys-note { text-align: center; font-size: var(--text-xs); color: hsl(var(--muted-foreground)); }
+.sys-note span { background: hsl(var(--muted)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-full); padding: 3px 12px; }
+
+/* Form preview (action confirmation) */
+.form-preview { display: flex; flex-direction: column; gap: 12px; margin: 14px 0 4px; max-width: 400px; }
+.fp-field label { display: block; font-size: var(--text-xs); font-weight: 600; color: hsl(var(--muted-foreground)); margin-bottom: 5px; }
+.fp-input { width: 100%; padding: 9px 12px; border: 1px solid hsl(var(--border)); border-radius: var(--radius-md); background: hsl(var(--card)); font-size: var(--text-sm); color: hsl(var(--foreground)); }
+.fp-input.mono { font-family: var(--font-mono); }
+.confirm-row { display: flex; gap: 8px; margin-top: 12px; }
+.btn-confirm { height: 34px; padding: 0 22px; border-radius: var(--radius-full); border: none; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); font-size: var(--text-sm); font-weight: 600; cursor: pointer; font-family: var(--font-sans); transition: background .15s; }
+.btn-confirm:hover { background: hsl(var(--primary) / .88); }
+.btn-cancel { height: 34px; padding: 0 18px; border-radius: var(--radius-full); border: 1px solid hsl(var(--border)); background: transparent; color: hsl(var(--foreground)); font-size: var(--text-sm); font-weight: 500; cursor: pointer; font-family: var(--font-sans); }
+.btn-cancel:hover { background: hsl(var(--accent)); }
+.panel-hdr { display: flex; align-items: center; justify-content: space-between; padding: 14px 28px; border-bottom: 1px solid hsl(var(--border)); background: hsl(var(--card) / .9); backdrop-filter: blur(12px); flex-shrink: 0; }
+.panel-title { font-size: var(--text-lg); font-weight: 700; }
+.panel-close { width: 32px; height: 32px; border-radius: var(--radius-md); border: none; background: transparent; color: hsl(var(--muted-foreground)); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.panel-close:hover { background: hsl(var(--accent)); color: hsl(var(--foreground)); }
+
+</style>
+</head>
+<body class="ds-v2">
+
+<!-- Top Nav (canonical shell) -->
+<nav class="topnav" aria-label="Primary">
+  <div class="topnav-logo"><span>Ataya</span><span>Chorus</span></div>
+  <button class="nav-tab">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    Insights &amp; Analytics
+  </button>
+  <button class="nav-tab">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    Networks
+  </button>
+  <button class="nav-tab">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    Devices
+  </button>
+  <button class="nav-tab">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+    Clients
+  </button>
+  <button class="nav-tab">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Policies
+  </button>
+  <button class="nav-tab">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+    Edge Applications
+  </button>
+  <button class="nav-tab">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+    Organization
+  </button>
+  <div class="topnav-end">
+    <button class="icon-btn" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <button class="btn-ai">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10"/></svg>
+      AI Assistant
+    </button>
+    <button class="icon-btn" aria-label="Notifications (6 unread)">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span class="notif-badge">6</span>
+    </button>
+    <button class="icon-btn" aria-label="Help">?</button>
+    <button class="avatar" aria-label="Account — Sobhan D.">SD</button>
+  </div>
+</nav>
+
+<main class="main">
+
+  <div class="panel-hdr">
+    <div class="panel-title">AI Assistant</div>
+    <button class="panel-close" aria-label="Close assistant">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div class="messages-wrap">
+    <div class="messages-inner">
+
+      <!-- User -->
+      <div class="msg-user">
+        <div class="msg-user-bubble">Why did 10% of connection drop in the last 7 days?</div>
+      </div>
+
+      <!-- AI -->
+      <div class="msg-ai">
+        <div class="ai-avatar">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1l1.5 3.5L13 6l-3.5 1.5L8 11l-1.5-3.5L3 6l3.5-1.5z"/></svg>
+        </div>
+        <div class="msg-ai-body">
+          <div class="msg-ai-name">Ataya AI</div>
+          <div class="msg-ai-bubble">
+            <div class="meta-row">
+              <span class="conf-badge"><span class="dot"></span>Confidence high · 0.91</span>
+              <span class="src-badge">read-only analysis · 7-day KPI window · 4 sources</span>
+            </div>
+            <p>Alright! Over the past 7 days, call drops reached <strong>10%</strong> across your private 5G deployment. Here's the breakdown of contributing factors:</p>
+            <ul>
+              <li><strong>Signal interference</strong> near the east manufacturing zone due to unshielded machinery (4.5% impact)</li>
+              <li><strong>Handover failures</strong> between small cells in Building B and Building C (3.2%)</li>
+              <li><strong>Temporary disconnects</strong> from a misconfigured edge UPF node (2.3%)</li>
+            </ul>
+            <div class="msg-chart">
+              <div class="msg-chart-title">Drop cause breakdown</div>
+              <div class="chart-row">
+                <svg width="132" height="132" viewBox="-100 -100 200 200" role="img" aria-label="Drop causes: Signal Interference 45%, Handover Failures 32%, UPF Timeout 23%">
+                  <path d="M0 0 L0 -90 A90 90 0 0 1 27.8 85.6 Z" fill="hsl(8 100% 55%)"/>
+                  <path d="M0 0 L27.8 85.6 A90 90 0 0 1 -89.3 -11.3 Z" fill="hsl(24 95% 56%)"/>
+                  <path d="M0 0 L-89.3 -11.3 A90 90 0 0 1 0 -90 Z" fill="hsl(42 100% 50%)"/>
+                </svg>
+                <div class="legend">
+                  <div class="legend-item"><span class="legend-dot" style="background:hsl(8 100% 55%)"></span>Signal Interference – 45%</div>
+                  <div class="legend-item"><span class="legend-dot" style="background:hsl(24 95% 56%)"></span>Handover Failures – 32%</div>
+                  <div class="legend-item"><span class="legend-dot" style="background:hsl(42 100% 50%)"></span>UPF Timeout – 23%</div>
+                </div>
+              </div>
+            </div>
+            <p>I recommend checking RF shielding near the manufacturing floor, reviewing handover configuration parameters, and validating edge UPF settings.</p>
+            <p>You can view more details in the <strong>"Network Statistics Page"</strong> — do you want to visit it?</p>
+            <div class="msg-actions">
+              <span class="msg-action-chip">Generate diagnostic report</span>
+              <span class="msg-action-chip">Notify field engineer</span>
+              <span class="msg-action-chip">Open Network Statistics</span>
+            </div>
+          </div>
+          <div class="msg-feedback">
+            <button class="fb-btn" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+            <button class="fb-btn" aria-label="Good response"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>
+            <button class="fb-btn" aria-label="Bad response"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zM17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg></button>
+            <button class="fb-btn" aria-label="Read aloud"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+            <span class="fb-time">Today 9:14 AM</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- User -->
+      <div class="msg-user">
+        <div class="msg-user-bubble">Show me traffic usage by device type in the past 7 days and connection drops</div>
+      </div>
+
+      <!-- AI -->
+      <div class="msg-ai">
+        <div class="ai-avatar">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1l1.5 3.5L13 6l-3.5 1.5L8 11l-1.5-3.5L3 6l3.5-1.5z"/></svg>
+        </div>
+        <div class="msg-ai-body">
+          <div class="msg-ai-name">Ataya AI</div>
+          <div class="msg-ai-bubble">
+            <p>Here is traffic and connection drops by four device types:</p>
+            <div class="msg-chart">
+              <div class="msg-chart-title">Total traffic by device type (7d)</div>
+              <div class="bar-row">
+                <div class="bar-item"><span class="bar-label">AGVs</span><div class="bar-track"><div class="bar-fill" style="width:73%;background:hsl(var(--brand-cyan))"></div></div><span class="bar-pct" style="color:hsl(var(--primary))">88 GB</span></div>
+                <div class="bar-item"><span class="bar-label">Employee Devices</span><div class="bar-track"><div class="bar-fill" style="width:75%;background:hsl(var(--brand-cyan))"></div></div><span class="bar-pct" style="color:hsl(var(--primary))">91 GB</span></div>
+                <div class="bar-item"><span class="bar-label">Industrial Sensors</span><div class="bar-track"><div class="bar-fill" style="width:83%;background:hsl(var(--brand-cyan))"></div></div><span class="bar-pct" style="color:hsl(var(--primary))">101 GB</span></div>
+                <div class="bar-item"><span class="bar-label">Video Cameras</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:hsl(var(--brand-cyan))"></div></div><span class="bar-pct" style="color:hsl(var(--primary))">121 GB</span></div>
+              </div>
+            </div>
+            <div class="msg-chart">
+              <div class="msg-chart-title">Connection drops by device type</div>
+              <div class="chart-row">
+                <svg width="132" height="132" viewBox="-100 -100 200 200" role="img" aria-label="Connection drops by device type: Video Cameras 42%, Industrial Sensors 32%, Employee Devices 23%, AGVs 13%">
+                  <path d="M0 0 L0 -88 A88 88 0 0 1 59.5 64.9 Z" fill="hsl(8 100% 55%)"/>
+                  <path d="M0 0 L59.5 64.9 A88 88 0 0 1 -77.8 41.0 Z" fill="hsl(24 95% 56%)"/>
+                  <path d="M0 0 L-77.8 41.0 A88 88 0 0 1 -59.5 -64.9 Z" fill="hsl(350 90% 75%)"/>
+                  <path d="M0 0 L-59.5 -64.9 A88 88 0 0 1 0 -88 Z" fill="hsl(48 100% 52%)"/>
+                </svg>
+                <div class="legend">
+                  <div class="legend-item"><span class="legend-dot" style="background:hsl(8 100% 55%)"></span>Video Cameras – 42%</div>
+                  <div class="legend-item"><span class="legend-dot" style="background:hsl(24 95% 56%)"></span>Industrial Sensors – 32%</div>
+                  <div class="legend-item"><span class="legend-dot" style="background:hsl(350 90% 75%)"></span>Employee Devices – 23%</div>
+                  <div class="legend-item"><span class="legend-dot" style="background:hsl(48 100% 52%)"></span>AGVs – 13%</div>
+                </div>
+              </div>
+            </div>
+            <div class="note-callout">
+              <svg width="14" height="14" fill="none" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              <div><strong>Read this carefully:</strong> Video Cameras lead total drops (42%), but per device, AGVs fail ~2.3&times; more often &mdash; 13% of drops come from just 4 AGVs vs 38 cameras. The biggest bar is not the biggest problem.</div>
+            </div>
+            <p>Would you like to take action on the dropped calls?</p>
+            <div class="msg-actions">
+              <span class="msg-action-chip">Show affected clients</span>
+              <span class="msg-action-chip">Take action on dropped calls</span>
+            </div>
+          </div>
+          <div class="msg-feedback">
+            <button class="fb-btn" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+            <button class="fb-btn" aria-label="Good response"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>
+            <button class="fb-btn" aria-label="Bad response"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zM17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg></button>
+            <button class="fb-btn" aria-label="Read aloud"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+            <span class="fb-time">Today 9:16 AM</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- User: add device -->
+      <div class="msg-user">
+        <div class="msg-user-bubble">Add a device with name 'Moso Device', zone 'Nat Off and DHCP On', serial number 'SC280700013' and mac '00-B0-D0-63-C2-26'</div>
+      </div>
+
+      <!-- AI: form preview + approval gate -->
+      <div class="msg-ai">
+        <div class="ai-avatar">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1l1.5 3.5L13 6l-3.5 1.5L8 11l-1.5-3.5L3 6l3.5-1.5z"/></svg>
+        </div>
+        <div class="msg-ai-body">
+          <div class="msg-ai-name">Ataya AI</div>
+          <div class="msg-ai-bubble">
+            <div class="meta-row">
+              <span class="conf-badge low"><span class="dot"></span>Confidence low on zone match · 0.55</span>
+            </div>
+            <p>You are adding a device — here is a preview of the information you are adding:</p>
+            <div class="warn-callout">
+              <svg width="14" height="14" fill="none" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+              <div>I couldn't verify the zone <strong>"Nat Off and DHCP On"</strong> — no exact match exists. The closest existing zone is <strong>"NAT Off / DHCP On (Zone B)"</strong>. I've kept your original value; please confirm or correct it before continuing.</div>
+            </div>
+            <div class="form-preview">
+              <div class="fp-field">
+                <label for="fp-name">Name</label>
+                <input class="fp-input" id="fp-name" type="text" value="Moso Device">
+              </div>
+              <div class="fp-field">
+                <label for="fp-zone">Zone</label>
+                <input class="fp-input warn" id="fp-zone" type="text" value="Nat Off and DHCP On" aria-describedby="fp-zone-help">
+                <div class="fp-help-warn" id="fp-zone-help">Unverified zone — closest match: "NAT Off / DHCP On (Zone B)"</div>
+                <div class="msg-actions" style="margin-top:7px;"><span class="msg-action-chip">Use suggested zone</span></div>
+              </div>
+              <div class="fp-field">
+                <label for="fp-serial">Serial Number</label>
+                <input class="fp-input mono" id="fp-serial" type="text" value="SC280700013">
+              </div>
+              <div class="fp-field">
+                <label for="fp-mac">MAC Address</label>
+                <input class="fp-input mono" id="fp-mac" type="text" value="00-B0-D0-63-C2-26">
+              </div>
+            </div>
+            <p>Fields are editable if anything needs correcting. Would you like to continue?</p>
+            <div class="confirm-row">
+              <button class="btn-confirm">Continue</button>
+              <button class="btn-cancel">Cancel</button>
+            </div>
+          </div>
+          <div class="msg-feedback">
+            <span class="fb-time">Today 9:18 AM · creating a device requires your confirmation</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- System: confirmation -->
+      <div class="sys-note"><span>You corrected the zone and pressed Continue · 9:19 AM</span></div>
+
+      <!-- AI: completion receipt (close the loop) -->
+      <div class="msg-ai">
+        <div class="ai-avatar">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1l1.5 3.5L13 6l-3.5 1.5L8 11l-1.5-3.5L3 6l3.5-1.5z"/></svg>
+        </div>
+        <div class="msg-ai-body">
+          <div class="msg-ai-name">Ataya AI</div>
+          <div class="msg-ai-bubble">
+            <div class="receipt">
+              <div class="receipt-head">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                Device created
+              </div>
+              <div class="receipt-row">
+                <span class="receipt-k">What</span>
+                <span class="receipt-v">Created device <strong>Moso Device</strong> (SN <span style="font-family:var(--font-mono)">SC280700013</span>, MAC <span style="font-family:var(--font-mono)">00-B0-D0-63-C2-26</span>) in zone <strong>NAT Off / DHCP On (Zone B)</strong></span>
+              </div>
+              <div class="receipt-row">
+                <span class="receipt-k">Why</span>
+                <span class="receipt-v">Your request at 9:18 AM — zone corrected by you, confirmed via Continue</span>
+              </div>
+              <div class="receipt-row">
+                <span class="receipt-k">Outcome</span>
+                <span class="receipt-v">Status: <strong>Provisioning</strong> · License: not assigned · First heartbeat: pending — I'll surface it here when the device comes online</span>
+              </div>
+            </div>
+            <div class="audit-line">
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              Recorded in audit log <span style="font-family:var(--font-mono)">#A-2381</span> · reversible for 24 h
+            </div>
+            <div class="msg-actions">
+              <span class="msg-action-chip">View device</span>
+              <span class="msg-action-chip">Assign license</span>
+              <span class="msg-action-chip">Undo</span>
+            </div>
+          </div>
+          <div class="msg-feedback">
+            <span class="fb-time">Today 9:19 AM · no silent changes — every action reports back</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Input (home chat style) -->
+  <div class="chat-input-area">
+    <div class="chat-input-inner">
+      <div class="chat-input-bar">
+        <div class="ai-plus">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg>
+        </div>
+        <input class="chat-input-field" id="chatInput" placeholder="Ask a follow-up or a new question…" value="Why did 10% of connection drop in the last 7 days?">
+        <button class="ai-btn-icon" aria-label="Voice input">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a3 3 0 00-3 3v4a3 3 0 006 0V4a3 3 0 00-3-3zm-5 7a5 5 0 0010 0v-.5a.5.5 0 00-1 0V8a4 4 0 01-8 0v-.5a.5.5 0 00-1 0V8z"/></svg>
+        </button>
+        <button class="ai-send" aria-label="Send">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M14.5 1.5l-13 5 5 2 2 5 6-12z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+function toggleTheme(){
+  var r=document.documentElement;
+  var next=(r.getAttribute('data-theme')||'light')==='dark'?'light':'dark';
+  r.setAttribute('data-theme',next);
+  localStorage.setItem('ataya-theme',next);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Work Sans", "Roboto", sans-serif; background: #F4F7F9; padding: 20px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .swatch { flex: 1; min-width: 80px; }
+  .swatch-block { height: 60px; border-radius: 6px; margin-bottom: 6px; }
+  .swatch-name { font-size: 11px; font-weight: 600; color: #394463; }
+  .swatch-hex  { font-size: 10px; color: #6A6F81; font-family: monospace; }
+  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #6A6F81; margin: 14px 0 8px; }
+  .pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .pill { display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 10px; font-size: 12px; font-weight: 500; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+</style>
+</head>
+<body>
+<div class="section-label">Semantic States</div>
+<div class="row">
+  <div class="swatch">
+    <div class="swatch-block" style="background:#46D5B3;"></div>
+    <div class="swatch-name">Success</div>
+    <div class="swatch-hex">#46D5B3</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-block" style="background:#469367;"></div>
+    <div class="swatch-name">Success Dark</div>
+    <div class="swatch-hex">#469367</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-block" style="background:#FFB800;"></div>
+    <div class="swatch-name">Warning</div>
+    <div class="swatch-hex">#FFB800</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-block" style="background:#FF4930;"></div>
+    <div class="swatch-name">Error</div>
+    <div class="swatch-hex">#FF4930</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-block" style="background:#E8633D;"></div>
+    <div class="swatch-name">Error Mid</div>
+    <div class="swatch-hex">#E8633D</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-block" style="background:#48A6F6;"></div>
+    <div class="swatch-name">Info</div>
+    <div class="swatch-hex">#48A6F6</div>
+  </div>
+</div>
+
+<div class="section-label">Status Dots in use</div>
+<div class="pill-row">
+  <div class="pill" style="background:#fff; border:1px solid #46D5B3; color:#469367;">
+    <span class="dot" style="background:#46D5B3;"></span> Up
+  </div>
+  <div class="pill" style="background:#fff; border:1px solid #FF4930; color:#FF4930;">
+    <span class="dot" style="background:#FF4930;"></span> Down
+  </div>
+  <div class="pill" style="background:#fff; border:1px solid #FFB800; color:#c98a00;">
+    <span class="dot" style="background:#FFB800;"></span> Standby
+  </div>
+  <div class="pill" style="background:#fff; border:1px solid #D3D3D3; color:#6A6F81;">
+    <span class="dot" style="background:#D3D3D3;"></span> Unknown
+  </div>
+</div>
+</body>
+</html>
