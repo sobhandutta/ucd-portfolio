@@ -1246,7 +1246,7 @@
   <div class="ai-header">
     <p class="ai-eyebrow">Experiment 01 — Multi-Agent System · 2025</p>
     <h1 class="ai-title">Agentic Personal Assistant</h1>
-    <p class="ai-intro">I design and engineer multi-agent systems from first principles — no black-box frameworks, just Python, clear architecture, and LLMs that coordinate to get things done. These are experiments at the intersection of product thinking, engineering, and AI.</p>
+    <p class="ai-intro">This is an experiment to design and engineer multi-agent systems from first principles — no black-box frameworks, just Python, clear architecture, and LLMs that coordinate to get things done. These are experiments at the intersection of product thinking, engineering, and AI.</p>
   </div>
 
   <!-- Featured: Agentic Personal Assistant -->
@@ -1289,10 +1289,11 @@
 
           <!-- Orchestrator -->
           <rect x="128" y="108" width="110" height="80" rx="4" fill="#fff" stroke="#4a4a8a" stroke-width="1.5"/>
-          <text x="183" y="132" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600" letter-spacing="0.08em">ORCHESTRATOR</text>
-          <text x="183" y="148" text-anchor="middle" fill="#1a1a2e" font-family="Inter,sans-serif" font-size="11" font-weight="500">Claude Sonnet</text>
+          <text x="183" y="124" text-anchor="middle" fill="#555577" font-family="Inter,sans-serif" font-size="9" font-weight="600" letter-spacing="0.08em">ORCHESTRATOR</text>
+          <text x="183" y="138" text-anchor="middle" fill="#1a1a2e" font-family="Inter,sans-serif" font-size="9.5" font-weight="500">Claude, OpenAPI,</text>
+          <text x="183" y="151" text-anchor="middle" fill="#1a1a2e" font-family="Inter,sans-serif" font-size="9.5" font-weight="500">or Ollama</text>
           <text x="183" y="164" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">tool-calling loop</text>
-          <text x="183" y="178" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">streaming · retry</text>
+          <text x="183" y="177" text-anchor="middle" fill="#888" font-family="Inter,sans-serif" font-size="9">streaming · retry</text>
 
           <!-- Arrow orch → agents -->
           <line x1="238" y1="148" x2="282" y2="148" stroke="#d0d0e8" stroke-width="1.5" marker-end="url(#a1)"/>
@@ -1358,7 +1359,7 @@
         loading="lazy"
       ></iframe>
     </div>
-    <p class="ai-demo-note">Built with Claude Sonnet &amp; Python · Hosted on Hugging Face Spaces · <a href="https://github.com/sobhandutta" target="_blank">View source ↗</a></p>
+    <p class="ai-demo-note">Built with Claude / OepnAI &amp; Python · Hosted on Hugging Face Spaces · <a href="https://github.com/sobhandutta" target="_blank">View source ↗</a></p>
   </div>
 
   <!-- Concepts -->
@@ -1590,10 +1591,16 @@
     <h2 class="ai-img-section-title">AI tools embedded in the real engineering workflow</h2>
     <p class="ai-img-section-body">Screenshots and screen recordings showing Claude Code running a security review, Cursor performing a cross-file refactor, and Copilot completing a test suite in real time.</p>
     <div class="ai-img-grid-2">
-      <img src="images/developer_productivity/security_test.png" alt="Claude Code in terminal" class="cs-img" style="width:100%;border-radius:8px;">
-      <img src="images/developer_productivity/key_achievement.png" alt="Cursor Composer view" class="cs-img" style="width:100%;border-radius:8px;">
+      <div>
+        <img src="images/developer_productivity/security_test.png" alt="Claude Code in terminal" class="cs-img" style="width:100%;border-radius:8px;">
+        <p class="cs-img-caption" style="margin-top:10px;">Claude running a systematic OWASP security review — identifying injection risks, missing rate limits, and insecure defaults across API handlers, with remediation suggestions inline.</p>
+      </div>
+      <div>
+        <img src="images/developer_productivity/key_achievement.png" alt="Cursor Composer view" class="cs-img" style="width:100%;border-radius:8px;">
+        <p class="cs-img-caption" style="margin-top:10px;">Claude restructuring legacy code for clarity and maintainability — breaking apart monolithic functions, enforcing consistent patterns, and surfacing quality issues that had accumulated over months of rapid development.</p>
+      </div>
     </div>
-    <img src="images/developer_productivity/security_test.png" alt="Before and after: test coverage" class="cs-img-full" style="width:100%;border-radius:8px;">
+    <!-- <img src="images/developer_productivity/security_test.png" alt="Before and after: test coverage" class="cs-img-full" style="width:100%;border-radius:8px;"> -->
   </div>
 
   <!-- Measuring 5x -->
@@ -1780,7 +1787,7 @@
       <p class="ai-eyebrow">Process Comparison</p>
       <h3 style="font-family:'EB Garamond',Georgia,serif; font-size:28px; font-weight:400; color:var(--ai-ink); margin: 8px 0 12px; letter-spacing:-0.01em;">Traditional UX cycle vs. AI-native workflow</h3>
       <p style="font-family:'Inter',sans-serif; font-size:15px; line-height:1.75; color:var(--ai-muted); max-width:640px;">What used to take six weeks of sequential handoffs — research, synthesis, wireframes, review, design, build — now completes in five days. The compression isn't about cutting corners; it's about removing the waiting.</p>
-      <iframe src="https://sobhandutta.github.io/design-system/portfolio/timeline-comparison-light.html" title="Timeline comparison — traditional vs AI-native UX cycle" loading="lazy" style="display:block; width:100%; border:none; margin-top:24px; height:500px;" onload="this.style.height = this.contentDocument.documentElement.scrollHeight + 'px'"></iframe>
+      <iframe src="https://sobhandutta.github.io/design-system/portfolio/timeline-comparison-light.html" title="Timeline comparison — traditional vs AI-native UX cycle" loading="lazy" style="display:block; width:100%; border:none; margin-top:24px; height:430px;" onload="this.style.height = this.contentDocument.documentElement.scrollHeight + 'px'"></iframe>
     </div>
   </div>
 
@@ -2279,7 +2286,13 @@
     <button onclick="showPage('work')" class="back-btn">← Case Studies</button>
   </div>
 
-  <div class="cs-hero-wrap"><img src="images/accelerating_ai_first_ux/banner.png" alt="Accelerating to AI-First UX" class="cs-hero"></div>
+  <!-- <div class="cs-hero-wrap"><img src="images/accelerating_ai_first_ux/banner.png" alt="Accelerating to AI-First UX" class="cs-hero"></div> -->
+
+  <div style="max-width:1160px; margin:0 auto; padding:48px 40px 40px;">
+    <p style="font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--gray); margin-bottom:16px;">Case Study · Ataya · 2024–25</p>
+    <h1 style="font-family:'EB Garamond',Georgia,serif; font-size:56px; font-weight:400; line-height:1.1; letter-spacing:-0.02em; color:var(--black); max-width:760px; margin-bottom:20px;">Accelerating to AI-First UX</h1>
+    <p style="font-family:'Inter',sans-serif; font-size:16px; line-height:1.7; color:var(--gray); max-width:600px;">Designing the UX and interface architecture for an AI-native 6G network management platform — where AI is not a feature, but the core of how the product thinks and acts.</p>
+  </div>
 
   <div class="cs-container">
 
