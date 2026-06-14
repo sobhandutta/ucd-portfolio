@@ -2568,6 +2568,8 @@
 </footer>
 
 <script>
+  const VALID_PAGES = ['work','about','ai','ai-agentic','ai-code','ai-ux','cs-ai-first','cs-ataya','cs-zerotrust'];
+
   function showPage(id) {
     // Hide all pages
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -2579,20 +2581,20 @@
       const el = document.getElementById('nav-' + n);
       if (el) el.classList.toggle('active', n === navId);
     });
+    // Update URL hash so refresh restores the same page
+    if (location.hash !== '#' + id) history.pushState(null, '', '#' + id);
     // Scroll to top, then immediately sync parallax so there's no jump on first scroll
     window.scrollTo({ top: 0, behavior: 'instant' });
     requestAnimationFrame(updateHeroParallax);
   }
 
-  // Set initial active nav
-  document.getElementById('nav-about').classList.add('active');
-
-  // Handle hash-based routing for direct links
+  // Handle hash-based routing for direct links and refresh
   function handleHash() {
     const h = location.hash.replace('#','');
-    if (['work','about','ai'].includes(h)) showPage(h);
+    if (VALID_PAGES.includes(h)) showPage(h);
+    else showPage('about');
   }
-  window.addEventListener('hashchange', handleHash);
+  window.addEventListener('popstate', handleHash);
   handleHash();
 
   // ── AI Panel ────────────────────────────────────────────────
