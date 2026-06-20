@@ -1,10 +1,10 @@
 # UCD Portfolio — Claude Context
 
 ## Project overview
-Sobhan Dutta's personal portfolio website. Single-file HTML — `portfolio.html` is the source of truth and is also copied to `index.html` for GitHub Pages.
+Sobhan Dutta's personal portfolio website. React 18 + TypeScript + Vite, deployed to GitHub Pages via GitHub Actions.
 
 - **Live URL**: https://sobhandutta.github.io/ucd-portfolio
-- **Local file**: `/Users/sobhandutta/projects/ucd-portfolio/portfolio.html`
+- **Local path**: `/Users/sobhandutta/projects/ucd-portfolio`
 - **Owner**: Sobhan Dutta (sobhandutta@gmail.com)
 
 ---
@@ -15,25 +15,83 @@ Sobhan Dutta's personal portfolio website. Single-file HTML — `portfolio.html`
 - **Always get explicit approval before pushing to GitHub**
 - Use **"Built with"** not "Powered by" — this is Sobhan's personal work and he is in control
 - When editing, always use the `Read` tool first before making any edits
-- After editing `portfolio.html`, always copy it to `index.html` as well
 
 ---
 
-## Git workflow
+## Project structure
 
-Git pushes must be done from `/tmp/ucd-portfolio`, not from the mounted folder (the mounted folder lacks git identity config).
-
-```bash
-# Standard push sequence
-cp /sessions/.../mnt/ucd-portfolio/portfolio.html /tmp/ucd-portfolio/portfolio.html
-cp /sessions/.../mnt/ucd-portfolio/portfolio.html /tmp/ucd-portfolio/index.html
-cd /tmp/ucd-portfolio
-git add portfolio.html index.html
-git commit -m "..."
-git push origin main
+```
+ucd-portfolio/
+├── .github/workflows/deploy.yml   # CI/CD — auto-deploys to GitHub Pages on push to main
+├── public/images/                 # Static image assets (served at /images/...)
+│   ├── accelerating_ai_first_ux/
+│   ├── developer_productivity/
+│   ├── future_of_ux_process/
+│   ├── universal_connectivity_platform/
+│   └── zero_trust_network_security/
+├── src/
+│   ├── styles/global.css          # All CSS (design system, components, responsive)
+│   ├── context/
+│   │   ├── LightboxContext.tsx    # Lightbox open/close state + useLightbox() hook
+│   │   └── AiPanelContext.tsx     # AI panel open/close state + useAiPanel() hook
+│   ├── components/
+│   │   ├── Nav.tsx                # Top nav — logo, links, AI panel icon
+│   │   ├── Footer.tsx             # Footer with social links
+│   │   ├── Lightbox.tsx           # Lightbox overlay + image
+│   │   └── AiPanel.tsx            # Sliding AI assistant panel (HuggingFace iframe)
+│   ├── pages/
+│   │   ├── WorkPage.tsx           # Case Studies index
+│   │   ├── AboutPage.tsx          # About page (has "Ask anything about me" button)
+│   │   ├── AiIndexPage.tsx        # AI Experiments index
+│   │   ├── AiAgenticPage.tsx      # Experiment 01 — Agentic Personal Assistant
+│   │   ├── AiCodePage.tsx         # Experiment 02 — Code Quality & 5× Productivity
+│   │   ├── AiUxPage.tsx           # Experiment 03 — UX Strategy with AI
+│   │   ├── CsAiFirstPage.tsx      # Case Study — Accelerating to AI-First UX
+│   │   ├── CsAtayaPage.tsx        # Case Study — Universal Connectivity Platform
+│   │   └── CsZeroTrustPage.tsx    # Case Study — Zero Trust Network Security
+│   ├── App.tsx                    # HashRouter + all routes + PageWrapper (scroll-to-top)
+│   └── main.tsx                   # React root mount + global.css import
+├── index.html                     # Vite entry point (Google Fonts links here)
+├── portfolio.html                 # Archived original static HTML (do not edit)
+├── package.json
+├── vite.config.ts                 # base: '/ucd-portfolio/', publicDir: 'public'
+├── tsconfig.json
+├── tsconfig.app.json
+└── tsconfig.node.json
 ```
 
-The PAT is embedded in the remote URL already — no extra auth needed.
+---
+
+## Dev workflow
+
+```bash
+cd /Users/sobhandutta/projects/ucd-portfolio
+npm run dev      # start dev server at http://localhost:5173/ucd-portfolio/
+npm run build    # tsc -b && vite build → outputs to dist/
+```
+
+Git pushes go directly from this directory — no temp folder needed.
+
+---
+
+## Routing
+
+Uses **HashRouter** (react-router-dom v6) — URLs are `/#/about`, `/#/ai`, etc. HashRouter was chosen for GitHub Pages compatibility (no 404 redirect hacks needed).
+
+| Route | Component |
+|---|---|
+| `/` | WorkPage |
+| `/about` | AboutPage |
+| `/ai` | AiIndexPage |
+| `/ai/agentic` | AiAgenticPage |
+| `/ai/ux` | AiUxPage |
+| `/ai/code` | AiCodePage |
+| `/work/ai-first` | CsAiFirstPage |
+| `/work/ataya` | CsAtayaPage |
+| `/work/zerotrust` | CsZeroTrustPage |
+| `*` | Redirect to `/about` |
+
+Nav active state: `path.startsWith('/ai')` → AI active; `path.startsWith('/work') || path === '/'` → Work active; `path === '/about'` → About active.
 
 ---
 
@@ -86,82 +144,56 @@ The PAT is embedded in the remote URL already — no extra auth needed.
 - `.ai-concept-item` — individual concept card
 - `.ai-stack` — tools/stack section
 - `.ai-cowork` — "also exploring" / supplementary section
-- `.ai-img-placeholder` — dashed placeholder for images not yet captured
 - `.ai-img-section` — image section with border-top
-
----
-
-## Page inventory
-
-### Routing
-All routing is handled by `showPage(id)` — shows `#page-{id}`.
-
-Nav active state logic:
-- `id.startsWith('ai')` → highlights "AI Experiments"
-- `id.startsWith('cs-')` → highlights "Case Studies"
-- otherwise → highlights the matching nav item
-
-### Pages
-| ID | Description |
-|---|---|
-| `work` | Case Studies index |
-| `about` | About page (has "Ask anything about me" button) |
-| `ai` | AI Experiments index |
-| `ai-agentic` | Experiment 01 — Agentic Personal Assistant |
-| `ai-code` | Experiment 02 — AI-Assisted Code Quality & 5× Productivity |
-| `ai-ux` | Experiment 03 — A New Way of Doing UX Strategy with AI |
-| `cs-ai-first` | Case Study — Accelerating to AI-First UX (Ataya, 2024–25) |
-| `cs-ataya` | Case Study — Universal Connectivity Platform (Ataya) |
-| `cs-zerotrust` | Case Study — Zero Trust Network Security |
-
-### Full-width pages (no max-width constraint)
-```css
-#page-cs-zerotrust, #page-cs-ataya, #page-cs-ai-first { max-width: 100%; }
-```
-
-### AI article pages (must all be listed together)
-```css
-#page-ai, #page-ai-agentic, #page-ai-code, #page-ai-ux {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 80px 40px 120px;
-}
-```
-**Important**: whenever a new AI article page is added, it must be added to this CSS rule and to the mobile responsive rule.
 
 ---
 
 ## Key features
 
 ### Lightbox
-- Triggered by clicking any `.cs-img` or `.cs-img-full` (and `.cs-img-grid img`)
+- State managed by `LightboxContext` — use `useLightbox()` hook
+- `open(src, alt?)` to open, `close()` to close
+- Triggered by clicking any `.cs-img` or `.cs-img-full` images (pass `onClick={lb}` helper)
 - Does NOT apply to `.cs-hero` (banner images)
 - Close via overlay click, × button, or Escape key
-- JS wires up listeners on page load via `querySelectorAll`
 
 ### AI assistant panel
-- Triggered by `openAiPanel()` — available from the "Ask anything about me" button on the About page and the header icon button
-- Slides in from the right, loads iframe to Hugging Face Space
-- Header icon: `#nav-ask-icon-btn` (circular indigo-tinted button, last item in nav)
-- Panel ID: `#ai-panel`, overlay: `#ai-panel-overlay`
+- State managed by `AiPanelContext` — use `useAiPanel()` hook
+- `open()` triggered from About page "Ask anything about me" button and nav sparkle icon
+- Slides in from right, loads Hugging Face Space iframe lazily (src only set on first open)
 - Escape key closes both the panel and lightbox
 
+### Parallax (case study pages only)
+- `useParallax()` hook defined locally in `CsZeroTrustPage`, `CsAtayaPage`, `CsAiFirstPage`
+- Scroll listener on `.cs-hero-wrap` (translateY) and `.cs-hero-foot-wrap` (scale)
+
 ### Nav
-Order: AI Experiments · Case Studies · About · Resume · [ask icon]
-- Logo click → `showPage('work')`
-- AI Experiments nav link has class `ai-link` (indigo colour)
+Order: AI Experiments · Case Studies · About · Resume · [sparkle ask icon]
+- Logo click → navigate to `/`
+- AI Experiments link is indigo colour
 
 ---
 
 ## Image assets
 
-### Case study image folders
-- `images/accelerating_ai_first_ux/` — 17 assets (banner, logo, screenshots, demo.mp4)
-- `images/zero_trust_network_security/`
-- `images/ataya_universal_connectivity/`
+All images are in `public/images/` and referenced with absolute paths like `/images/...`.
+Vite copies `public/` contents verbatim to `dist/` during build.
 
-### Image placeholder style
-New articles use `.ai-img-placeholder` (dashed indigo border, centred icon + label + hint text) until real screenshots are captured and added.
+### Image folders
+- `public/images/accelerating_ai_first_ux/`
+- `public/images/developer_productivity/`
+- `public/images/future_of_ux_process/`
+- `public/images/universal_connectivity_platform/`
+- `public/images/zero_trust_network_security/`
+
+---
+
+## Deployment
+
+GitHub Actions (`.github/workflows/deploy.yml`) automatically builds and deploys on every push to `main`.
+
+**One-time setup required** (if not already done):  
+GitHub repo → Settings → Pages → Source: **GitHub Actions**
 
 ---
 
