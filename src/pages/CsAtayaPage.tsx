@@ -1,4 +1,6 @@
 import { useEffect } from 'react'
+
+const base = import.meta.env.BASE_URL
 import { useNavigate } from 'react-router-dom'
 import { useLightbox } from '../context/LightboxContext'
 
@@ -43,7 +45,7 @@ export default function CsAtayaPage() {
       </div>
 
       <div className="cs-hero-wrap">
-        <img src="/images/universal_connectivity_platform/banner.png" alt="Universal Connectivity Platform" className="cs-hero" />
+        <img src={`${base}images/universal_connectivity_platform/banner.png`} alt="Universal Connectivity Platform" className="cs-hero" />
       </div>
 
       <div className="cs-container">
@@ -66,7 +68,7 @@ export default function CsAtayaPage() {
               <span className="cs-tag">Cloud-First</span>
             </div>
             <div style={{ marginTop: '28px' }}>
-              <img src="/images/universal_connectivity_platform/ataya_logo.png" alt="Ataya logo" style={{ height: '28px', width: 'auto', opacity: 0.75 }} />
+              <img src={`${base}images/universal_connectivity_platform/ataya_logo.png`} alt="Ataya logo" style={{ height: '28px', width: 'auto', opacity: 0.75 }} />
             </div>
           </div>
           <div>
@@ -86,7 +88,7 @@ export default function CsAtayaPage() {
               <div>
                 <p className="cs-timeline-head">The first 90 days</p>
                 <p className="cs-body">Joining as the first US employee, I immediately hired developers, created product requirements, and designed the full UX flow for the on-premise release. Working in close collaboration with engineering and stakeholders, we shipped the first version of the platform in under three months — a fully functional on-premise product that could be demonstrated to enterprise customers.</p>
-                <img src="/images/universal_connectivity_platform/onboarding_flow.png" alt="Onboarding flow" className="cs-img-full" onClick={lb} />
+                <img src={`${base}images/universal_connectivity_platform/onboarding_flow.png`} alt="Onboarding flow" className="cs-img-full" onClick={lb} />
                 <p className="cs-img-caption">Onboarding flow — designed to get network operators from zero to active in minutes</p>
               </div>
             </div>
@@ -104,7 +106,7 @@ export default function CsAtayaPage() {
                 <p className="cs-timeline-head">Understand the user</p>
                 <p className="cs-body">With the first releases shipped, we turned our focus to the deeper design problem: making a networking product that doesn't require a networking engineer. The assumption that telecom tools are inherently complex needed to be challenged head-on.</p>
                 <p className="cs-body">I led a structured research programme — task-based usability sessions, qualitative interviews with internal stakeholders and real customers, and design critique workshops. We mapped pain points, tested the product's value proposition with new users, and used the findings to drive a significant redesign of the core flows.</p>
-                <img src="/images/universal_connectivity_platform/persona_view.png" alt="User personas" className="cs-img-full" onClick={lb} />
+                <img src={`${base}images/universal_connectivity_platform/persona_view.png`} alt="User personas" className="cs-img-full" onClick={lb} />
                 <p className="cs-img-caption">Research-derived personas — from network engineers to operations managers and C-suite</p>
               </div>
             </div>
@@ -121,11 +123,11 @@ export default function CsAtayaPage() {
               <div className="cs-quote">"Eliminate the dashboard sprawl. If operators have to switch tools, we haven't finished the job."</div>
             </div>
             <div>
-              <img src="/images/universal_connectivity_platform/analytics_view.png" alt="Analytics dashboard" className="cs-img" onClick={lb} />
+              <img src={`${base}images/universal_connectivity_platform/analytics_view.png`} alt="Analytics dashboard" className="cs-img" onClick={lb} />
               <p className="cs-img-caption">Unified analytics — all access technologies, one view</p>
             </div>
           </div>
-          <img src="/images/universal_connectivity_platform/network_view.png" alt="Network topology view" className="cs-img-full" onClick={lb} />
+          <img src={`${base}images/universal_connectivity_platform/network_view.png`} alt="Network topology view" className="cs-img-full" onClick={lb} />
           <p className="cs-img-caption">Network topology view — real-time status across the entire multi-access estate</p>
         </div>
 
@@ -134,7 +136,7 @@ export default function CsAtayaPage() {
           <h2 className="cs-section-title">Zero Trust across every access type</h2>
           <div className="cs-two-col">
             <div>
-              <img src="/images/universal_connectivity_platform/policy_view.png" alt="Policy dashboard" className="cs-img" onClick={lb} />
+              <img src={`${base}images/universal_connectivity_platform/policy_view.png`} alt="Policy dashboard" className="cs-img" onClick={lb} />
               <p className="cs-img-caption">Unified policy dashboard — Zero Trust enforcement across 5G, Wi-Fi, and beyond</p>
             </div>
             <div>
@@ -160,7 +162,7 @@ export default function CsAtayaPage() {
           <p className="cs-section-label">Infrastructure</p>
           <h2 className="cs-section-title">Cloud-native, identity-driven microsegmentation</h2>
           <p className="cs-body">Ataya's cloud-first architecture gives CISOs and security teams a modern microsegmentation solution without the traditional overhead of hardware deployment. Context-aware, identity-driven policies govern users, devices, and applications across the entire network — including the hybrid on-premise/cloud boundary that most enterprise networks struggle with.</p>
-          <img src="/images/universal_connectivity_platform/product_pages_view.png" alt="Product pages" className="cs-img-full" onClick={lb} />
+          <img src={`${base}images/universal_connectivity_platform/product_pages_view.png`} alt="Product pages" className="cs-img-full" onClick={lb} />
           <p className="cs-img-caption">Product portal views — cloud management plane across on-premise radios and edge devices</p>
         </div>
 
@@ -171,11 +173,11 @@ export default function CsAtayaPage() {
           <p className="cs-body">We unified typography around a single versatile typeface — Roboto — and created a detailed web style guide covering every component state: buttons, forms, data tables, navigation modules, alerts, and layout sections. The system spans the product, marketing site, and business materials, ensuring a coherent brand experience at every touchpoint.</p>
           <div className="cs-img-grid">
             <div>
-              <img src="/images/universal_connectivity_platform/design_system_view.png" alt="Design system" className="cs-img" onClick={lb} />
+              <img src={`${base}images/universal_connectivity_platform/design_system_view.png`} alt="Design system" className="cs-img" onClick={lb} />
               <p className="cs-img-caption">Design system — components, tokens, and interaction states</p>
             </div>
             <div>
-              <img src="/images/universal_connectivity_platform/design_system_assets.png" alt="Design assets" className="cs-img" onClick={lb} />
+              <img src={`${base}images/universal_connectivity_platform/design_system_assets.png`} alt="Design assets" className="cs-img" onClick={lb} />
               <p className="cs-img-caption">Shared asset library — icons, illustrations, and brand elements</p>
             </div>
           </div>
@@ -206,7 +208,7 @@ export default function CsAtayaPage() {
       </div>
 
       <div className="cs-hero-foot-wrap">
-        <img src="/images/universal_connectivity_platform/ataya_on_monitor.png" alt="Universal Connectivity Platform" className="cs-hero-foot" />
+        <img src={`${base}images/universal_connectivity_platform/ataya_on_monitor.png`} alt="Universal Connectivity Platform" className="cs-hero-foot" />
       </div>
 
       <div className="cs-back" style={{ paddingTop: '48px', paddingBottom: '80px', borderTop: '1px solid var(--light)', marginTop: '72px' }}>

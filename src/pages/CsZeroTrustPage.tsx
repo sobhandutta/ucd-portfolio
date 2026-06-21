@@ -1,4 +1,6 @@
 import { useEffect } from 'react'
+
+const base = import.meta.env.BASE_URL
 import { useNavigate } from 'react-router-dom'
 import { useLightbox } from '../context/LightboxContext'
 
@@ -44,7 +46,7 @@ export default function CsZeroTrustPage() {
       </div>
 
       <div className="cs-hero-wrap">
-        <img src="/images/zero_trust_network_security/banner.jpg" alt="Zero Trust Network Security" className="cs-hero" />
+        <img src={`${base}images/zero_trust_network_security/banner.jpg`} alt="Zero Trust Network Security" className="cs-hero" />
       </div>
 
       <div className="cs-container">
@@ -91,7 +93,7 @@ export default function CsZeroTrustPage() {
                 <p className="cs-timeline-head">Making security accessible to everyone</p>
                 <p className="cs-body">The initial launch was successful, but a bigger challenge emerged: how do you design a security product that doesn't require a network engineer to use it? The stereotype of security tools being complex, dark, and cryptic needed to be broken.</p>
                 <p className="cs-body">We started by talking to real users — mapping pain points, running task-based usability sessions on medium-fidelity prototypes, and conducting qualitative interviews with internal stakeholders and customers. The goal: design with the CEO in mind as the primary user, not just the CISO.</p>
-                <img src="/images/zero_trust_network_security/personas.png" alt="User personas" className="cs-img-bare" onClick={lb} />
+                <img src={`${base}images/zero_trust_network_security/personas.png`} alt="User personas" className="cs-img-bare" onClick={lb} />
                 <p className="cs-img-caption">User personas developed from research sessions to guide design decisions</p>
               </div>
             </div>
@@ -115,11 +117,11 @@ export default function CsZeroTrustPage() {
               <div className="cs-quote">"Security teams shouldn't need a PhD to understand their own network."</div>
             </div>
             <div>
-              <img src="/images/zero_trust_network_security/analytics_view.jpeg" alt="Analytics dashboard" className="cs-img" onClick={lb} />
+              <img src={`${base}images/zero_trust_network_security/analytics_view.jpeg`} alt="Analytics dashboard" className="cs-img" onClick={lb} />
               <p className="cs-img-caption">IdentityGraph analytics view — visibility across hybrid environments</p>
             </div>
           </div>
-          <img src="/images/zero_trust_network_security/cas_view.jpg" alt="CAS view" className="cs-img-full" onClick={lb} />
+          <img src={`${base}images/zero_trust_network_security/cas_view.jpg`} alt="CAS view" className="cs-img-full" onClick={lb} />
           <p className="cs-img-caption">Cloud Access Security view — policy status across devices and users</p>
         </div>
 
@@ -127,7 +129,7 @@ export default function CsZeroTrustPage() {
           <p className="cs-section-label">Policy Framework</p>
           <h2 className="cs-section-title">Zero Trust principles, made usable</h2>
           <p className="cs-body">Elisity's policy framework integrates zero trust with network access control. Designing the policy builder was one of the most complex UX challenges — it needed to support both simple rules for less-technical users and granular control for security architects.</p>
-          <img src="/images/zero_trust_network_security/policy_enforcement_assets_view.jpg" alt="Policy enforcement" className="cs-img-full" onClick={lb} />
+          <img src={`${base}images/zero_trust_network_security/policy_enforcement_assets_view.jpg`} alt="Policy enforcement" className="cs-img-full" onClick={lb} />
           <p className="cs-img-caption">Policy enforcement interface — identity-based rules across IT, OT, and IoT</p>
           <div className="cs-feature-list" style={{ marginTop: '40px' }}>
             {[
@@ -155,7 +157,7 @@ export default function CsZeroTrustPage() {
               <p className="cs-body">AI and machine learning adapt to network changes continuously, so the UI needed to surface model-driven recommendations without making them feel like black-box decisions.</p>
             </div>
             <div>
-              <img src="/images/zero_trust_network_security/cognitive_connect_view.png" alt="Cognitive Connect" className="cs-img" onClick={lb} />
+              <img src={`${base}images/zero_trust_network_security/cognitive_connect_view.png`} alt="Cognitive Connect" className="cs-img" onClick={lb} />
               <p className="cs-img-caption">Cognitive Connect — AI-powered asset discovery and policy enforcement at the network edge</p>
             </div>
           </div>
@@ -170,11 +172,11 @@ export default function CsZeroTrustPage() {
               <p className="cs-body">We consolidated three typefaces down to a single font family — Roboto — with defined weights and widths for each context. I built a comprehensive web style guide covering buttons, forms, data tables, navigation modules, and states, ensuring every element behaved predictably across the entire product.</p>
             </div>
             <div>
-              <img src="/images/zero_trust_network_security/logos.png" alt="Brand and logo work" className="cs-img" style={{ marginTop: 0 }} onClick={lb} />
+              <img src={`${base}images/zero_trust_network_security/logos.png`} alt="Brand and logo work" className="cs-img" style={{ marginTop: 0 }} onClick={lb} />
               <p className="cs-img-caption">Brand identity — including the Elisity logo I designed from scratch</p>
             </div>
           </div>
-          <img src="/images/zero_trust_network_security/design_system_view.png" alt="Design system" className="cs-img-full" onClick={lb} />
+          <img src={`${base}images/zero_trust_network_security/design_system_view.png`} alt="Design system" className="cs-img-full" onClick={lb} />
           <p className="cs-img-caption">Component library — standardised across product and marketing surfaces</p>
         </div>
 
@@ -195,7 +197,7 @@ export default function CsZeroTrustPage() {
               <p className="cs-body">The biggest lesson: the best security product is the one people actually use. Making zero trust accessible — visually, conceptually, and operationally — was the real design problem worth solving.</p>
             </div>
           </div>
-          <img src="/images/zero_trust_network_security/product_on_laptop.png" alt="Elisity product" className="cs-img-bare" onClick={lb} />
+          <img src={`${base}images/zero_trust_network_security/product_on_laptop.png`} alt="Elisity product" className="cs-img-bare" onClick={lb} />
         </div>
 
       </div>

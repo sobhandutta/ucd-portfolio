@@ -1,4 +1,6 @@
 import { useEffect } from 'react'
+
+const base = import.meta.env.BASE_URL
 import { useNavigate } from 'react-router-dom'
 import { useLightbox } from '../context/LightboxContext'
 
@@ -61,7 +63,7 @@ export default function CsAiFirstPage() {
               <span className="cs-tag">NWDAF</span>
             </div>
             <div style={{ marginTop: '28px' }}>
-              <img src="/images/accelerating_ai_first_ux/logo.png" alt="Ataya logo" style={{ height: '28px', width: 'auto', opacity: 0.75 }} />
+              <img src={`${base}images/accelerating_ai_first_ux/logo.png`} alt="Ataya logo" style={{ height: '28px', width: 'auto', opacity: 0.75 }} />
             </div>
           </div>
           <div>
@@ -82,7 +84,7 @@ export default function CsAiFirstPage() {
               <div className="cs-quote">"The network is smarter than the dashboard. The UX needs to close that gap."</div>
             </div>
             <div>
-              <img src="/images/accelerating_ai_first_ux/5g_6g.png" alt="5G to 6G evolution" className="cs-img" onClick={lb} />
+              <img src={`${base}images/accelerating_ai_first_ux/5g_6g.png`} alt="5G to 6G evolution" className="cs-img" onClick={lb} />
               <p className="cs-img-caption">From 5G to 6G — AI becomes native infrastructure, not a feature bolt-on</p>
             </div>
           </div>
@@ -120,7 +122,7 @@ export default function CsAiFirstPage() {
           <h2 className="cs-section-title">What does the user really need?</h2>
           <div className="cs-two-col">
             <div>
-              <img src="/images/accelerating_ai_first_ux/users_need.png" alt="User needs research" className="cs-img" onClick={lb} />
+              <img src={`${base}images/accelerating_ai_first_ux/users_need.png`} alt="User needs research" className="cs-img" onClick={lb} />
               <p className="cs-img-caption">User needs mapping — from task-based research with network engineers and operations managers</p>
             </div>
             <div>
@@ -233,7 +235,7 @@ export default function CsAiFirstPage() {
       </div>
 
       <div className="cs-hero-foot-wrap" style={{ backgroundImage: "url('/images/accelerating_ai_first_ux/background.png')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
-        <img src="/images/accelerating_ai_first_ux/product_on_monitor.png" alt="AI-First product on monitor" className="cs-hero-foot" />
+        <img src={`${base}images/accelerating_ai_first_ux/product_on_monitor.png`} alt="AI-First product on monitor" className="cs-hero-foot" />
       </div>
 
       <div className="cs-back" style={{ paddingTop: '48px', paddingBottom: '80px', borderTop: '1px solid var(--light)', marginTop: '72px' }}>

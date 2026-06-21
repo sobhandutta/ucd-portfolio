@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom'
+
+const base = import.meta.env.BASE_URL
 import { useLightbox } from '../context/LightboxContext'
 
 export default function AiCodePage() {
@@ -101,19 +103,19 @@ export default function AiCodePage() {
         <p className="ai-img-section-body">Screenshots and screen recordings showing Claude Code running a security review, Cursor performing a cross-file refactor, and Copilot completing a test suite in real time.</p>
         <div className="ai-img-grid-2">
           <div>
-            <img src="/images/developer_productivity/security_test.png" alt="Claude Code in terminal" className="cs-img" style={{ width: '100%', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
+            <img src={`${base}images/developer_productivity/security_test.png`} alt="Claude Code in terminal" className="cs-img" style={{ width: '100%', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
             <p className="cs-img-caption" style={{ marginTop: '10px' }}>Claude running a systematic OWASP security review — identifying injection risks, missing rate limits, and insecure defaults across API handlers, with remediation suggestions inline.</p>
           </div>
           <div>
-            <img src="/images/developer_productivity/key_achievement.png" alt="Cursor Composer view" className="cs-img" style={{ width: '100%', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
+            <img src={`${base}images/developer_productivity/key_achievement.png`} alt="Cursor Composer view" className="cs-img" style={{ width: '100%', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
             <p className="cs-img-caption" style={{ marginTop: '10px' }}>Claude restructuring legacy code for clarity and maintainability — breaking apart monolithic functions, enforcing consistent patterns, and surfacing quality issues that had accumulated over months of rapid development.</p>
           </div>
           <div>
-            <img src="/images/developer_productivity/test_coverage_before.png" alt="Test suite before AI assistance" className="cs-img" style={{ width: '100%', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
+            <img src={`${base}images/developer_productivity/test_coverage_before.png`} alt="Test suite before AI assistance" className="cs-img" style={{ width: '100%', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
             <p className="cs-img-caption" style={{ marginTop: '10px' }}>Before: Only a few test suites passing (&lt;30%) with 8 root-cause failures — a missing environment variable cascading across the entire chorus-ui test run, leaving coverage effectively at zero.</p>
           </div>
           <div>
-            <img src="/images/developer_productivity/test_coverage_after.png" alt="Test suite after AI assistance" className="cs-img" style={{ width: '100%', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
+            <img src={`${base}images/developer_productivity/test_coverage_after.png`} alt="Test suite after AI assistance" className="cs-img" style={{ width: '100%', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
             <p className="cs-img-caption" style={{ marginTop: '10px' }}>After: 555 of 555 tests passing across both apps — chorus-ui at 327/327 and mgmt-ui at 228/228 — all green in 21 seconds. Claude diagnosed the root cause, fixed the environment config, and resolved the suite in minutes.</p>
           </div>
         </div>

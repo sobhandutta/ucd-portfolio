@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom'
+
+const base = import.meta.env.BASE_URL
 import { useLightbox } from '../context/LightboxContext'
 
 export default function AiUxPage() {
@@ -26,14 +28,14 @@ export default function AiUxPage() {
         </div>
         <div>
           <p style={{ fontFamily: "'Inter',sans-serif", fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#999', marginBottom: '14px' }}>Before — Traditional UX handoff model</p>
-          <img src="/images/future_of_ux_process/ux_before_ai.png" alt="Traditional UX process" style={{ width: '100%', display: 'block', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
+          <img src={`${base}images/future_of_ux_process/ux_before_ai.png`} alt="Traditional UX process" style={{ width: '100%', display: 'block', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
         </div>
         <div>
           <p className="ai-feat-body">The AI-native approach treats UX design and front-end development as a single continuous discipline. Claude synthesises research, Figma AI accelerates design exploration, and Claude Code generates production-ready components directly from those designs — all within the same working session. A UX leader who thinks in systems and understands code is now dramatically more powerful than one who only operates in one domain.</p>
         </div>
         <div>
           <p style={{ fontFamily: "'Inter',sans-serif", fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#4a4a8a', marginBottom: '14px' }}>After — AI-native UX loop</p>
-          <img src="/images/future_of_ux_process/ux_after_ai.png" alt="AI-native UX loop" style={{ width: '100%', display: 'block', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
+          <img src={`${base}images/future_of_ux_process/ux_after_ai.png`} alt="AI-native UX loop" style={{ width: '100%', display: 'block', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
         </div>
       </div>
 
@@ -62,10 +64,10 @@ export default function AiUxPage() {
         <h2 className="ai-img-section-title">From Figma to production code in one session</h2>
         <p className="ai-img-section-body">Visual documentation of the AI-native UX workflow — from a strategy session with Claude through Figma design to generated React components, all within the same working session.</p>
         <div className="ai-img-grid-2">
-          <img src="/images/future_of_ux_process/figma_agnet.png" alt="Figma AI plugin in use" className="cs-img" onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
-          <img src="/images/future_of_ux_process/claude_design_system.png" alt="Design system component library" className="cs-img" onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
+          <img src={`${base}images/future_of_ux_process/figma_agnet.png`} alt="Figma AI plugin in use" className="cs-img" onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
+          <img src={`${base}images/future_of_ux_process/claude_design_system.png`} alt="Design system component library" className="cs-img" onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
         </div>
-        <img src="/images/future_of_ux_process/end_to_end_workflow.png" alt="End-to-end workflow screenshot" className="cs-img-full" style={{ width: '100%', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
+        <img src={`${base}images/future_of_ux_process/end_to_end_workflow.png`} alt="End-to-end workflow screenshot" className="cs-img-full" style={{ width: '100%', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
 
         <div className="ai-img-section" style={{ marginTop: '48px' }}>
           <p className="ai-eyebrow">Design System</p>
