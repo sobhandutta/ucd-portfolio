@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 
+const base = import.meta.env.BASE_URL
+
 export default function WorkPage() {
   const navigate = useNavigate()
 
@@ -14,7 +16,7 @@ export default function WorkPage() {
 
         <li className="work-item" onClick={() => navigate('/work/ai-first')}>
           <div className="work-year">
-            <img src="/images/accelerating_ai_first_ux/thumb.png" className="work-thumb" alt="" />
+            <img src={`${base}images/accelerating_ai_first_ux/thumb.png`} className="work-thumb" alt="" />
             <span className="work-year-label">2025</span>
           </div>
           <div className="work-info">
@@ -26,7 +28,7 @@ export default function WorkPage() {
 
         <li className="work-item" onClick={() => navigate('/work/ataya')}>
           <div className="work-year">
-            <img src="/images/universal_connectivity_platform/thumn.jpg" className="work-thumb" alt="" />
+            <img src={`${base}images/universal_connectivity_platform/thumb.jpg`} className="work-thumb" alt="" />
             <span className="work-year-label">2022</span>
           </div>
           <div className="work-info">
@@ -38,7 +40,7 @@ export default function WorkPage() {
 
         <li className="work-item" onClick={() => navigate('/work/zerotrust')}>
           <div className="work-year">
-            <img src="/images/zero_trust_network_security/thumb.jpg" className="work-thumb" alt="" />
+            <img src={`${base}images/zero_trust_network_security/thumb.jpg`} className="work-thumb" alt="" />
             <span className="work-year-label">2020</span>
           </div>
           <div className="work-info">
