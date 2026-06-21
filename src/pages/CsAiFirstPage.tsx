@@ -111,7 +111,7 @@ export default function CsAiFirstPage() {
           <p className="cs-body">We approached this by designing from the operator's goals outward, rather than from the system's capabilities inward. What does a network engineer actually need to accomplish in their day? How does AI change what's hard versus what's easy?</p>
           <div className="cs-img-grid">
             {['product-surface01', 'product-surface02', 'product-surface03', 'product-surface04'].map((name, i) => (
-              <img key={name} src={`/images/accelerating_ai_first_ux/${name}.png`} alt={`Product surface ${i + 1}`} className="cs-img" style={{ marginTop: 0 }} onClick={lb} />
+              <img key={name} src={`${base}images/accelerating_ai_first_ux/${name}.png`} alt={`Product surface ${i + 1}`} className="cs-img" style={{ marginTop: 0 }} onClick={lb} />
             ))}
           </div>
           <p className="cs-img-caption">The product surface — redesigned around AI-native workflows and intent-driven navigation</p>
