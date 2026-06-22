@@ -13,14 +13,14 @@ export default function AiAgenticPage() {
       <div className="ai-header">
         <p className="ai-eyebrow">Experiment 01 — Multi-Agent System · 2025</p>
         <h1 className="ai-title">Agentic Personal Assistant</h1>
-        <p className="ai-intro">This is an experiment to design and engineer multi-agent systems from first principles — no black-box frameworks, just Python, clear architecture, and LLMs that coordinate to get things done. These are experiments at the intersection of product thinking, engineering, and AI.</p>
+        <p className="ai-intro">This is an experiment to design and engineer multi-agent systems from first principles: no black-box frameworks, just Python, clear architecture, and LLMs that coordinate to get things done. These are experiments at the intersection of product thinking, engineering, and AI.</p>
       </div>
 
       <div className="ai-featured">
         <div className="ai-feat-left">
           <p className="ai-feat-tag">Experiment 01 — Multi-Agent System</p>
           <h2 className="ai-feat-title">Agentic Personal Assistant</h2>
-          <p className="ai-feat-body">A personal AI that answers questions about me by orchestrating five specialist sub-agents, each reading from a different data source — SQLite, live portfolio scrape, semantic vector store, Google Drive, and Gmail — and synthesising results into a single grounded response.</p>
+          <p className="ai-feat-body">A personal AI that answers questions about me by orchestrating five specialist sub-agents, each reading from a different data source (SQLite, live portfolio scrape, semantic vector store, Google Drive, and Gmail) and synthesising results into a single grounded response.</p>
           <p className="ai-feat-body">The orchestrator never answers from its own training knowledge. It always calls tools first, gets real data, then generates a response. Every answer cites its source.</p>
           <div className="ai-feat-meta">
             <div className="ai-feat-meta-row">
@@ -98,7 +98,7 @@ export default function AiAgenticPage() {
         <div className="ai-demo-header">
           <p className="ai-eyebrow">Live Demo</p>
           <h2 className="ai-demo-title">Try it yourself</h2>
-          <p className="ai-demo-sub">Ask anything about Sobhan — his work history, skills, projects, or background. The assistant will route your question to the right data source and respond in real time.</p>
+          <p className="ai-demo-sub">Ask anything about Sobhan: his work history, skills, projects, or background. The assistant will route your question to the right data source and respond in real time.</p>
         </div>
         <div className="ai-demo-frame">
           <iframe
@@ -115,7 +115,7 @@ export default function AiAgenticPage() {
         <p className="ai-concepts-heading">What I built &amp; understand</p>
         <div className="ai-concepts-grid">
           {[
-            { num: '01', name: 'Multi-agent orchestration', desc: 'A central LLM routes questions to specialist agents based on tool descriptions alone — no rules or hard-coded logic.' },
+            { num: '01', name: 'Multi-agent orchestration', desc: 'A central LLM routes questions to specialist agents based on tool descriptions alone, no rules or hard-coded logic.' },
             { num: '02', name: 'Tool-calling loops', desc: 'The orchestrator loops: call LLM → tool requests → run tools → inject results → repeat until stop_reason is end_turn. Implemented for both Anthropic and OpenAI formats.' },
             { num: '03', name: 'RAG pipelines', desc: 'Documents are chunked, embedded into vectors with OpenAI, stored in ChromaDB. At query time the question is embedded and compared by cosine similarity to retrieve grounding context.' },
             { num: '04', name: 'Parallel execution', desc: 'ThreadPoolExecutor runs multiple agents simultaneously. A 1s SQLite call and a 3s web scrape finish at second 3, not second 4.' },
@@ -152,11 +152,11 @@ export default function AiAgenticPage() {
 
       <div className="ai-cowork">
         <p className="ai-cowork-heading">Also exploring</p>
-        <p className="ai-cowork-body">Beyond the agentic assistant, I'm actively using and learning Anthropic's Claude Cowork and the Claude Agent SDK — experimenting with scheduled agents, persistent artifacts, MCP connectors, and multi-agent workflows that connect to real tools like Jira, Figma, Slack, and Google Workspace.</p>
+        <p className="ai-cowork-body">Beyond the agentic assistant, I'm actively using and learning Anthropic's Claude Cowork and the Claude Agent SDK, experimenting with scheduled agents, persistent artifacts, MCP connectors, and multi-agent workflows that connect to real tools like Jira, Figma, Slack, and Google Workspace.</p>
         <div className="ai-cowork-list">
           {[
             { label: 'MCP (Model Context Protocol)', val: 'Connecting AI agents to external tools and data sources through standardised server definitions.' },
-            { label: 'Scheduled agents', val: 'Agents that run automatically on a cron — daily briefings, status checks, digest generation.' },
+            { label: 'Scheduled agents', val: 'Agents that run automatically on a cron: daily briefings, status checks, digest generation.' },
             { label: 'Persistent artifacts', val: 'Live HTML dashboards that pull fresh data from connectors every time they\'re opened.' },
             { label: 'AI-native UX', val: 'Thinking about how product design changes when the interface is a reasoning agent rather than a screen full of controls.' },
           ].map(row => (

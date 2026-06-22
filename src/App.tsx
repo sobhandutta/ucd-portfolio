@@ -8,6 +8,7 @@ import Lightbox from './components/Lightbox'
 import AiPanel from './components/AiPanel'
 import WorkPage from './pages/WorkPage'
 import AboutPage from './pages/AboutPage'
+import LeadershipStylePage from './pages/LeadershipStylePage'
 import AiIndexPage from './pages/AiIndexPage'
 import AiAgenticPage from './pages/AiAgenticPage'
 import AiCodePage from './pages/AiCodePage'
@@ -38,6 +39,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<PageWrapper><WorkPage /></PageWrapper>} />
               <Route path="/about" element={<PageWrapper><AboutPage /></PageWrapper>} />
+              <Route path="/about/leadership-style" element={<PageWrapper><LeadershipStylePage /></PageWrapper>} />
               <Route path="/ai" element={<PageWrapper><AiIndexPage /></PageWrapper>} />
               <Route path="/ai/agentic" element={<PageWrapper><AiAgenticPage /></PageWrapper>} />
               <Route path="/ai/code" element={<PageWrapper><AiCodePage /></PageWrapper>} />
