@@ -10,7 +10,7 @@ export default function WorkPage() {
       <div className="ai-index-header">
         <p className="ai-eyebrow">Case Studies</p>
         <h1 className="ai-index-title">Design at the intersection<br />of research, systems &amp; craft</h1>
-        <p className="ai-index-intro">A selection of end-to-end product design work — from zero-trust security platforms to AI-native 6G network management. Each project spans research, strategy, and shipped product.</p>
+        <p className="ai-index-intro">A selection of end-to-end product design work, from zero-trust security platforms to AI-native 5G network management. Each project spans research, strategy, and shipped product.</p>
       </div>
       <ul className="work-list">
 
@@ -21,7 +21,7 @@ export default function WorkPage() {
           </div>
           <div className="work-info">
             <h2 className="work-title">Accelerating to AI-First UX</h2>
-            <p className="work-desc">In 6G, AI won't just support the network — it will be built into its core design. This "AI-native" approach means AI is embedded directly into how the network controls, manages, and processes data.</p>
+            <p className="work-desc">In 6G, AI moves from supporting the network to being built into its core design. This "AI-native" approach means AI is embedded directly into how the network controls, manages, and processes data.</p>
             <p className="work-role">Director of UX Design and UI Architecture @ Ataya</p>
           </div>
         </li>

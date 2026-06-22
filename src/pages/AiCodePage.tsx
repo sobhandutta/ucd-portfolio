@@ -17,15 +17,15 @@ export default function AiCodePage() {
       <div className="ai-header">
         <p className="ai-eyebrow">Experiment 02 — Engineering Process · 2025</p>
         <h1 className="ai-title">AI-Assisted Code Quality<br />&amp; 5× Developer Productivity</h1>
-        <p className="ai-intro">A framework for systematically applying AI coding tools — Claude Code, Cursor, and GitHub Copilot — to lift code quality, eliminate technical debt, and multiply team output without adding headcount.</p>
+        <p className="ai-intro">A framework for systematically applying AI coding tools (Claude Code, Cursor, and GitHub Copilot) to lift code quality, eliminate technical debt, and multiply team output without adding headcount.</p>
       </div>
 
       <div className="ai-featured">
         <div className="ai-feat-left">
           <p className="ai-feat-tag">The Problem</p>
           <h2 className="ai-feat-title">Engineering teams are leaving productivity on the table</h2>
-          <p className="ai-feat-body">Most teams use AI tools reactively — pasting snippets into a chat window and hoping for a useful answer. The result is marginal gains: maybe 10–20% faster on greenfield code, but no improvement in the hardest parts of the job: understanding legacy systems, fixing subtle bugs, writing tests for untested code, and closing accessibility or security gaps.</p>
-          <p className="ai-feat-body">This framework changes that. It treats AI tools as systematic co-pilots embedded in every phase of the engineering workflow — not just code generation, but code review, refactoring, test coverage, accessibility auditing, and security hardening.</p>
+          <p className="ai-feat-body">Most teams use AI tools reactively, pasting snippets into a chat window and hoping for a useful answer. The result is marginal gains: maybe 10–20% faster on greenfield code, but no improvement in the hardest parts of the job: understanding legacy systems, fixing subtle bugs, writing tests for untested code, and closing accessibility or security gaps.</p>
+          <p className="ai-feat-body">This framework changes that. It treats AI tools as systematic co-pilots embedded in every phase of the engineering workflow, not just code generation but code review, refactoring, test coverage, accessibility auditing, and security hardening.</p>
           <div className="ai-feat-meta">
             <div className="ai-feat-meta-row">
               <span className="ai-feat-meta-label">Tools</span>
@@ -81,11 +81,11 @@ export default function AiCodePage() {
         <p className="ai-concepts-heading">The framework: five high-leverage AI interventions</p>
         <div className="ai-concepts-grid">
           {[
-            { num: '01', name: 'Intelligent refactoring', desc: 'Ask Claude Code to analyse a module, identify violations of SOLID principles, over-complex methods, and dead code — then refactor with explanations. The key is to review each change rather than applying blindly, building real understanding of the codebase along the way.' },
-            { num: '02', name: 'Retroactive unit test generation', desc: 'Provide a function or class to Claude Code with the instruction to generate tests covering happy paths, edge cases, and known failure modes. For legacy code with no tests, this turns a scary change into a safe one — the AI writes the safety net before you refactor.' },
-            { num: '03', name: 'Accessibility auditing at the code level', desc: 'Rather than catching issues late with automated scanners, I use Claude Code during development to review components for WCAG 2.1 AA compliance — missing ARIA labels, keyboard traps, colour contrast failures, and focus management. Catching these in the editor is 10× cheaper than catching them in QA.' },
-            { num: '04', name: 'Security hardening passes', desc: 'Using Claude Code and Cursor to run systematic OWASP Top 10 reviews across API handlers, auth flows, and data validation. The model flags injection risks, insecure defaults, missing rate limits, and improper error exposure — providing both the issue and the recommended remediation.' },
-            { num: '05', name: 'Context-aware code review', desc: "Cursor's codebase-wide context means asking \"does this new function duplicate anything that already exists?\" or \"is this consistent with how we handle errors elsewhere in the project?\" are answerable in seconds — elevating the quality of every PR before it reaches a human reviewer." },
+            { num: '01', name: 'Intelligent refactoring', desc: 'Ask Claude Code to analyse a module, identify violations of SOLID principles, over-complex methods, and dead code, then refactor with explanations. The key is to review each change rather than applying blindly, building real understanding of the codebase along the way.' },
+            { num: '02', name: 'Retroactive unit test generation', desc: "Provide a function or class to Claude Code with the instruction to generate tests covering happy paths, edge cases, and known failure modes. For legacy code with no tests, this turns a scary change into a safe one: the AI writes the safety net before you refactor." },
+            { num: '03', name: 'Accessibility auditing at the code level', desc: 'Rather than catching issues late with automated scanners, I use Claude Code during development to review components for WCAG 2.1 AA compliance: missing ARIA labels, keyboard traps, colour contrast failures, and focus management. Catching these in the editor is 10× cheaper than catching them in QA.' },
+            { num: '04', name: 'Security hardening passes', desc: 'Using Claude Code and Cursor to run systematic OWASP Top 10 reviews across API handlers, auth flows, and data validation. The model flags injection risks, insecure defaults, missing rate limits, and improper error exposure, then provides the recommended remediation for each.' },
+            { num: '05', name: 'Context-aware code review', desc: "Cursor's codebase-wide context means asking \"does this new function duplicate anything that already exists?\" or \"is this consistent with how we handle errors elsewhere in the project?\" are answerable in seconds, elevating the quality of every PR before it reaches a human reviewer." },
             { num: '06', name: 'Prompt engineering for engineers', desc: 'The biggest gains come from learning to write precise, scoped prompts. Giving Claude Code a clear role ("you are a TypeScript expert reviewing this for memory leaks"), explicit constraints ("do not change the public API"), and a structured output format dramatically improves result quality and reliability.' },
           ].map(item => (
             <div key={item.num} className="ai-concept-item">
@@ -104,27 +104,27 @@ export default function AiCodePage() {
         <div className="ai-img-grid-2">
           <div>
             <img src={`${base}images/developer_productivity/security_test.png`} alt="Claude Code in terminal" className="cs-img" style={{ width: '100%', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
-            <p className="cs-img-caption" style={{ marginTop: '10px' }}>Claude running a systematic OWASP security review — identifying injection risks, missing rate limits, and insecure defaults across API handlers, with remediation suggestions inline.</p>
+            <p className="cs-img-caption" style={{ marginTop: '10px' }}>Claude running a systematic OWASP security review, identifying injection risks, missing rate limits, and insecure defaults across API handlers, with remediation suggestions inline.</p>
           </div>
           <div>
             <img src={`${base}images/developer_productivity/key_achievement.png`} alt="Cursor Composer view" className="cs-img" style={{ width: '100%', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
-            <p className="cs-img-caption" style={{ marginTop: '10px' }}>Claude restructuring legacy code for clarity and maintainability — breaking apart monolithic functions, enforcing consistent patterns, and surfacing quality issues that had accumulated over months of rapid development.</p>
+            <p className="cs-img-caption" style={{ marginTop: '10px' }}>Claude restructuring legacy code for clarity and maintainability, breaking apart monolithic functions, enforcing consistent patterns, and surfacing quality issues that had accumulated over months of rapid development.</p>
           </div>
           <div>
             <img src={`${base}images/developer_productivity/test_coverage_before.png`} alt="Test suite before AI assistance" className="cs-img" style={{ width: '100%', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
-            <p className="cs-img-caption" style={{ marginTop: '10px' }}>Before: Only a few test suites passing (&lt;30%) with 8 root-cause failures — a missing environment variable cascading across the entire chorus-ui test run, leaving coverage effectively at zero.</p>
+            <p className="cs-img-caption" style={{ marginTop: '10px' }}>Before: Only a few test suites passing (&lt;30%) with 8 root-cause failures, a missing environment variable cascading across the entire chorus-ui test run and leaving coverage effectively at zero.</p>
           </div>
           <div>
             <img src={`${base}images/developer_productivity/test_coverage_after.png`} alt="Test suite after AI assistance" className="cs-img" style={{ width: '100%', borderRadius: '8px' }} onClick={e => openLightbox((e.target as HTMLImageElement).src, (e.target as HTMLImageElement).alt)} />
-            <p className="cs-img-caption" style={{ marginTop: '10px' }}>After: 555 of 555 tests passing across both apps — chorus-ui at 327/327 and mgmt-ui at 228/228 — all green in 21 seconds. Claude diagnosed the root cause, fixed the environment config, and resolved the suite in minutes.</p>
+            <p className="cs-img-caption" style={{ marginTop: '10px' }}>After: 555 of 555 tests passing across both apps (chorus-ui at 327/327 and mgmt-ui at 228/228), all green in 21 seconds. Claude diagnosed the root cause, fixed the environment config, and resolved the suite in minutes.</p>
           </div>
         </div>
       </div>
 
       <div className="ai-img-section">
         <p className="ai-img-section-label">Real-world delivery</p>
-        <h2 className="ai-img-section-title">Chorus &amp; Harmony UI — a 6-phase codebase transformation</h2>
-        <p className="ai-img-section-body">From April to May 2026, I led a monorepo-wide quality and modernization initiative across the Chorus &amp; Harmony React UIs — from zero tooling to enforced standards, a full TypeScript migration, and large-scale component refactoring. 9 PRs merged, ~250+ files improved.</p>
+        <h2 className="ai-img-section-title">Chorus &amp; Harmony UI: a 6-phase codebase transformation</h2>
+        <p className="ai-img-section-body">From April to May 2026, I led a monorepo-wide quality and modernization initiative across the Chorus &amp; Harmony React UIs, taking them from zero tooling to enforced standards, a full TypeScript migration, and large-scale component refactoring. 9 PRs merged, ~250+ files improved.</p>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: '1px', background: 'var(--ai-rule)', border: '1px solid var(--ai-rule)', borderRadius: '10px', overflow: 'hidden', margin: '28px 0' }}>
           {[
@@ -152,8 +152,8 @@ export default function AiCodePage() {
                 { code: 'P2', sub: 'PERF', title: 'Performance', desc: 'Route-level code splitting with React.lazy(); 10 memoized selectors; 34 components on targeted useSelector; fixed reducer mutations & saga races.', files: '~69' },
                 { code: 'P3', sub: 'ARCH', title: 'Architecture', desc: 'Split 3 monolith components into 16 files; consolidated shared utilities; migrated deprecated lifecycles; wired antd theme tokens in both apps.', files: '~33' },
                 { code: 'P4', sub: 'TS', title: 'Modernization', desc: 'Migrated 109 shared-package files .js → .ts/.tsx with zero tsc errors; replaced deprecated i18next-xhr-backend; added ErrorBoundary.', files: '~122' },
-                { code: 'P5', sub: 'CI', title: 'CI / CD', desc: 'Enabled ESLint gate in the atayalan.ci pipeline — PRs now fail on lint errors.', files: '1' },
-                { code: 'P6', sub: 'FIX', title: 'Bug Fixes — mgmt-ui', desc: 'Fixed missing takeLatest import, undefined users var, redux-saga webpack 5 resolution, and source-map-loader ENOENT errors.', files: '4' },
+                { code: 'P5', sub: 'CI', title: 'CI / CD', desc: 'Enabled ESLint gate in the atayalan.ci pipeline, so PRs now fail on lint errors.', files: '1' },
+                { code: 'P6', sub: 'FIX', title: 'Bug Fixes: mgmt-ui', desc: 'Fixed missing takeLatest import, undefined users var, redux-saga webpack 5 resolution, and source-map-loader ENOENT errors.', files: '4' },
               ].map((phase, i) => (
                 <div key={phase.code} style={{ display: 'grid', gridTemplateColumns: '44px 1fr auto', gap: '12px', alignItems: 'start', padding: '12px 0', borderBottom: i < 5 ? '1px solid var(--ai-rule)' : 'none' }}>
                   <div style={{ width: '44px', height: '44px', borderRadius: '8px', background: '#f0f0f8', border: '1px solid var(--ai-rule)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '11px', color: '#4a4a8a', lineHeight: 1, fontFamily: "'Inter',sans-serif" }}>
@@ -172,7 +172,7 @@ export default function AiCodePage() {
           </div>
 
           <div>
-            <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '.06em', color: 'var(--ai-muted)', fontWeight: 700, fontFamily: "'Inter',sans-serif", marginBottom: '14px', paddingBottom: '8px', borderBottom: '1px solid var(--ai-rule)' }}>Component Refactoring — Lines of Code</p>
+            <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '.06em', color: 'var(--ai-muted)', fontWeight: 700, fontFamily: "'Inter',sans-serif", marginBottom: '14px', paddingBottom: '8px', borderBottom: '1px solid var(--ai-rule)' }}>Component Refactoring: Lines of Code</p>
             {[
               { name: 'pQuickSearch', before: '4,157', after: '936', pct: '−77%', beforeW: '100%', afterW: '22.5%', label: 'monolith → modular split' },
               { name: 'AddRan', before: '2,805', after: '1,456', pct: '−48%', beforeW: '67.5%', afterW: '35%', label: 'extracted sub-components & hooks' },
@@ -194,7 +194,7 @@ export default function AiCodePage() {
               </div>
             ))}
 
-            <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '.06em', color: 'var(--ai-muted)', fontWeight: 700, fontFamily: "'Inter',sans-serif", marginBottom: '14px', paddingBottom: '8px', borderBottom: '1px solid var(--ai-rule)' }}>Delivery Timeline — 9 Merged PRs</p>
+            <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '.06em', color: 'var(--ai-muted)', fontWeight: 700, fontFamily: "'Inter',sans-serif", marginBottom: '14px', paddingBottom: '8px', borderBottom: '1px solid var(--ai-rule)' }}>Delivery Timeline: 9 Merged PRs</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
               {[
                 { date: 'Apr 21', title: 'Code Quality & Performance', sub: 'Phases 1–3', pr: 'PR #1524' },
@@ -223,7 +223,7 @@ export default function AiCodePage() {
         <p className="ai-cowork-body">The claim of 5× productivity improvement is measured across the full engineering cycle, not just code-writing speed. These are the categories where time savings compound:</p>
         <div className="ai-cowork-list">
           {[
-            { label: 'Understanding legacy code', val: 'What used to take days of code archaeology — tracing data flows, understanding coupling, mapping dependencies — now takes an hour with Claude Code walking through the system.' },
+            { label: 'Understanding legacy code', val: 'What used to take days of code archaeology (tracing data flows, understanding coupling, mapping dependencies) now takes an hour with Claude Code walking through the system.' },
             { label: 'Writing tests for untested code', val: "Test coverage that would have taken a developer 2–3 days is generated in under an hour. The developer's time shifts from writing boilerplate to reviewing and refining edge cases." },
             { label: 'Refactoring with confidence', val: 'AI-generated tests + AI-assisted refactoring + AI code review closes the feedback loop. Complex refactors that would have required weeks of careful, manual change now take days.' },
             { label: 'Eliminating context-switching', val: 'Copilot inline completions eliminate the cycle of searching Stack Overflow, reading docs, and returning to the editor. Answers appear in context, without breaking flow.' },

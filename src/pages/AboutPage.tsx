@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useAiPanel } from '../context/AiPanelContext'
 
 const SparkleIcon = () => (
@@ -10,6 +11,7 @@ const SparkleIcon = () => (
 
 export default function AboutPage() {
   const { open } = useAiPanel()
+  const navigate = useNavigate()
 
   return (
     <div className="about-page-inner">
@@ -17,7 +19,7 @@ export default function AboutPage() {
         <div className="about-left">
           <p className="about-headline">Product Direction<br />+ Design +<br />Engineering</p>
           <p className="about-tagline">What I do</p>
-          <p className="about-what">Designing a solution requires refinement until it reaches the optimal point — a balance between familiar and unique.</p>
+          <p className="about-what">Designing a solution requires refinement until it reaches the optimal point: a balance between familiar and unique.</p>
           <button className="ask-btn" onClick={open}>
             <SparkleIcon />
             Ask anything about me
@@ -35,8 +37,15 @@ export default function AboutPage() {
           <p className="about-body">Thank you for visiting my profile. If you're interested in learning more about my experience or wish to discuss products and the creative world, please feel free to drop me a note. I would love to connect and explore potential collaborations.</p>
 
           <div className="about-pillar">
+            <p className="about-pillar-label">Leadership</p>
+            <p className="about-pillar-text">I have led complex product initiatives for the past five years and managed a global design and engineering team. My leadership extends beyond design and engineering; I collaborate closely with product, customer success, and marketing teams to align our efforts and drive product success. My approach to leadership emphasizes empowerment, collaboration, and a shared vision for creating outstanding user experiences.</p>
+            <button className="about-pillar-link" onClick={() => navigate('/about/leadership-style')}>My leadership style →</button>
+          </div>
+
+          <div className="about-pillar">
             <p className="about-pillar-label">User Experience</p>
             <p className="about-pillar-text">I am a hands-on UX/UI strategist and design leader, deeply involved in the cross-functional development of best practices in UX/UI design. My focus is on championing the needs of customers and end users, ensuring that every product we create provides intuitive and engaging experiences. I excel at bridging the gap between user needs and technical feasibility, delivering beautiful and functional designs.</p>
+            <button className="about-pillar-link" onClick={() => navigate('/')}>See case studies →</button>
           </div>
 
           <div className="about-pillar">
@@ -44,10 +53,6 @@ export default function AboutPage() {
             <p className="about-pillar-text">With a strong background in front-end software engineering, I bring strategic leadership to enterprise software and multi-platform cloud user experiences. I have a proven track record in defining and implementing UI design and development for Cloud and On-premise deployments. My technical expertise ensures that design concepts are innovative, technically sound, and scalable.</p>
           </div>
 
-          <div className="about-pillar">
-            <p className="about-pillar-label">Leadership</p>
-            <p className="about-pillar-text">I have led complex product initiatives for the past five years and managed a global design and engineering team. My leadership extends beyond design and engineering; I collaborate closely with product, customer success, and marketing teams to align our efforts and drive product success. My approach to leadership emphasizes empowerment, collaboration, and a shared vision for creating outstanding user experiences.</p>
-          </div>
         </div>
       </div>
     </div>

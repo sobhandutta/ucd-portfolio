@@ -72,10 +72,10 @@ export default function CsAtayaPage() {
             </div>
           </div>
           <div>
-            <p className="cs-lead">I joined Ataya in early 2022 as the first US employee — with a mandate to deliver a complete product within three months from infrastructure that had no UX layer at all.</p>
+            <p className="cs-lead">I joined Ataya in early 2022 as the first US employee, with a mandate to deliver a complete product within three months from infrastructure that had no UX layer at all.</p>
             <p className="cs-body">The company had acquired a proven 5G infrastructure from ITRI, but there was no product experience to show customers. I assembled and led a cross-functional team, worked directly with the CEO and VP of Product to define vision and architecture, and coordinated on-site and offshore teams through a rapid sprint cycle to hit the deadline.</p>
-            <p className="cs-body">Along the way I also designed the company's logo — which is still in use today.</p>
-            <p className="cs-body">Two years later, Ataya's Universal Connectivity Platform supports 5G, Wi-Fi, wired, LoRa, and OT device types in a single unified dashboard — trusted by customers including Qucell, ADLINK, Marubun, Quanta Computer, Accuver Group, and Opticoms.</p>
+            <p className="cs-body">Along the way I also designed the company's logo, which is still in use today.</p>
+            <p className="cs-body">Two years later, Ataya's Universal Connectivity Platform supports 5G, Wi-Fi, wired, LoRa, and OT device types in a single unified dashboard, trusted by customers including Qucell, ADLINK, Marubun, Quanta Computer, Accuver Group, and Opticoms.</p>
           </div>
         </div>
 
@@ -87,17 +87,17 @@ export default function CsAtayaPage() {
               <div className="cs-timeline-date">Early 2022</div>
               <div>
                 <p className="cs-timeline-head">The first 90 days</p>
-                <p className="cs-body">Joining as the first US employee, I immediately hired developers, created product requirements, and designed the full UX flow for the on-premise release. Working in close collaboration with engineering and stakeholders, we shipped the first version of the platform in under three months — a fully functional on-premise product that could be demonstrated to enterprise customers.</p>
+                <p className="cs-body">Joining as the first US employee, I immediately hired developers, created product requirements, and designed the full UX flow for the on-premise release. Working in close collaboration with engineering and stakeholders, we shipped the first version of the platform in under three months: a fully functional on-premise product that could be demonstrated to enterprise customers.</p>
                 <img src={`${base}images/universal_connectivity_platform/onboarding_flow.png`} alt="Onboarding flow" className="cs-img-full" onClick={lb} />
-                <p className="cs-img-caption">Onboarding flow — designed to get network operators from zero to active in minutes</p>
+                <p className="cs-img-caption">Onboarding flow, designed to get network operators from zero to active in minutes</p>
               </div>
             </div>
             <div className="cs-timeline-item">
               <div className="cs-timeline-date">Mid 2022</div>
               <div>
                 <p className="cs-timeline-head">Go cloud</p>
-                <p className="cs-body">Following the successful on-premise launch, we moved to the next phase: migrating the management and control planes to the cloud while keeping the data planes and radios on-premise. This introduced a genuinely hard UX challenge — how do you visualise and configure a hybrid system where the control happens in the cloud but the action happens on the ground?</p>
-                <p className="cs-body">We solved it with token-based (OTP) authentication to enable secure data transfer between environments, and designed a cloud portal that gave operators full visibility into on-premise operations — making the complexity invisible to the user.</p>
+                <p className="cs-body">Following the successful on-premise launch, we moved to the next phase: migrating the management and control planes to the cloud while keeping the data planes and radios on-premise. This introduced a genuinely hard UX challenge: how do you visualise and configure a hybrid system where the control happens in the cloud but the action happens on the ground?</p>
+                <p className="cs-body">We solved it with token-based (OTP) authentication to enable secure data transfer between environments, and designed a cloud portal that gave operators full visibility into on-premise operations, making the complexity invisible to the user.</p>
               </div>
             </div>
             <div className="cs-timeline-item">
@@ -105,9 +105,9 @@ export default function CsAtayaPage() {
               <div>
                 <p className="cs-timeline-head">Understand the user</p>
                 <p className="cs-body">With the first releases shipped, we turned our focus to the deeper design problem: making a networking product that doesn't require a networking engineer. The assumption that telecom tools are inherently complex needed to be challenged head-on.</p>
-                <p className="cs-body">I led a structured research programme — task-based usability sessions, qualitative interviews with internal stakeholders and real customers, and design critique workshops. We mapped pain points, tested the product's value proposition with new users, and used the findings to drive a significant redesign of the core flows.</p>
+                <p className="cs-body">I led a structured research programme: task-based usability sessions, qualitative interviews with internal stakeholders and real customers, and design critique workshops. We mapped pain points, tested the product's value proposition with new users, and used the findings to drive a significant redesign of the core flows.</p>
                 <img src={`${base}images/universal_connectivity_platform/persona_view.png`} alt="User personas" className="cs-img-full" onClick={lb} />
-                <p className="cs-img-caption">Research-derived personas — from network engineers to operations managers and C-suite</p>
+                <p className="cs-img-caption">Research-derived personas, from network engineers to operations managers and C-suite</p>
               </div>
             </div>
           </div>
@@ -118,17 +118,17 @@ export default function CsAtayaPage() {
           <h2 className="cs-section-title">One dashboard to rule them all</h2>
           <div className="cs-two-col">
             <div>
-              <p className="cs-body">The central design principle of the Universal Core is radical consolidation. Before Ataya, enterprise networks required a separate dashboard for every access technology — one for Wi-Fi, another for 5G, another for wired infrastructure. Operations teams were constantly context-switching between tools.</p>
-              <p className="cs-body">We designed a unified monitoring interface that surfaces 5G, Wi-Fi, wired, LoRa, and OT devices (including industrial Modbus and Profinet through gateways) in a single view — with consistent interaction patterns across all device types.</p>
+              <p className="cs-body">The central design principle of the Universal Core is radical consolidation. Before Ataya, enterprise networks required a separate dashboard for every access technology: one for Wi-Fi, another for 5G, another for wired infrastructure. Operations teams were constantly context-switching between tools.</p>
+              <p className="cs-body">We designed a unified monitoring interface that surfaces 5G, Wi-Fi, wired, LoRa, and OT devices (including industrial Modbus and Profinet through gateways) in a single view, with consistent interaction patterns across all device types.</p>
               <div className="cs-quote">"Eliminate the dashboard sprawl. If operators have to switch tools, we haven't finished the job."</div>
             </div>
             <div>
               <img src={`${base}images/universal_connectivity_platform/analytics_view.png`} alt="Analytics dashboard" className="cs-img" onClick={lb} />
-              <p className="cs-img-caption">Unified analytics — all access technologies, one view</p>
+              <p className="cs-img-caption">Unified analytics: all access technologies, one view</p>
             </div>
           </div>
           <img src={`${base}images/universal_connectivity_platform/network_view.png`} alt="Network topology view" className="cs-img-full" onClick={lb} />
-          <p className="cs-img-caption">Network topology view — real-time status across the entire multi-access estate</p>
+          <p className="cs-img-caption">Network topology view, real-time status across the entire multi-access estate</p>
         </div>
 
         <div className="cs-section">
@@ -137,11 +137,11 @@ export default function CsAtayaPage() {
           <div className="cs-two-col">
             <div>
               <img src={`${base}images/universal_connectivity_platform/policy_view.png`} alt="Policy dashboard" className="cs-img" onClick={lb} />
-              <p className="cs-img-caption">Unified policy dashboard — Zero Trust enforcement across 5G, Wi-Fi, and beyond</p>
+              <p className="cs-img-caption">Unified policy dashboard: Zero Trust enforcement across 5G, Wi-Fi, and beyond</p>
             </div>
             <div>
-              <p className="cs-body">Most security products bolt Zero Trust onto Wi-Fi and call it done. Ataya extends it consistently across every access type — 5G, Wi-Fi, wired, LoRa — through a single unified policy dashboard that operators can actually understand and maintain.</p>
-              <p className="cs-body">Designing the policy interface was one of the highest-stakes UX challenges on the project. A misconfigured policy can take down network access for an entire site. The interface needed to be powerful enough for security architects and safe enough for operations staff — with clear affordances that make dangerous actions feel appropriately weighty.</p>
+              <p className="cs-body">Most security products bolt Zero Trust onto Wi-Fi and call it done. Ataya extends it consistently across every access type (5G, Wi-Fi, wired, LoRa) through a single unified policy dashboard that operators can actually understand and maintain.</p>
+              <p className="cs-body">Designing the policy interface was one of the highest-stakes UX challenges on the project. A misconfigured policy can take down network access for an entire site. The interface needed to be powerful enough for security architects and safe enough for operations staff, with clear affordances that make dangerous actions feel appropriately weighty.</p>
               <div className="cs-feature-list" style={{ marginTop: 0 }}>
                 {[
                   { key: 'Unified Policy Dashboard', val: 'Consistent Zero Trust enforcement across all access types in a single interface.' },
@@ -161,24 +161,24 @@ export default function CsAtayaPage() {
         <div className="cs-section">
           <p className="cs-section-label">Infrastructure</p>
           <h2 className="cs-section-title">Cloud-native, identity-driven microsegmentation</h2>
-          <p className="cs-body">Ataya's cloud-first architecture gives CISOs and security teams a modern microsegmentation solution without the traditional overhead of hardware deployment. Context-aware, identity-driven policies govern users, devices, and applications across the entire network — including the hybrid on-premise/cloud boundary that most enterprise networks struggle with.</p>
+          <p className="cs-body">Ataya's cloud-first architecture gives CISOs and security teams a modern microsegmentation solution without the traditional overhead of hardware deployment. Context-aware, identity-driven policies govern users, devices, and applications across the entire network, including the hybrid on-premise/cloud boundary that most enterprise networks struggle with.</p>
           <img src={`${base}images/universal_connectivity_platform/product_pages_view.png`} alt="Product pages" className="cs-img-full" onClick={lb} />
-          <p className="cs-img-caption">Product portal views — cloud management plane across on-premise radios and edge devices</p>
+          <p className="cs-img-caption">Product portal views, cloud management plane across on-premise radios and edge devices</p>
         </div>
 
         <div className="cs-section">
           <p className="cs-section-label">Foundation</p>
           <h2 className="cs-section-title">A design system built for scale</h2>
-          <p className="cs-body">The first version of the product was built ad hoc — each part of the team made independent design decisions, resulting in visual inconsistencies and unpredictable component behaviour across screens. To fix this and accelerate development, I built a comprehensive design system and shared UI library from the ground up.</p>
-          <p className="cs-body">We unified typography around a single versatile typeface — Roboto — and created a detailed web style guide covering every component state: buttons, forms, data tables, navigation modules, alerts, and layout sections. The system spans the product, marketing site, and business materials, ensuring a coherent brand experience at every touchpoint.</p>
+          <p className="cs-body">The first version of the product was built ad hoc: each part of the team made independent design decisions, resulting in visual inconsistencies and unpredictable component behaviour across screens. To fix this and accelerate development, I built a comprehensive design system and shared UI library from the ground up.</p>
+          <p className="cs-body">We unified typography around a single versatile typeface, Roboto, and created a detailed web style guide covering every component state: buttons, forms, data tables, navigation modules, alerts, and layout sections. The system spans the product, marketing site, and business materials, ensuring a coherent brand experience at every touchpoint.</p>
           <div className="cs-img-grid">
             <div>
               <img src={`${base}images/universal_connectivity_platform/design_system_view.png`} alt="Design system" className="cs-img" onClick={lb} />
-              <p className="cs-img-caption">Design system — components, tokens, and interaction states</p>
+              <p className="cs-img-caption">Design system: components, tokens, and interaction states</p>
             </div>
             <div>
               <img src={`${base}images/universal_connectivity_platform/design_system_assets.png`} alt="Design assets" className="cs-img" onClick={lb} />
-              <p className="cs-img-caption">Shared asset library — icons, illustrations, and brand elements</p>
+              <p className="cs-img-caption">Shared asset library: icons, illustrations, and brand elements</p>
             </div>
           </div>
         </div>
@@ -199,7 +199,7 @@ export default function CsAtayaPage() {
             </div>
             <div>
               <p className="cs-body">Witnessing Ataya grow from a small team with a 5G infrastructure asset to a company trusted by enterprise clients across Asia and beyond has been one of the most rewarding experiences of my career.</p>
-              <p className="cs-body">We've turned a technical capability into a product people want to use — which is the hardest thing in enterprise software. The next chapter involves pushing deeper into AI-native network management, where the interface isn't a dashboard but a reasoning system that tells operators what matters before they ask.</p>
+              <p className="cs-body">We've turned a technical capability into a product people want to use, which is the hardest thing in enterprise software. The next chapter involves pushing deeper into AI-native network management, where the interface isn't a dashboard but a reasoning system that tells operators what matters before they ask.</p>
               <p className="cs-body">I'm proud of what this team has built, and even more excited about where we're going.</p>
             </div>
           </div>
